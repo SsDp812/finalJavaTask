@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>Dao</artifactId>
+    <artifactId>dao</artifactId>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -19,7 +19,14 @@
     <dependencies>
         <dependency>
             <groupId>org.digital</groupId>
-            <artifactId>Models</artifactId>
+            <artifactId>models</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.digital</groupId>
+            <artifactId>commons</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>

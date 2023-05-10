@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>Controllers</artifactId>
+    <artifactId>controllers</artifactId>
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
@@ -19,14 +19,21 @@
     <dependencies>
         <dependency>
             <groupId>org.digital</groupId>
-            <artifactId>Business</artifactId>
+            <artifactId>business</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
 
         <dependency>
             <groupId>org.digital</groupId>
-            <artifactId>Dto</artifactId>
+            <artifactId>dto</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.digital</groupId>
+            <artifactId>commons</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
