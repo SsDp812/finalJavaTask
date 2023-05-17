@@ -1,4 +1,4 @@
-package org.digital.project_dto;
+package org.digital.project_dto.request_project_dto;
 
 
 import lombok.Data;

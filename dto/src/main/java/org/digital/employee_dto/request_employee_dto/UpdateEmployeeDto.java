@@ -1,8 +1,13 @@
-package org.digital.employee_dto;
+package org.digital.employee_dto.request_employee_dto;
+
 
 import lombok.Data;
+
 @Data
-public class CreateEmployeeDto {
+public class UpdateEmployeeDto {
+    private Long accountId;
+
+
     private String surname;
     private String name;
     private String middleName; //отчество

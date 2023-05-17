@@ -1,6 +1,7 @@
-package org.digital.task_dto;
+package org.digital.task_dto.response_task_dto;
 
 import lombok.Data;
+import org.digital.employee_dto.response_employee_dto.EmployeeCardDto;
 import org.digital.enity_statuses.TaskStatus;
 
 import java.sql.Timestamp;
@@ -10,10 +11,10 @@ public class TaskCardDto {
     private Long taskId;
     private String taskName;
     private String taskDescription;
-    private String executor;
+    private EmployeeCardDto executor;
     private Integer hours;
     private Timestamp deadLineTime;
-    private String author;
+    private EmployeeCardDto author;
     private Timestamp startTaskTime;
     private Timestamp editTaskTime;
     private TaskStatus taskStatus;

@@ -1,4 +1,4 @@
-package org.digital.task_dto;
+package org.digital.task_dto.request_task_dto;
 
 
 import lombok.Data;

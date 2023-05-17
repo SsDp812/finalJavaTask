@@ -1,4 +1,4 @@
-package org.digital.project_dto;
+package org.digital.project_dto.response_project_dto;
 
 import org.digital.enity_statuses.ProjectStatus;
 
