@@ -9,7 +9,7 @@ import java.sql.Timestamp;
 public class SearchTaskDto {
     private String textFilter;
     private TaskStatus status;
-    private Long EmployeeId; //member
+    private Long employeeId; //member
     private Long authorId;
     private Timestamp startTime;
     private Timestamp endTime;
