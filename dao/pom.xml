@@ -30,5 +30,12 @@
             <version>${revision}${changelist}</version>
             <scope>compile</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.digital</groupId>
+            <artifactId>dto</artifactId>
+            <version>${revision}${changelist}</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 </project>

@@ -1,0 +1,28 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-project
+      author: DaniilEfankin
+      changes:
+        - createTable:
+            tableName: Project
+            columns:
+              - column:
+                  name: code_name
+                  type: varchar(255)
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: project_name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: project_description
+                  type: varchar(1000)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: project_status
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
