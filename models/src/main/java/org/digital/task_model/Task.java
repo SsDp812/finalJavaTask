@@ -2,11 +2,10 @@ package org.digital.task_model;
 
 import lombok.Data;
 import org.digital.employee_model.Employee;
-import org.digital.enity_statuses.TaskStatus;
 import org.digital.project_model.Project;
 
-import java.sql.Time;
 import java.sql.Timestamp;
+import java.util.Date;
 
 
 @Data
@@ -17,10 +16,10 @@ public class Task {
     private String taskDescription;
     private Employee executor;
     private Integer hours;
-    private Timestamp deadLineTime;
+    private Date deadLineTime;
     private Employee author;
-    private Timestamp startTaskTime;
+    private Date startTaskTime;
     private Timestamp editTaskTime;
-    private TaskStatus taskStatus;
+    private Date taskStatus;
 
 }

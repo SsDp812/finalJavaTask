@@ -17,12 +17,10 @@ public class EmployeeDataStorageImpl implements EmployeeDao {
 
     private List<Employee> storage;
 
-    public EmployeeDataStorageImpl() {
-
+    public EmployeeDataStorageImpl() throws IOException {
         storage = new ArrayList<>();
-
-        try(FileReader reader = new FileReader("employeeDB.txt")){
-            Scanner scanner = new Scanner(reader);
+        try(FileReader reader = new FileReader("employeeDB.txt");
+            Scanner scanner = new Scanner(reader);){
             while (scanner.hasNextLine()){
                 Employee employee = new Employee(
                         Long.parseLong(scanner.nextLine()),
@@ -37,8 +35,6 @@ public class EmployeeDataStorageImpl implements EmployeeDao {
                 );
                 storage.add(employee);
             }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         }
     }
 
