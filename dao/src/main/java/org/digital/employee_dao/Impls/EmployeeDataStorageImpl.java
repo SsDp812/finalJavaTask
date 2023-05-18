@@ -25,15 +25,15 @@ public class EmployeeDataStorageImpl implements EmployeeDao {
             Scanner scanner = new Scanner(reader);
             while (scanner.hasNextLine()){
                 Employee employee = new Employee(
+                        Long.parseLong(scanner.nextLine()),
                         scanner.nextLine(),
                         scanner.nextLine(),
                         scanner.nextLine(),
                         scanner.nextLine(),
                         scanner.nextLine(),
-                        EmployeeStatus.valueOf(scanner.nextLine()),
                         scanner.nextLine(),
                         scanner.nextLine(),
-                        Long.parseLong(scanner.nextLine())
+                        EmployeeStatus.valueOf(scanner.nextLine())
                 );
                 storage.add(employee);
             }
