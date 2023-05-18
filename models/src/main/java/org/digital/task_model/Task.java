@@ -19,7 +19,7 @@ public class Task {
     private Date deadLineTime;
     private Employee author;
     private Date startTaskTime;
-    private Timestamp editTaskTime;
+    private Date editTaskTime;
     private Date taskStatus;
 
 }
