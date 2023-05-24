@@ -9,10 +9,10 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProjectDao {
+public class ProjectJdbcDao {
     private Connection connection;
 
-    public ProjectDao(Connection connection) {
+    public ProjectJdbcDao(Connection connection) {
         this.connection = connection;
     }
 

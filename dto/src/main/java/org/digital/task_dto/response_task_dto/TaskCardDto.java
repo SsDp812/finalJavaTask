@@ -4,7 +4,8 @@ import lombok.Data;
 import org.digital.employee_dto.response_employee_dto.EmployeeCardDto;
 import org.digital.enity_statuses.TaskStatus;
 
-import java.sql.Timestamp;
+import java.util.Date;
+
 
 @Data
 public class TaskCardDto {
@@ -13,10 +14,10 @@ public class TaskCardDto {
     private String taskDescription;
     private EmployeeCardDto executor;
     private Integer hours;
-    private Timestamp deadLineTime;
+    private Date deadLineTime;
     private EmployeeCardDto author;
-    private Timestamp startTaskTime;
-    private Timestamp editTaskTime;
+    private Date startTaskTime;
+    private Date editTaskTime;
     private TaskStatus taskStatus;
 
 }

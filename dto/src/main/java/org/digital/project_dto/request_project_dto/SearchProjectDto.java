@@ -7,6 +7,6 @@ import java.util.List;
 
 @Data
 public class SearchProjectDto {
-    private String name;
+    private String textFilter;
     private List<ProjectStatus> status;
 }
