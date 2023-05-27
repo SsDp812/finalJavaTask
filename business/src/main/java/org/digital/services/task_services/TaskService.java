@@ -21,6 +21,7 @@ import org.digital.task_dto.request_task_dto.UpdateTaskDto;
 import org.digital.task_dto.response_task_dto.TaskCardDto;
 import org.digital.task_model.Task;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -75,7 +76,11 @@ public class TaskService {
         }
 
         task.setTaskStatus(TaskStatus.NEW);
-        //task.setAuthor(); //TODO set Author from session after create
+        Optional<Employee> author = employeeRepository.findByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
+        if(!author.isPresent()){
+            throw new EmployeeNotFoundException();
+        }
+        task.setAuthor(author.get());
         repository.save(task);
         return TaskMapper.getTaskCardDto(task);
     }
@@ -113,13 +118,18 @@ public class TaskService {
             }else{
                 throw new TooLessTimeTaskException();
             }
+            Optional<Employee> author = employeeRepository.findByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
+            if(!author.isPresent()){
+                throw new EmployeeNotFoundException();
+            }
+            task.setAuthor(author.get());
             repository.save(task);
             return TaskMapper.getTaskCardDto(task);
         }else {
             throw new NotFoundTaskException();
         }
 
-        //task.setAuthor(); //TODO set Author from session after update
+
     }
 
 
