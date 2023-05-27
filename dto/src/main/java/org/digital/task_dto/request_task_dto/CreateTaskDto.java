@@ -10,7 +10,7 @@ import java.util.Date;
 public class CreateTaskDto {
     private String taskName;
     private String taskDescription;
-    private String executorId;
+    private Long executorId;
     private Integer hours;
     private Date deadLineTime;
     private Date startTaskTime;

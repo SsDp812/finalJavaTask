@@ -3,10 +3,12 @@ package org.digital.services.employee_services;
 
 import jakarta.transaction.Transactional;
 import org.digital.employee_dao.EmployeeRepository;
+import org.digital.employee_dao.specifications.EmployeeSpecifications;
 import org.digital.employee_dto.request_employee_dto.*;
 import org.digital.employee_dto.response_employee_dto.EmployeeCardDto;
 import org.digital.employee_model.Employee;
 import org.digital.enity_statuses.EmployeeStatus;
+import org.digital.exceptions.employee_exceptions.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,17 +29,18 @@ public class EmployeeService {
 
 
     public void createNewEmployee(CreateEmployeeDto dto) throws Exception {
-       Employee employee = new Employee();
-       if(!Objects.equals(dto.getSurname(),"")){
-           employee.setSurname(dto.getSurname());
-       }else{
-           throw new Exception("Empty surname!");
-       }
-        if(!Objects.equals(dto.getName(),"")){
-            employee.setName(dto.getName());
-        }else{
-            throw new Exception("Empty name!");
+        if(dto == null){
+            throw new NullEmployeeDtoException();
         }
+       else if(Objects.equals(dto.getSurname(),"")) {
+            throw new EmptyEmployeeSurnameException();
+       }
+       else if(Objects.equals(dto.getName(),"")){
+            throw new EmptyEmployeeNameException();
+       }
+       Employee employee = new Employee();
+       employee.setSurname(dto.getSurname());
+       employee.setName(dto.getName());
        employee.setMiddleName(dto.getMiddleName());
        employee.setJobTitle(dto.getJobTitle());
        employee.setLogin(dto.getLogin());
@@ -50,24 +53,23 @@ public class EmployeeService {
 
 
     public void changeEmployeeInfo(UpdateEmployeeDto dto) throws Exception {
+        if(dto == null){
+            throw new NullEmployeeDtoException();
+        }
        Optional<Employee> employeeOptional = repository.findById(dto.getAccountId());
 
        if(employeeOptional.isPresent()){
            Employee employee = employeeOptional.get();
            if(employee.getEmployeeStatus() == EmployeeStatus.DELETED){
-               throw new Exception("Employee was deleted!");
-           }
-           else{
-               if(!Objects.equals(dto.getSurname(),"")){
-                   employee.setSurname(dto.getSurname());
-               }else{
-                   throw new Exception("Empty surname!");
+               throw new EmployeeAlreadyDeletedException();
+           }else{
+               if(Objects.equals(dto.getSurname(),"")){
+                   throw new EmptyEmployeeSurnameException();
+               }else if(Objects.equals(dto.getName(),"")){
+                   throw new EmptyEmployeeNameException();
                }
-               if(!Objects.equals(dto.getName(),"")){
-                   employee.setName(dto.getName());
-               }else{
-                   throw new Exception("Empty name!");
-               }
+               employee.setSurname(dto.getSurname());
+               employee.setName(dto.getName());
                employee.setMiddleName(dto.getMiddleName());
                employee.setJobTitle(dto.getJobTitle());
                employee.setEmail(dto.getEmail());
@@ -76,14 +78,20 @@ public class EmployeeService {
                repository.save(employee);
            }
        }else{
-           throw new Exception("Error employee id, employee not found!");
+           throw new EmployeeNotFoundException();
        }
     }
 
 
     public void deleteEmployee(DeleteEmployeeDto dto) throws Exception {
+        if(dto == null){
+            throw new NullEmployeeDtoException();
+        }
         Optional<Employee> optionalEmployee = repository.findById(dto.getAccountId());
         if(optionalEmployee.isPresent()){
+            if(optionalEmployee.get().getEmployeeStatus() == EmployeeStatus.DELETED){
+                throw new EmployeeAlreadyDeletedException();
+            }
             Employee employee = optionalEmployee.get();
             employee.setEmployeeStatus(EmployeeStatus.DELETED);
             repository.save(employee);
@@ -94,59 +102,42 @@ public class EmployeeService {
 
 
     public EmployeeCardDto getEmployeeCardById(GetByIdEmployeeDto dtoId) throws Exception {
+        if(dtoId == null){
+            throw new NullEmployeeDtoException();
+        }
         EmployeeCardDto dtoCard = new EmployeeCardDto();
         Optional<Employee> optionalEmployee = repository.findById(dtoId.getAccountId());
         if(optionalEmployee.isPresent()){
-            Employee employee = optionalEmployee.get();
-            dtoCard.setSurname(employee.getSurname());
-            dtoCard.setSurname(employee.getSurname());
-            dtoCard.setMiddleName(employee.getMiddleName());
-            dtoCard.setJobTitle(employee.getJobTitle());
-            dtoCard.setEmail(employee.getEmail());
-            dtoCard.setStatus(employee.getEmployeeStatus().toString());
-            return dtoCard;
+           return EmployeeMapper.getEmployeeDtoCard(optionalEmployee.get());
         }else{
-            throw new Exception("Error employee id, employee not found!");
+            throw new EmployeeNotFoundException();
         }
     }
 
 
 
     public EmployeeCardDto getEmployeeByAccount(GetEmployeeByLoginAndPassword accountDto) throws Exception {
+        if(accountDto == null){
+            throw new NullEmployeeDtoException();
+        }
         Optional<Employee> optionalEmployee = repository.findByLoginAndPassword(accountDto.getLogin(),accountDto.getPassword());
         if(optionalEmployee.isPresent()){
-            EmployeeCardDto dtoCard = new EmployeeCardDto();
-            Employee employee = optionalEmployee.get();
-            dtoCard.setSurname(employee.getSurname());
-            dtoCard.setSurname(employee.getSurname());
-            dtoCard.setMiddleName(employee.getMiddleName());
-            dtoCard.setJobTitle(employee.getJobTitle());
-            dtoCard.setEmail(employee.getEmail());
-            dtoCard.setStatus(employee.getEmployeeStatus().toString());
-            return dtoCard;
+            return EmployeeMapper.getEmployeeDtoCard(optionalEmployee.get());
         }else{
-            throw new Exception("User not found!");
+            throw new EmployeeNotFoundException();
         }
     }
 
     public List<EmployeeCardDto> searchEmployee(SearchEmployeeDto searchDto) throws Exception {
-        Optional<List<Employee>> optionalEmployees = repository.findBySurnameContainingOrNameContainingOrMiddleNameContainingOrJobTitleContainingOrLoginContainingOrEmailContainingAndEmployeeStatus(searchDto.getSearchFilter(),EmployeeStatus.ACTIVE);
-        if(optionalEmployees.isPresent()){
-            List<EmployeeCardDto> list = new ArrayList<>();
-            List<Employee> employees = optionalEmployees.get();
-            for(var employee : employees){
-                EmployeeCardDto dtoCard = new EmployeeCardDto();
-                dtoCard.setSurname(employee.getSurname());
-                dtoCard.setSurname(employee.getSurname());
-                dtoCard.setMiddleName(employee.getMiddleName());
-                dtoCard.setJobTitle(employee.getJobTitle());
-                dtoCard.setEmail(employee.getEmail());
-                dtoCard.setStatus(employee.getEmployeeStatus().toString());
-                list.add(dtoCard);
-            }
-            return list;
-        }else{
-            throw new Exception("Users not found!");
+        if(searchDto == null){
+            throw new NullEmployeeDtoException();
         }
+        List<Employee> employees = repository.findAll(EmployeeSpecifications.
+               searchByFilterAndStatuses(searchDto.getSearchFilter(), EmployeeStatus.ACTIVE));
+        List<EmployeeCardDto> list = new ArrayList<>();
+        for(var employee : employees){
+            list.add(EmployeeMapper.getEmployeeDtoCard(employee));
+        }
+        return list;
     }
 }

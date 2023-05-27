@@ -3,7 +3,9 @@ package org.digital.services.project_services;
 
 import jakarta.transaction.Transactional;
 import org.digital.enity_statuses.ProjectStatus;
+import org.digital.exceptions.project_exceptions.*;
 import org.digital.project_dao.ProjectRepository;
+import org.digital.project_dao.specifications.ProjectSpecifications;
 import org.digital.project_dto.request_project_dto.ChangeProjectStatusDto;
 import org.digital.project_dto.request_project_dto.CreateProjectDto;
 import org.digital.project_dto.request_project_dto.SearchProjectDto;
@@ -29,68 +31,65 @@ public class ProjectService {
     }
 
     public void createNewProject(CreateProjectDto dto) throws Exception {
+        if(dto == null){
+            throw new NullProjectDtoException();
+        }
         Optional<Project> projectOptional = repository.findById(dto.getProjectCodeName());
         if (projectOptional.isEmpty()) {
             Project project = new Project();
             if(!Objects.equals(dto.getProjectCodeName(),"")){
-                project.setProjectCodeName(dto.getProjectCodeName());
-            }else{
-                throw new Exception("Empty code name!");
+                throw new EmptyCodeNameProjectException();
+            }else if(Objects.equals(dto.getProjectName(),"")){
+                throw new EmptyNameProjectException();
             }
-            if(!Objects.equals(dto.getProjectName(),"")){
-                project.setProjectName(dto.getProjectName());
-            }else{
-                throw new Exception("Empty name!");
-            }
+            project.setProjectCodeName(dto.getProjectCodeName());
+            project.setProjectName(dto.getProjectName());
             project.setDescription(dto.getDescription());
             project.setProjectStatus(ProjectStatus.DRAFT);
             repository.save(project);
         } else {
-            throw new Exception("Code name is not unique");
+            throw new NotUniqueProjectCodeNameException();
         }
     }
 
     public void changeProject(UpdateProjectDto dto) throws Exception {
+        if(dto == null){
+            throw new NullProjectDtoException();
+        }
         Optional<Project> projectOptional = repository.findById(dto.getProjectCodeName());
         if (projectOptional.isPresent()) {
             Project project = projectOptional.get();
-            if(!Objects.equals(dto.getProjectCodeName(),"")){
-                project.setProjectCodeName(dto.getProjectCodeName());
-            }else{
-                throw new Exception("Empty code name!");
+            if(Objects.equals(dto.getProjectCodeName(),"")){
+                throw new EmptyCodeNameProjectException();
+            }else if(Objects.equals(dto.getProjectName(),"")){
+                throw new EmptyNameProjectException();
             }
-            if(!Objects.equals(dto.getProjectName(),"")){
-                project.setProjectName(dto.getProjectName());
-            }else{
-                throw new Exception("Empty name!");
-            }
+            project.setProjectCodeName(dto.getProjectCodeName());
+            project.setProjectName(dto.getProjectName());
             project.setDescription(dto.getDescription());
             repository.save(project);
         } else {
-            throw new Exception("Error project Code name, project not found!");
+            throw new NotFoundProjectException();
         }
     }
 
     public List<ProjectCardDto> searchProject(SearchProjectDto dto) throws Exception {
-        Optional<List<Project>> optionalProjects = repository.findByProjectNameContainingIgnoreCaseOrProjectCodeNameContainingIgnoreCaseAndProjectStatusIn(dto.getTextFilter(),dto.getStatus());
-        if(optionalProjects.isPresent()){
-            List<Project> projects = optionalProjects.get();
+        if(dto == null){
+            throw new NullProjectDtoException();
+        }
+        List<Project> projects = repository.findAll(ProjectSpecifications.
+                searchByFilterAndStatuses(dto.getTextFilter(), dto.getStatus()));
             List<ProjectCardDto> list = new ArrayList<>();
             for(var project : projects){
-                ProjectCardDto projectDto = new ProjectCardDto();
-                projectDto.setProjectName(project.getProjectName());
-                projectDto.setProjectCodeName(project.getProjectCodeName());
-                projectDto.setProjectStatus(project.getProjectStatus().toString());
-                projectDto.setDescription(project.getDescription());
-                list.add(projectDto);
+                list.add(ProjectMapper.getProjectCardDto(project));
             }
             return list;
-        }else{
-            throw new Exception("Projects not found!");
-        }
     }
 
     public void changeProjectStatus(ChangeProjectStatusDto dto) throws Exception {
+        if(dto == null){
+            throw new NullProjectDtoException();
+        }
         Optional<Project> projectOptional = repository.findById(dto.getProjectCodeName());
         if (projectOptional.isPresent()) {
             Project project = projectOptional.get();
@@ -100,10 +99,10 @@ public class ProjectService {
                 project.setProjectStatus(ProjectStatus.valueOf(dto.getNewStatus()));
                 repository.save(project);
             } else {
-                throw new Exception("You cant set this status");
+                throw new NotAvailableProjectStatusExeption();
             }
         } else {
-            throw new Exception("Error project Code name, project not found!");
+            throw new NotFoundProjectException();
         }
     }
 
@@ -124,7 +123,7 @@ public class ProjectService {
                 return false;
             }
         }
-        throw new Exception("Error status");
+        throw new NotCorrectProjectStatusException();
     }
 
 }

@@ -5,8 +5,13 @@ import jakarta.transaction.Transactional;
 import org.digital.employee_dao.EmployeeRepository;
 import org.digital.employee_dto.response_employee_dto.EmployeeCardDto;
 import org.digital.employee_model.Employee;
+import org.digital.exceptions.employee_exceptions.EmployeeNotFoundException;
+import org.digital.exceptions.project_exceptions.NotFoundProjectException;
+import org.digital.exceptions.team_exceptions.EmployeeAlreadyInTeamException;
+import org.digital.exceptions.team_exceptions.NullTeamDtoException;
 import org.digital.member_dto.response_member_dto.MemberCardDto;
 import org.digital.roles.EmployeeProjectRole;
+import org.digital.services.employee_services.EmployeeMapper;
 import org.digital.services.team_member_services.MemberService;
 import org.digital.team_dao.TeamRepository;
 import org.digital.team_dto.AddMemberDto;
@@ -39,6 +44,9 @@ public class TeamService {
 
 
     public void addMemberToTeam(AddMemberDto dto) throws Exception {
+        if(dto == null){
+            throw new NullTeamDtoException();
+        }
         Optional<Team> optionalTeam = repository.findById(dto.getProjectCodeName());
         if(optionalTeam.isPresent()){
             Team team = optionalTeam.get();
@@ -48,17 +56,20 @@ public class TeamService {
                     team.getMembers().add(memberService.getMemberByEmployeeAndRole(optionalEmployee.get(),EmployeeProjectRole.valueOf(dto.getRole())));
                     repository.save(team);
                 }else{
-                    throw new Exception("employee already in team!");
+                    throw new EmployeeAlreadyInTeamException();
                 }
             }else{
-                throw new Exception("Error employee id, employee not found!");
+                throw new EmployeeNotFoundException();
             }
         }else{
-            throw new Exception("Error project code name, project not found!");
+            throw new NotFoundProjectException();
         }
     }
 
     public void removeMemberFromTeam(RemoveMemberDto dto) throws Exception {
+        if(dto == null){
+            throw new NullTeamDtoException();
+        }
         Optional<Team> optionalTeam = repository.findById(dto.getProjectCodeName());
         if(optionalTeam.isPresent()){
             Team team = optionalTeam.get();
@@ -68,42 +79,30 @@ public class TeamService {
                     .collect(Collectors.toList()));
             repository.save(team);
         }else{
-            throw new Exception("Error project code name, project not found!");
+            throw new NotFoundProjectException();
         }
     }
 
 
     public List<MemberCardDto> getAllMembers(GetAllMembersDto dto) throws Exception {
+        if(dto == null){
+            throw new NullTeamDtoException();
+        }
         Optional<Team> optionalTeam = repository.findById(dto.getProjectCodeName());
         if(optionalTeam.isPresent()){
             Team team = optionalTeam.get();
             List<TeamMember> members = team.getMembers();
-            if(members.isEmpty()){
-                throw new Exception("Team is empty!");
-            }else{
-                List<MemberCardDto> allTeamMembers = new ArrayList<>();
+            List<MemberCardDto> allTeamMembers = new ArrayList<>();
 
-                for(var member : members){
-                    MemberCardDto memberCardDto = new MemberCardDto();
-                    memberCardDto.setRole(member.getRole());
-                    memberCardDto.setEmployee(
-                            new EmployeeCardDto(
-                                    member.getMember().getSurname(),
-                                    member.getMember().getName(),
-                                    member.getMember().getMiddleName(),
-                                    member.getMember().getJobTitle(),
-                                    member.getMember().getEmail(),
-                                    member.getMember().getEmployeeStatus().toString()
-                            )
-                    );
-
-                    allTeamMembers.add(memberCardDto);
-                }
-                return allTeamMembers;
+            for(var member : members){
+                MemberCardDto memberCardDto = new MemberCardDto();
+                memberCardDto.setRole(member.getRole());
+                memberCardDto.setEmployee(EmployeeMapper.getEmployeeDtoCard(member.getMember()));
+                allTeamMembers.add(memberCardDto);
             }
-
+            return allTeamMembers;
         }else {
-            throw new Exception("Error project code name, project not found!");
+            throw new NotFoundProjectException();
         }
     }
 }

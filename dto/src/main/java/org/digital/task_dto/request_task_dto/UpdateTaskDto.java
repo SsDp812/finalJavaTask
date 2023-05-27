@@ -9,7 +9,7 @@ public class UpdateTaskDto {
     private Long taskId;
     private String taskName;
     private String taskDescription;
-    private String executorId;
+    private Long executorId;
     private Integer hours;
     private Timestamp deadLineTime;
 }
