@@ -12,6 +12,7 @@ import org.digital.exceptions.team_exceptions.NullTeamDtoException;
 import org.digital.member_dto.response_member_dto.MemberCardDto;
 import org.digital.roles.EmployeeProjectRole;
 import org.digital.services.employee_services.EmployeeMapper;
+import org.digital.services.team_member_services.MemberMapper;
 import org.digital.services.team_member_services.MemberService;
 import org.digital.team_dao.TeamRepository;
 import org.digital.team_dto.AddMemberDto;
@@ -43,7 +44,7 @@ public class TeamService {
     }
 
 
-    public void addMemberToTeam(AddMemberDto dto) throws Exception {
+    public MemberCardDto addMemberToTeam(AddMemberDto dto) throws Exception {
         if(dto == null){
             throw new NullTeamDtoException();
         }
@@ -55,6 +56,7 @@ public class TeamService {
                 if(!team.getMembers().contains(memberService.getMemberByEmployeeAndRole(optionalEmployee.get(),EmployeeProjectRole.valueOf(dto.getRole())))){
                     team.getMembers().add(memberService.getMemberByEmployeeAndRole(optionalEmployee.get(),EmployeeProjectRole.valueOf(dto.getRole())));
                     repository.save(team);
+                    return MemberMapper.getMemberCard(optionalEmployee.get(),EmployeeProjectRole.valueOf(dto.getRole()));
                 }else{
                     throw new EmployeeAlreadyInTeamException();
                 }
@@ -66,18 +68,21 @@ public class TeamService {
         }
     }
 
-    public void removeMemberFromTeam(RemoveMemberDto dto) throws Exception {
+    public MemberCardDto removeMemberFromTeam(RemoveMemberDto dto) throws Exception {
         if(dto == null){
             throw new NullTeamDtoException();
         }
         Optional<Team> optionalTeam = repository.findById(dto.getProjectCodeName());
         if(optionalTeam.isPresent()){
             Team team = optionalTeam.get();
-            team.setMembers(team.getMembers()
-                    .stream()
-                    .filter(m ->!Objects.equals(m.getMember().getAccountId(),dto.getAccountId()))
-                    .collect(Collectors.toList()));
-            repository.save(team);
+           for(var member : team.getMembers()){
+               if(Objects.equals(member.getMemberId(),dto.getAccountId())){
+                   team.getMembers().remove(member);
+                   repository.save(team);
+                   return MemberMapper.getMemberCard(member.getMember(),member.getRole());
+               }
+           }
+           throw new EmployeeNotFoundException();
         }else{
             throw new NotFoundProjectException();
         }

@@ -30,7 +30,7 @@ public class ProjectService {
         this.repository = repository;
     }
 
-    public void createNewProject(CreateProjectDto dto) throws Exception {
+    public ProjectCardDto createNewProject(CreateProjectDto dto) throws Exception {
         if(dto == null){
             throw new NullProjectDtoException();
         }
@@ -47,12 +47,13 @@ public class ProjectService {
             project.setDescription(dto.getDescription());
             project.setProjectStatus(ProjectStatus.DRAFT);
             repository.save(project);
+            return ProjectMapper.getProjectCardDto(project);
         } else {
             throw new NotUniqueProjectCodeNameException();
         }
     }
 
-    public void changeProject(UpdateProjectDto dto) throws Exception {
+    public ProjectCardDto changeProject(UpdateProjectDto dto) throws Exception {
         if(dto == null){
             throw new NullProjectDtoException();
         }
@@ -68,6 +69,7 @@ public class ProjectService {
             project.setProjectName(dto.getProjectName());
             project.setDescription(dto.getDescription());
             repository.save(project);
+            return ProjectMapper.getProjectCardDto(project);
         } else {
             throw new NotFoundProjectException();
         }
@@ -86,7 +88,7 @@ public class ProjectService {
             return list;
     }
 
-    public void changeProjectStatus(ChangeProjectStatusDto dto) throws Exception {
+    public ProjectCardDto changeProjectStatus(ChangeProjectStatusDto dto) throws Exception {
         if(dto == null){
             throw new NullProjectDtoException();
         }
@@ -98,6 +100,7 @@ public class ProjectService {
                     ProjectStatus.valueOf(dto.getNewStatus()))) {
                 project.setProjectStatus(ProjectStatus.valueOf(dto.getNewStatus()));
                 repository.save(project);
+                return ProjectMapper.getProjectCardDto(project);
             } else {
                 throw new NotAvailableProjectStatusExeption();
             }

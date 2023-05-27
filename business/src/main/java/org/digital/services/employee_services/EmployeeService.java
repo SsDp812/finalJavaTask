@@ -28,7 +28,7 @@ public class EmployeeService {
     }
 
 
-    public void createNewEmployee(CreateEmployeeDto dto) throws Exception {
+    public EmployeeCardDto createNewEmployee(CreateEmployeeDto dto) throws Exception {
         if(dto == null){
             throw new NullEmployeeDtoException();
         }
@@ -48,11 +48,12 @@ public class EmployeeService {
        employee.setEmail(dto.getEmail());
        employee.setEmployeeStatus(EmployeeStatus.ACTIVE);
        repository.save(employee);
+       return EmployeeMapper.getEmployeeDtoCard(employee);
     }
 
 
 
-    public void changeEmployeeInfo(UpdateEmployeeDto dto) throws Exception {
+    public EmployeeCardDto changeEmployeeInfo(UpdateEmployeeDto dto) throws Exception {
         if(dto == null){
             throw new NullEmployeeDtoException();
         }
@@ -76,6 +77,7 @@ public class EmployeeService {
                employee.setLogin(dto.getLogin());
                employee.setPassword(dto.getPassword());
                repository.save(employee);
+               return EmployeeMapper.getEmployeeDtoCard(employee);
            }
        }else{
            throw new EmployeeNotFoundException();
@@ -83,7 +85,7 @@ public class EmployeeService {
     }
 
 
-    public void deleteEmployee(DeleteEmployeeDto dto) throws Exception {
+    public EmployeeCardDto deleteEmployee(DeleteEmployeeDto dto) throws Exception {
         if(dto == null){
             throw new NullEmployeeDtoException();
         }
@@ -95,6 +97,7 @@ public class EmployeeService {
             Employee employee = optionalEmployee.get();
             employee.setEmployeeStatus(EmployeeStatus.DELETED);
             repository.save(employee);
+            return EmployeeMapper.getEmployeeDtoCard(employee);
         }else{
             throw new Exception("Error employee id, employee not found!");
         }

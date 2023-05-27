@@ -38,7 +38,7 @@ public class TaskService {
     }
 
 
-    public void createNewTask(CreateTaskDto dto) throws Exception {
+    public TaskCardDto createNewTask(CreateTaskDto dto) throws Exception {
         if(dto == null){
             throw new NullTaskDtoException();
         }
@@ -76,9 +76,11 @@ public class TaskService {
 
         task.setTaskStatus(TaskStatus.NEW);
         //task.setAuthor(); //TODO set Author from session after create
+        repository.save(task);
+        return TaskMapper.getTaskCardDto(task);
     }
 
-    public void changeTask(UpdateTaskDto dto) throws Exception {
+    public TaskCardDto changeTask(UpdateTaskDto dto) throws Exception {
         if(dto == null){
             throw new NullTaskDtoException();
         }
@@ -112,6 +114,7 @@ public class TaskService {
                 throw new TooLessTimeTaskException();
             }
             repository.save(task);
+            return TaskMapper.getTaskCardDto(task);
         }else {
             throw new NotFoundTaskException();
         }
@@ -153,7 +156,7 @@ public class TaskService {
     }
 
 
-    public void changeTaskStatus(ChangeStatusOfTaskDto dto) throws Exception {
+    public TaskCardDto changeTaskStatus(ChangeStatusOfTaskDto dto) throws Exception {
         if(dto == null){
             throw new NullTaskDtoException();
         }
@@ -165,6 +168,7 @@ public class TaskService {
                   TaskStatus.valueOf(dto.getTaskStatus()))) {
                 task.setTaskStatus(TaskStatus.valueOf(dto.getTaskStatus()));
                 repository.save(task);
+                return TaskMapper.getTaskCardDto(task);
             } else {
                 throw new NotAvailableTaskStatusException();
             }
