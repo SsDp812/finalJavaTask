@@ -6,6 +6,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.digital.enity_statuses.ProjectStatus;
+import org.hibernate.annotations.JdbcType;
+import org.hibernate.annotations.Type;
+import org.hibernate.type.descriptor.jdbc.VarcharJdbcType;
 
 @Data
 @AllArgsConstructor

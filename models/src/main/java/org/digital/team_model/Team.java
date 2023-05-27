@@ -22,4 +22,7 @@ public class Team {
     @OneToMany
     @JoinColumn(name = "member_id",referencedColumnName = "member_id")
     private List<TeamMember> members;
+
+    @Column(name = "member_id", insertable = false, updatable = false)
+    private Long memberId;
 }

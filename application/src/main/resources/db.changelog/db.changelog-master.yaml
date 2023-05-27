@@ -1,11 +1,11 @@
 databaseChangeLog:
   - include:
-    file: db/changelog/changeset/create-employee.yaml
+      file: db.changelog/changeset/create-employee.yaml
   - include:
-    file: db/changelog/changeset/create-team-member.yaml
+      file: db.changelog/changeset/create-team-member.yaml
   - include:
-    file: db/changelog/changeset/create-project.yaml
+      file: db.changelog/changeset/create-project.yaml
   - include:
-    file: db/changelog/changeset/create-team.yaml
+      file: db.changelog/changeset/create-team.yaml
   - include:
-    file: db/changelog/changeset/create-task.yaml
+      file: db.changelog/changeset/create-task.yaml
