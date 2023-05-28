@@ -10,6 +10,8 @@ import org.digital.employee_model.Employee;
 import org.digital.enity_statuses.EmployeeStatus;
 import org.digital.exceptions.employee_exceptions.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -21,12 +23,14 @@ import java.util.Optional;
 @Transactional
 public class EmployeeService {
     private EmployeeRepository repository;
+    private BCryptPasswordEncoder passwordEncoder;
+
 
     @Autowired
-    public EmployeeService(EmployeeRepository repository) {
+    public EmployeeService(EmployeeRepository repository, BCryptPasswordEncoder passwordEncoder) {
         this.repository = repository;
+        this.passwordEncoder = passwordEncoder;
     }
-
 
     public EmployeeCardDto createNewEmployee(CreateEmployeeDto dto) throws Exception {
         if(dto == null){
@@ -44,7 +48,7 @@ public class EmployeeService {
        employee.setMiddleName(dto.getMiddleName());
        employee.setJobTitle(dto.getJobTitle());
        employee.setLogin(dto.getLogin());
-       employee.setPassword(dto.getPassword());
+       employee.setPassword(passwordEncoder.encode(dto.getPassword()));
        employee.setEmail(dto.getEmail());
        employee.setEmployeeStatus(EmployeeStatus.ACTIVE);
        repository.save(employee);
