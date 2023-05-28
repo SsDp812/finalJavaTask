@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.digital.project_model.Project;
 import org.digital.team_member_model.TeamMember;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.util.List;
 
@@ -16,7 +18,8 @@ import java.util.List;
 @Table(name = "team")
 public class Team {
     @Id
-    @Column(name = "project_code_name")
+    @Column(name = "project_code_name",columnDefinition = "VARCHAR(255)")
+    @JdbcTypeCode(SqlTypes.VARCHAR)
     private Project project;
 
     @OneToMany

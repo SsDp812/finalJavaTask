@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.digital.employee_model.Employee;
 import org.digital.roles.EmployeeProjectRole;
-
+import org.hibernate.annotations.JdbcType;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,7 +21,7 @@ public class TeamMember {
     @ManyToOne
     @JoinColumn(name = "employee_id",referencedColumnName = "accountid")
     private Employee member;
-
     @Column(name = "member_role")
+    @Enumerated(value = EnumType.STRING)
     private EmployeeProjectRole role;
 }

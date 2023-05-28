@@ -7,6 +7,9 @@ import lombok.NoArgsConstructor;
 import org.digital.employee_model.Employee;
 import org.digital.enity_statuses.TaskStatus;
 import org.digital.project_model.Project;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.annotations.Type;
+import org.hibernate.type.SqlTypes;
 
 import java.sql.Timestamp;
 import java.util.Date;
@@ -25,7 +28,8 @@ public class Task {
 
 
     @ManyToOne
-    @JoinColumn(name = "project_code_name", referencedColumnName = "code_name")
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    @JoinColumn(name = "project_code_name", referencedColumnName = "code_name", columnDefinition = "VARCHAR(255)")
     private Project project;
 
     @Column(name = "task_name")
@@ -55,6 +59,7 @@ public class Task {
     private Date editTaskTime;
 
     @Column(name = "task_status")
+    @Enumerated(value = EnumType.STRING)
     private TaskStatus taskStatus;
 
 }
