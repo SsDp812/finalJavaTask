@@ -5,6 +5,8 @@ import org.digital.employee_model.Employee;
 import org.digital.enity_statuses.EmployeeStatus;
 import org.springframework.data.jpa.domain.Specification;
 
+
+
 public interface EmployeeSpecifications {
     static Specification<Employee> searchByFilterAndStatuses(String searchText, EmployeeStatus employeeStatus) {
         return (root, query, builder) -> {

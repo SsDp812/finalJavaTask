@@ -1,7 +1,7 @@
 package org.digital.services.project_services;
 
 
-import jakarta.transaction.Transactional;
+
 import org.digital.enity_statuses.ProjectStatus;
 import org.digital.exceptions.project_exceptions.*;
 import org.digital.project_dao.ProjectRepository;
@@ -14,6 +14,7 @@ import org.digital.project_dto.response_project_dto.ProjectCardDto;
 import org.digital.project_model.Project;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;

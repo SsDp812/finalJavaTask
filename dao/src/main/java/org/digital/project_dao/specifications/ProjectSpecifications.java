@@ -1,5 +1,6 @@
 package org.digital.project_dao.specifications;
 
+
 import jakarta.persistence.criteria.Predicate;
 import org.digital.enity_statuses.ProjectStatus;
 import org.digital.project_model.Project;

@@ -1,7 +1,6 @@
 package org.digital.services.team_member_services;
 
-import jakarta.persistence.Table;
-import jakarta.transaction.Transactional;
+
 import org.digital.employee_model.Employee;
 import org.digital.exceptions.member_exception.NullMemberEmployeeException;
 import org.digital.roles.EmployeeProjectRole;
@@ -9,6 +8,7 @@ import org.digital.team_member_dao.TeamMemberRepository;
 import org.digital.team_member_model.TeamMember;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 

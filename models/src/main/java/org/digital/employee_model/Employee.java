@@ -7,7 +7,8 @@ import lombok.Data;
 
 import lombok.NoArgsConstructor;
 import org.digital.enity_statuses.EmployeeStatus;
-import org.springframework.boot.autoconfigure.web.WebProperties;
+
+
 
 @Data
 @AllArgsConstructor

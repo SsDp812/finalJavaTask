@@ -1,12 +1,13 @@
 package org.digital.team_member_model;
 
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.digital.employee_model.Employee;
 import org.digital.roles.EmployeeProjectRole;
-import org.hibernate.annotations.JdbcType;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

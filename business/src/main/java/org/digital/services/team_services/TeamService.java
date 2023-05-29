@@ -1,7 +1,6 @@
 package org.digital.services.team_services;
 
 
-import jakarta.transaction.Transactional;
 import org.digital.employee_dao.EmployeeRepository;
 import org.digital.employee_dto.response_employee_dto.EmployeeCardDto;
 import org.digital.employee_model.Employee;
@@ -22,6 +21,7 @@ import org.digital.team_member_model.TeamMember;
 import org.digital.team_model.Team;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;

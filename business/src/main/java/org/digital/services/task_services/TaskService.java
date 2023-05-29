@@ -1,6 +1,6 @@
 package org.digital.services.task_services;
 
-import jakarta.transaction.Transactional;
+
 import org.digital.employee_dao.EmployeeRepository;
 import org.digital.employee_dto.response_employee_dto.EmployeeCardDto;
 import org.digital.employee_model.Employee;
@@ -23,6 +23,7 @@ import org.digital.task_model.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
