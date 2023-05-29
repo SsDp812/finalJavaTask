@@ -54,9 +54,6 @@ public class UserService implements UserDetailsService {
                     "admin@gmail.ru",
                     EmployeeStatus.ACTIVE
             ));
-        }else{
-            System.out.println(optionalEmployee.get().getLogin());
-            System.out.println(optionalEmployee.get().getPassword());
         }
     }
 }
