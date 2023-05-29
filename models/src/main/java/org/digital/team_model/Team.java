@@ -15,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "team")
+@Table(name = "Team")
 public class Team {
     @Id
     @Column(name = "project_code_name",columnDefinition = "VARCHAR(255)")

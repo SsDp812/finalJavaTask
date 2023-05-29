@@ -4,7 +4,7 @@ databaseChangeLog:
       author: DaniilEfankin
       changes:
         - createTable:
-            tableName: TeamMember
+            tableName: teamMember
             columns:
               - column:
                   name: member_id
@@ -25,5 +25,5 @@ databaseChangeLog:
               - foreignKey:
                   name: FK_TeamMember_Employee
                   referencedTableName: Employee
-                  referencedColumnNames: accountId
+                  referencedColumnNames: accountid
                   baseColumnNames: employee_id

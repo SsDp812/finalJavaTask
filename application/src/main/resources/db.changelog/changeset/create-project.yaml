@@ -4,7 +4,7 @@ databaseChangeLog:
       author: DaniilEfankin
       changes:
         - createTable:
-            tableName: Project
+            tableName: project
             columns:
               - column:
                   name: code_name

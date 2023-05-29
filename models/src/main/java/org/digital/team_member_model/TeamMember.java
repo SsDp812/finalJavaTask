@@ -11,7 +11,7 @@ import org.hibernate.annotations.JdbcType;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "teammember")
+@Table(name = "Teammember")
 public class TeamMember {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

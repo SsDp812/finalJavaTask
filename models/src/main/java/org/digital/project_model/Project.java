@@ -16,7 +16,7 @@ import org.hibernate.type.descriptor.jdbc.VarcharJdbcType;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "project")
+@Table(name = "Project")
 public class Project {
 
     @Id

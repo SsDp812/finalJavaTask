@@ -9,7 +9,6 @@ import org.springframework.context.annotation.Import;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @Configuration
-@EnableAutoConfiguration
 @Import({ContollersConfig.class,DaoConfig.class,ModelsConfig.class, ServicesConfig.class})
 public class AppConfig {
 }

@@ -13,7 +13,7 @@ import org.springframework.boot.autoconfigure.web.WebProperties;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "employee")
+@Table(name = "Employee")
 public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -4,10 +4,10 @@ databaseChangeLog:
       author: DaniilEfankin
       changes:
         - createTable:
-            tableName: Employee
+            tableName: employee
             columns:
               - column:
-                  name: accountId
+                  name: accountid
                   type: SERIAL
                   constraints:
                     primaryKey: true

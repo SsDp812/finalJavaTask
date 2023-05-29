@@ -4,7 +4,7 @@ databaseChangeLog:
       author: DaniilEfankin
       changes:
         - createTable:
-            tableName: Task
+            tableName: task
             columns:
               - column:
                   name: task_id
@@ -61,12 +61,12 @@ databaseChangeLog:
               - foreignKey:
                   name: fk_task_executor
                   referencedTableName: Employee
-                  referencedColumnNames: accountId
+                  referencedColumnNames: accountid
                   baseColumnNames: task_executor
               - foreignKey:
                   name: fk_task_author
                   referencedTableName: Employee
-                  referencedColumnNames: accountId
+                  referencedColumnNames: accountid
                   baseColumnNames: task_author
               - foreignKey:
                   name: fk_project_code_name
