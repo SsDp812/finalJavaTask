@@ -19,6 +19,8 @@ import org.digital.team_dto.GetAllMembersDto;
 import org.digital.team_dto.RemoveMemberDto;
 import org.digital.team_member_model.TeamMember;
 import org.digital.team_model.Team;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,6 +37,8 @@ public class TeamService {
     private TeamRepository repository;
     private MemberService memberService;
     private EmployeeRepository employeeRepository;
+
+    private Logger logger = LoggerFactory.getLogger("team_logger");
 
     @Autowired
     public TeamService(TeamRepository repository,MemberService memberService, EmployeeRepository employeeRepository) {
@@ -57,8 +61,12 @@ public class TeamService {
                 if(!team.getMembers().contains(member)){
                     team.getMembers().add(member);
                     repository.save(team);
+                    logger.info("Employee with account id: " + dto.getAccountId().toString() +
+                            " was added to team: " + dto.getProjectCodeName() + " with role " + dto.getRole().toString());
                     return MemberMapper.getMemberCard(optionalEmployee.get(),EmployeeProjectRole.valueOf(dto.getRole()));
                 }else{
+                    logger.warn("Employee with account id: " + dto.getAccountId().toString() +
+                            " is already in team: " + dto.getProjectCodeName() + " with role " + dto.getRole().toString());
                     throw new EmployeeAlreadyInTeamException();
                 }
             }else{
@@ -80,6 +88,8 @@ public class TeamService {
                if(Objects.equals(member.getMemberId(),dto.getAccountId())){
                    team.getMembers().remove(member);
                    repository.save(team);
+                   logger.info("Employee with account id: " + dto.getAccountId().toString() +
+                           " was removed from team: " + dto.getProjectCodeName());
                    return MemberMapper.getMemberCard(member.getMember(),member.getRole());
                }
            }

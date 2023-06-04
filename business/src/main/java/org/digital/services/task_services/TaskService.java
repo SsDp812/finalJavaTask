@@ -20,6 +20,8 @@ import org.digital.task_dto.request_task_dto.SearchTaskDto;
 import org.digital.task_dto.request_task_dto.UpdateTaskDto;
 import org.digital.task_dto.response_task_dto.TaskCardDto;
 import org.digital.task_model.Task;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -32,6 +34,7 @@ import java.util.*;
 public class TaskService {
     private TaskRepository repository;
     private EmployeeRepository employeeRepository;
+    private Logger logger = LoggerFactory.getLogger("task_logger");
 
     @Autowired
     public TaskService(TaskRepository repository, EmployeeRepository employeeRepository) {
@@ -83,6 +86,7 @@ public class TaskService {
         }
         task.setAuthor(author.get());
         repository.save(task);
+        logger.info("Created task with id: " + task.getTaskId().toString());
         return TaskMapper.getTaskCardDto(task);
     }
 
@@ -125,6 +129,7 @@ public class TaskService {
             }
             task.setAuthor(author.get());
             repository.save(task);
+            logger.info("Task with id = " + task.getTaskId() + " was updated!");
             return TaskMapper.getTaskCardDto(task);
         }else {
             throw new NotFoundTaskException();
@@ -178,9 +183,13 @@ public class TaskService {
             if (checkAvailableToChangeStatus(task.getTaskStatus(),
                   TaskStatus.valueOf(dto.getTaskStatus()))) {
                 task.setTaskStatus(TaskStatus.valueOf(dto.getTaskStatus()));
+                logger.info("Task with id = " + task.getTaskId() + " has new status: " +
+                        task.getTaskStatus().toString());
                 repository.save(task);
                 return TaskMapper.getTaskCardDto(task);
             } else {
+                logger.error("Not availbale status: " +
+                        dto.getTaskStatus() + " for task with id: " + task.getTaskId().toString());
                 throw new NotAvailableTaskStatusException();
             }
         } else {

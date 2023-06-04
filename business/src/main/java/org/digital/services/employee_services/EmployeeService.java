@@ -2,6 +2,7 @@ package org.digital.services.employee_services;
 
 
 
+
 import org.digital.employee_dao.EmployeeRepository;
 import org.digital.employee_dao.specifications.EmployeeSpecifications;
 import org.digital.employee_dto.request_employee_dto.*;
@@ -9,6 +10,8 @@ import org.digital.employee_dto.response_employee_dto.EmployeeCardDto;
 import org.digital.employee_model.Employee;
 import org.digital.enity_statuses.EmployeeStatus;
 import org.digital.exceptions.employee_exceptions.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -26,6 +29,7 @@ public class EmployeeService {
     private EmployeeRepository repository;
     private BCryptPasswordEncoder passwordEncoder;
 
+    private Logger logger = LoggerFactory.getLogger("employee_logger");
 
     @Autowired
     public EmployeeService(EmployeeRepository repository, BCryptPasswordEncoder passwordEncoder) {
@@ -53,6 +57,7 @@ public class EmployeeService {
        employee.setEmail(dto.getEmail());
        employee.setEmployeeStatus(EmployeeStatus.ACTIVE);
        repository.save(employee);
+       logger.info("Created new employee with id: " + employee.getAccountId().toString());
        return EmployeeMapper.getEmployeeDtoCard(employee);
     }
 
@@ -82,6 +87,7 @@ public class EmployeeService {
                employee.setLogin(dto.getLogin());
                employee.setPassword(passwordEncoder.encode(dto.getPassword()));
                repository.save(employee);
+               logger.info("Employee info with id: " + employee.getAccountId().toString() +"was changed!");
                return EmployeeMapper.getEmployeeDtoCard(employee);
            }
        }else{
@@ -96,12 +102,14 @@ public class EmployeeService {
         }
         Optional<Employee> optionalEmployee = repository.findById(dto.getAccountId());
         if(optionalEmployee.isPresent()){
-            if(optionalEmployee.get().getEmployeeStatus() == EmployeeStatus.DELETED){
+            Employee employee = optionalEmployee.get();
+            if(employee.getEmployeeStatus() == EmployeeStatus.DELETED){
+                logger.warn("Employee with id: " + employee.getAccountId().toString() + "was already deleted!");
                 throw new EmployeeAlreadyDeletedException();
             }
-            Employee employee = optionalEmployee.get();
             employee.setEmployeeStatus(EmployeeStatus.DELETED);
             repository.save(employee);
+            logger.info("Employee with id: " + employee.getAccountId().toString() + "was deleted!");
             return EmployeeMapper.getEmployeeDtoCard(employee);
         }else{
             throw new Exception("Error employee id, employee not found!");

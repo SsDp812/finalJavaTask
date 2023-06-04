@@ -12,6 +12,8 @@ import org.digital.project_dto.request_project_dto.SearchProjectDto;
 import org.digital.project_dto.request_project_dto.UpdateProjectDto;
 import org.digital.project_dto.response_project_dto.ProjectCardDto;
 import org.digital.project_model.Project;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +27,7 @@ import java.util.Optional;
 @Transactional
 public class ProjectService {
     private ProjectRepository repository;
+    private Logger logger = LoggerFactory.getLogger("project_logger");
 
     @Autowired
     public ProjectService(ProjectRepository repository) {
@@ -48,6 +51,7 @@ public class ProjectService {
             project.setDescription(dto.getDescription());
             project.setProjectStatus(ProjectStatus.DRAFT);
             repository.save(project);
+            logger.info("Created new project with code-name: " + project.getProjectCodeName());
             return ProjectMapper.getProjectCardDto(project);
         } else {
             throw new NotUniqueProjectCodeNameException();
@@ -69,6 +73,7 @@ public class ProjectService {
             project.setProjectCodeName(dto.getProjectCodeName());
             project.setProjectName(dto.getProjectName());
             project.setDescription(dto.getDescription());
+            logger.info("Project " + project.getProjectCodeName() + " was updated");
             repository.save(project);
             return ProjectMapper.getProjectCardDto(project);
         } else {
@@ -100,9 +105,13 @@ public class ProjectService {
             if (checkAvailableToChangeStatus(project.getProjectStatus(),
                     ProjectStatus.valueOf(dto.getNewStatus()))) {
                 project.setProjectStatus(ProjectStatus.valueOf(dto.getNewStatus()));
+                logger.info("Project " + project.getProjectCodeName() +
+                        " has new status now: " + project.getProjectStatus().toString());
                 repository.save(project);
                 return ProjectMapper.getProjectCardDto(project);
             } else {
+                logger.error("Not available status " + dto.getNewStatus() + " for project: "
+                + project.getProjectCodeName());
                 throw new NotAvailableProjectStatusExeption();
             }
         } else {
