@@ -136,8 +136,9 @@ public class EmployeeService {
         if(accountDto == null){
             throw new NullEmployeeDtoException();
         }
-        Optional<Employee> optionalEmployee = repository.findByLoginAndPassword(accountDto.getLogin(),accountDto.getPassword());
-        if(optionalEmployee.isPresent()){
+        System.out.println("password: " + accountDto.getPassword());
+        Optional<Employee> optionalEmployee = repository.findByLogin(accountDto.getLogin());
+        if(optionalEmployee.isPresent() && passwordEncoder.matches(accountDto.getPassword(),optionalEmployee.get().getPassword())){
             return EmployeeMapper.getEmployeeDtoCard(optionalEmployee.get());
         }else{
             throw new EmployeeNotFoundException();
