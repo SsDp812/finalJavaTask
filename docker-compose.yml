@@ -1,6 +1,14 @@
 version: "3"
 
 services:
+  postgres:
+    image: 'postgres:10'
+    container_name: 'java-postgres'
+    environment:
+      - 'POSTGRES_USER=postgres'
+      - 'POSTGRES_PASSWORD=rootroot'
+      - 'POSTGRES_DB=TESTDB2'
+
   app:
     build: ./
     container_name: 'java-app'

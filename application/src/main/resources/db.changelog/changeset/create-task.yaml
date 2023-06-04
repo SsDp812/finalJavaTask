@@ -1,0 +1,75 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-task
+      author: DaniilEfankin
+      changes:
+        - createTable:
+            tableName: task
+            columns:
+              - column:
+                  name: task_id
+                  type: SERIAL
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: project_code_name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: task_name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: task_description
+                  type: varchar(255)
+              - column:
+                  name: task_executor
+                  type: integer
+                  constraints:
+                    nullable: false
+              - column:
+                  name: task_hours_time
+                  type: integer
+                  constraints:
+                    nullable: false
+              - column:
+                  name: end_time
+                  type: timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: task_status
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: task_author
+                  type: integer
+                  constraints:
+                    nullable: false
+              - column:
+                  name: start_time
+                  type: timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: edit_time
+                  type: timestamp
+            foreignKeys:
+              - foreignKey:
+                  name: fk_task_executor
+                  referencedTableName: Employee
+                  referencedColumnNames: accountid
+                  baseColumnNames: task_executor
+              - foreignKey:
+                  name: fk_task_author
+                  referencedTableName: Employee
+                  referencedColumnNames: accountid
+                  baseColumnNames: task_author
+              - foreignKey:
+                  name: fk_project_code_name
+                  referencedTableName: Project
+                  referencedColumnNames: code_name
+                  baseColumnNames: project_code_name
