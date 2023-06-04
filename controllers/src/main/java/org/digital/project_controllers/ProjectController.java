@@ -41,6 +41,7 @@ public class ProjectController {
     }
 
     @Operation(summary = "Searching project by filter")
+
     @PostMapping(value = "/search",consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public List<ProjectCardDto> searchProject(@RequestBody SearchProjectDto dto) throws Exception {
         return service.searchProject(dto);

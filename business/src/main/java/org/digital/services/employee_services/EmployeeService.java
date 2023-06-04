@@ -80,7 +80,7 @@ public class EmployeeService {
                employee.setJobTitle(dto.getJobTitle());
                employee.setEmail(dto.getEmail());
                employee.setLogin(dto.getLogin());
-               employee.setPassword(dto.getPassword());
+               employee.setPassword(passwordEncoder.encode(dto.getPassword()));
                repository.save(employee);
                return EmployeeMapper.getEmployeeDtoCard(employee);
            }

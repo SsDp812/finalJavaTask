@@ -53,8 +53,9 @@ public class TeamService {
             Team team = optionalTeam.get();
             Optional<Employee> optionalEmployee = employeeRepository.findById(dto.getAccountId());
             if(optionalEmployee.isPresent()){
-                if(!team.getMembers().contains(memberService.getMemberByEmployeeAndRole(optionalEmployee.get(),EmployeeProjectRole.valueOf(dto.getRole())))){
-                    team.getMembers().add(memberService.getMemberByEmployeeAndRole(optionalEmployee.get(),EmployeeProjectRole.valueOf(dto.getRole())));
+                TeamMember member = memberService.getMemberByEmployeeAndRole(optionalEmployee.get(),EmployeeProjectRole.valueOf(dto.getRole()));
+                if(!team.getMembers().contains(member)){
+                    team.getMembers().add(member);
                     repository.save(team);
                     return MemberMapper.getMemberCard(optionalEmployee.get(),EmployeeProjectRole.valueOf(dto.getRole()));
                 }else{

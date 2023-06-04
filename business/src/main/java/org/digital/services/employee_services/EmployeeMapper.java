@@ -11,7 +11,7 @@ public class EmployeeMapper {
         EmployeeCardDto dtoCard = new EmployeeCardDto();
         dtoCard.setId(employee.getAccountId());
         dtoCard.setSurname(employee.getSurname());
-        dtoCard.setSurname(employee.getSurname());
+        dtoCard.setName(employee.getName());
         dtoCard.setMiddleName(employee.getMiddleName());
         dtoCard.setJobTitle(employee.getJobTitle());
         dtoCard.setEmail(employee.getEmail());
