@@ -1,16 +1,15 @@
-package org.digital.services.task_services;
+package unit.org.digital.services.task_services;
 
 
 import org.digital.employee_dao.EmployeeRepository;
-import org.digital.employee_dto.response_employee_dto.EmployeeCardDto;
 import org.digital.employee_model.Employee;
 import org.digital.enity_statuses.EmployeeStatus;
-import org.digital.enity_statuses.ProjectStatus;
 import org.digital.enity_statuses.TaskStatus;
 import org.digital.exceptions.employee_exceptions.EmployeeAlreadyDeletedException;
 import org.digital.exceptions.employee_exceptions.EmployeeNotFoundException;
+import org.digital.exceptions.project_exceptions.NotFoundProjectException;
 import org.digital.exceptions.task_exceptions.*;
-import org.digital.project_dto.request_project_dto.ChangeProjectStatusDto;
+import org.digital.project_dao.ProjectRepository;
 import org.digital.project_model.Project;
 import org.digital.task_dao.TaskRepository;
 import org.digital.task_dao.specifications.TaskSpecifications;
@@ -28,18 +27,22 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @Transactional
 public class TaskService {
     private TaskRepository repository;
     private EmployeeRepository employeeRepository;
+
+    private ProjectRepository projectRepository;
     private Logger logger = LoggerFactory.getLogger("task_logger");
 
     @Autowired
-    public TaskService(TaskRepository repository, EmployeeRepository employeeRepository) {
+    public TaskService(TaskRepository repository, EmployeeRepository employeeRepository,ProjectRepository projectRepository) {
         this.repository = repository;
         this.employeeRepository = employeeRepository;
+        this.projectRepository = projectRepository;
     }
 
 
@@ -54,23 +57,29 @@ public class TaskService {
         task.setTaskName(dto.getTaskName());
         task.setTaskDescription(dto.getTaskDescription());
 
-        try{
-            Optional<Employee> employee = employeeRepository.findById(dto.getExecutorId());
-            if(employee.isPresent()){
-                if(employee.get().getEmployeeStatus() == EmployeeStatus.ACTIVE){
-                    task.setExecutor(employee.get());
-                }else{
-                    throw new EmployeeAlreadyDeletedException();
-                }
+        Optional<Employee> employee = employeeRepository.findById(dto.getExecutorId());
+        if(employee.isPresent()){
+            if(employee.get().getEmployeeStatus() == EmployeeStatus.ACTIVE){
+                task.setExecutor(employee.get());
+            }else{
+                throw new EmployeeAlreadyDeletedException();
             }
-
-        }catch (Exception ex){
+        }else{
             throw new EmployeeNotFoundException();
+        }
+
+
+        Optional<Project> optionalProject = projectRepository.findById(dto.getProjectCodeName());
+        if(optionalProject.isPresent()){
+            Project project = optionalProject.get();
+            task.setProject(project);
+        }else{
+            throw new NotFoundProjectException();
         }
 
         task.setHours(dto.getHours());
         Date now = new Date();
-        if(now.getHours() - dto.getDeadLineTime().getHours() >= dto.getHours()){
+        if(TimeUnit.MILLISECONDS.toHours( dto.getDeadLineTime().getTime() - now.getTime()) >= dto.getHours()){
             task.setDeadLineTime(dto.getDeadLineTime());
             task.setHours(dto.getHours());
             task.setStartTaskTime(now);
@@ -85,7 +94,7 @@ public class TaskService {
             throw new EmployeeNotFoundException();
         }
         task.setAuthor(author.get());
-        repository.save(task);
+        task = repository.save(task);
         logger.info("Created task with id: " + task.getTaskId().toString());
         return TaskMapper.getTaskCardDto(task);
     }
@@ -96,28 +105,32 @@ public class TaskService {
         }
         Optional<Task> optionalTask = repository.findById(dto.getTaskId());
         if(optionalTask.isPresent()){
-            Task task = new Task();
+            Task task = optionalTask.get();
             if(Objects.equals(dto.getTaskName(),"")){
                 throw new EmptyTaskNameException();
             }
             task.setTaskName(dto.getTaskName());
             task.setTaskDescription(dto.getTaskDescription());
 
-            try{
-                Optional<Employee> employee = employeeRepository.findById(dto.getExecutorId());
-                if(employee.isPresent()){
-                    if(employee.get().getEmployeeStatus() == EmployeeStatus.ACTIVE){
-                        task.setExecutor(employee.get());
-                    }else{
-                        throw new EmployeeAlreadyDeletedException();
-                    }
-                }
-
-            }catch (Exception ex){
-                throw new EmployeeNotFoundException();
+            Optional<Project> optionalProject = projectRepository.findById(dto.getProjectCodeName());
+            if(optionalProject.isPresent()){
+                Project project = optionalProject.get();
+                task.setProject(project);
+            }else{
+                throw new NotFoundProjectException();
             }
 
-            if(dto.getDeadLineTime().getHours() - task.getStartTaskTime().getHours() >= dto.getHours()){
+            Optional<Employee> employee = employeeRepository.findById(dto.getExecutorId());
+            if(employee.isPresent()){
+                if(employee.get().getEmployeeStatus() == EmployeeStatus.ACTIVE){
+                    task.setExecutor(employee.get());
+                }else{
+                    throw new EmployeeAlreadyDeletedException();
+                }
+            }else{
+                throw new EmployeeNotFoundException();
+            }
+            if(TimeUnit.MILLISECONDS.toHours(dto.getDeadLineTime().getTime() - task.getStartTaskTime().getTime()) >= dto.getHours()){
                 task.setDeadLineTime(dto.getDeadLineTime());
                 task.setHours(dto.getHours());
             }else{
@@ -128,7 +141,7 @@ public class TaskService {
                 throw new EmployeeNotFoundException();
             }
             task.setAuthor(author.get());
-            repository.save(task);
+            task = repository.save(task);
             logger.info("Task with id = " + task.getTaskId() + " was updated!");
             return TaskMapper.getTaskCardDto(task);
         }else {
@@ -185,7 +198,7 @@ public class TaskService {
                 task.setTaskStatus(TaskStatus.valueOf(dto.getTaskStatus()));
                 logger.info("Task with id = " + task.getTaskId() + " has new status: " +
                         task.getTaskStatus().toString());
-                repository.save(task);
+                task = repository.save(task);
                 return TaskMapper.getTaskCardDto(task);
             } else {
                 logger.error("Not availbale status: " +

@@ -34,6 +34,6 @@
 
 ![App diagram](https://github.com/SsDp812/finalJavaTask/blob/main/diagram.png)
 
-#Тестирование
-##Ссылка на отчет по функциональному тестированию
+# Тестирование
+## Ссылка на отчет по функциональному тестированию
 https://docs.google.com/spreadsheets/d/1cdgyPRl3j5yEhDI6uSoP2qaPgu6IgF3pCiMT7qQT1zM/edit?usp=sharing

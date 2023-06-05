@@ -2,7 +2,7 @@ package org.digital.task_controllers;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.digital.services.task_services.TaskService;
+import unit.org.digital.services.task_services.TaskService;
 import org.digital.task_dto.request_task_dto.ChangeStatusOfTaskDto;
 import org.digital.task_dto.request_task_dto.CreateTaskDto;
 import org.digital.task_dto.request_task_dto.SearchTaskDto;
@@ -11,7 +11,6 @@ import org.digital.task_dto.response_task_dto.TaskCardDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 

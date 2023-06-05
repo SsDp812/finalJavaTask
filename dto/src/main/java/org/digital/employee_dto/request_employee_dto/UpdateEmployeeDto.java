@@ -2,9 +2,12 @@ package org.digital.employee_dto.request_employee_dto;
 
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@AllArgsConstructor
 @Schema(description = "Employee for update")
 public class UpdateEmployeeDto {
     @Schema(description = "Account id")
@@ -23,4 +26,5 @@ public class UpdateEmployeeDto {
     private String login;
     @Schema(description = "Account Password")
     private String password;
+
 }

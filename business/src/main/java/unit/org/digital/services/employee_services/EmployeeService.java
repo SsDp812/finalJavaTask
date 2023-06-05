@@ -1,4 +1,4 @@
-package org.digital.services.employee_services;
+package unit.org.digital.services.employee_services;
 
 
 
@@ -14,7 +14,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -47,6 +46,12 @@ public class EmployeeService {
        else if(Objects.equals(dto.getName(),"")){
             throw new EmptyEmployeeNameException();
        }
+        else if(Objects.equals(dto.getLogin(),"")){
+            throw new EmployeeEmptyLoginException();
+        }
+        else if(Objects.equals(dto.getPassword(),"")){
+            throw new EmployeeEmptyPasswordException();
+        }
        Employee employee = new Employee();
        employee.setSurname(dto.getSurname());
        employee.setName(dto.getName());
@@ -56,7 +61,7 @@ public class EmployeeService {
        employee.setPassword(passwordEncoder.encode(dto.getPassword()));
        employee.setEmail(dto.getEmail());
        employee.setEmployeeStatus(EmployeeStatus.ACTIVE);
-       repository.save(employee);
+       employee = repository.save(employee);
        logger.info("Created new employee with id: " + employee.getAccountId().toString());
        return EmployeeMapper.getEmployeeDtoCard(employee);
     }
@@ -78,6 +83,11 @@ public class EmployeeService {
                    throw new EmptyEmployeeSurnameException();
                }else if(Objects.equals(dto.getName(),"")){
                    throw new EmptyEmployeeNameException();
+               }else if(Objects.equals(dto.getLogin(),"")){
+                   throw new EmployeeEmptyLoginException();
+               }
+               else if(Objects.equals(dto.getPassword(),"")){
+                   throw new EmployeeEmptyPasswordException();
                }
                employee.setSurname(dto.getSurname());
                employee.setName(dto.getName());
@@ -86,7 +96,7 @@ public class EmployeeService {
                employee.setEmail(dto.getEmail());
                employee.setLogin(dto.getLogin());
                employee.setPassword(passwordEncoder.encode(dto.getPassword()));
-               repository.save(employee);
+               employee = repository.save(employee);
                logger.info("Employee info with id: " + employee.getAccountId().toString() +"was changed!");
                return EmployeeMapper.getEmployeeDtoCard(employee);
            }
@@ -108,11 +118,11 @@ public class EmployeeService {
                 throw new EmployeeAlreadyDeletedException();
             }
             employee.setEmployeeStatus(EmployeeStatus.DELETED);
-            repository.save(employee);
+            employee = repository.save(employee);
             logger.info("Employee with id: " + employee.getAccountId().toString() + "was deleted!");
             return EmployeeMapper.getEmployeeDtoCard(employee);
         }else{
-            throw new Exception("Error employee id, employee not found!");
+            throw new EmployeeNotFoundException();
         }
     }
 
@@ -136,7 +146,6 @@ public class EmployeeService {
         if(accountDto == null){
             throw new NullEmployeeDtoException();
         }
-        System.out.println("password: " + accountDto.getPassword());
         Optional<Employee> optionalEmployee = repository.findByLogin(accountDto.getLogin());
         if(optionalEmployee.isPresent() && passwordEncoder.matches(accountDto.getPassword(),optionalEmployee.get().getPassword())){
             return EmployeeMapper.getEmployeeDtoCard(optionalEmployee.get());

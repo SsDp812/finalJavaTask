@@ -1,0 +1,18 @@
+2023-06-05 19:29:48,214 INFO o.d.s.t.TaskService [main] Created task with id: 1
+2023-06-05 19:34:16,318 INFO o.d.s.t.TaskService [main] Created task with id: 1
+2023-06-05 19:34:42,377 INFO o.d.s.t.TaskService [main] Created task with id: 1
+2023-06-05 19:35:49,806 INFO o.d.s.t.TaskService [main] Created task with id: 1
+2023-06-05 19:37:25,417 INFO o.d.s.t.TaskService [main] Created task with id: 1
+2023-06-05 20:13:24,537 INFO o.d.s.t.TaskService [main] Task with id = 1 was updated!
+2023-06-05 20:36:39,058 INFO o.d.s.t.TaskService [main] Task with id = 1 has new status: INPROGRESS
+2023-06-05 20:39:29,819 INFO o.d.s.t.TaskService [main] Task with id = 1 has new status: INPROGRESS
+2023-06-05 20:40:16,695 INFO o.d.s.t.TaskService [main] Task with id = 1 has new status: INPROGRESS
+2023-06-05 20:41:44,118 ERROR o.d.s.t.TaskService [main] Not availbale status: DONE for task with id: 1
+2023-06-05 20:42:08,796 INFO o.d.s.t.TaskService [main] Created task with id: 1
+2023-06-05 20:42:08,798 ERROR o.d.s.t.TaskService [main] Not availbale status: DONE for task with id: 1
+2023-06-05 20:42:08,802 INFO o.d.s.t.TaskService [main] Task with id = 1 has new status: INPROGRESS
+2023-06-05 20:44:30,438 INFO o.d.s.t.TaskService [main] Task with id = 1 was updated!
+2023-06-05 20:44:36,883 INFO o.d.s.t.TaskService [main] Task with id = 1 was updated!
+2023-06-05 20:44:36,894 INFO o.d.s.t.TaskService [main] Created task with id: 1
+2023-06-05 20:44:36,895 ERROR o.d.s.t.TaskService [main] Not availbale status: DONE for task with id: 1
+2023-06-05 20:44:36,899 INFO o.d.s.t.TaskService [main] Task with id = 1 has new status: INPROGRESS

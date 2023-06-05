@@ -1,8 +1,7 @@
-package org.digital.services.team_services;
+package unit.org.digital.services.team_services;
 
 
 import org.digital.employee_dao.EmployeeRepository;
-import org.digital.employee_dto.response_employee_dto.EmployeeCardDto;
 import org.digital.employee_model.Employee;
 import org.digital.exceptions.employee_exceptions.EmployeeNotFoundException;
 import org.digital.exceptions.project_exceptions.NotFoundProjectException;
@@ -10,9 +9,9 @@ import org.digital.exceptions.team_exceptions.EmployeeAlreadyInTeamException;
 import org.digital.exceptions.team_exceptions.NullTeamDtoException;
 import org.digital.member_dto.response_member_dto.MemberCardDto;
 import org.digital.roles.EmployeeProjectRole;
-import org.digital.services.employee_services.EmployeeMapper;
-import org.digital.services.team_member_services.MemberMapper;
-import org.digital.services.team_member_services.MemberService;
+import unit.org.digital.services.employee_services.EmployeeMapper;
+import unit.org.digital.services.team_member_services.MemberMapper;
+import unit.org.digital.services.team_member_services.MemberService;
 import org.digital.team_dao.TeamRepository;
 import org.digital.team_dto.AddMemberDto;
 import org.digital.team_dto.GetAllMembersDto;
@@ -29,7 +28,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -58,9 +56,10 @@ public class TeamService {
             Optional<Employee> optionalEmployee = employeeRepository.findById(dto.getAccountId());
             if(optionalEmployee.isPresent()){
                 TeamMember member = memberService.getMemberByEmployeeAndRole(optionalEmployee.get(),EmployeeProjectRole.valueOf(dto.getRole()));
-                if(!team.getMembers().contains(member)){
+
+                if(!team.getMembers().stream().anyMatch(e -> e.getMember().getAccountId().equals(member.getMember().getAccountId()))){
                     team.getMembers().add(member);
-                    repository.save(team);
+                    team = repository.save(team);
                     logger.info("Employee with account id: " + dto.getAccountId().toString() +
                             " was added to team: " + dto.getProjectCodeName() + " with role " + dto.getRole().toString());
                     return MemberMapper.getMemberCard(optionalEmployee.get(),EmployeeProjectRole.valueOf(dto.getRole()));
@@ -85,9 +84,9 @@ public class TeamService {
         if(optionalTeam.isPresent()){
             Team team = optionalTeam.get();
            for(var member : team.getMembers()){
-               if(Objects.equals(member.getMemberId(),dto.getAccountId())){
+               if(Objects.equals(member.getMember().getAccountId(),dto.getAccountId())){
                    team.getMembers().remove(member);
-                   repository.save(team);
+                   team = repository.save(team);
                    logger.info("Employee with account id: " + dto.getAccountId().toString() +
                            " was removed from team: " + dto.getProjectCodeName());
                    return MemberMapper.getMemberCard(member.getMember(),member.getRole());

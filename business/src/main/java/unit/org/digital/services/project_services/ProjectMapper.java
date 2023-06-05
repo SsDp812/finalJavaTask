@@ -1,4 +1,4 @@
-package org.digital.services.project_services;
+package unit.org.digital.services.project_services;
 
 import org.digital.project_dto.response_project_dto.ProjectCardDto;
 import org.digital.project_model.Project;

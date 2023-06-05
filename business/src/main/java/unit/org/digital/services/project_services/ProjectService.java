@@ -1,4 +1,4 @@
-package org.digital.services.project_services;
+package unit.org.digital.services.project_services;
 
 
 
@@ -12,45 +12,52 @@ import org.digital.project_dto.request_project_dto.SearchProjectDto;
 import org.digital.project_dto.request_project_dto.UpdateProjectDto;
 import org.digital.project_dto.response_project_dto.ProjectCardDto;
 import org.digital.project_model.Project;
+import org.digital.team_dao.TeamRepository;
+import org.digital.team_member_model.TeamMember;
+import org.digital.team_model.Team;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @Transactional
 public class ProjectService {
     private ProjectRepository repository;
+    private TeamRepository teamRepository;
     private Logger logger = LoggerFactory.getLogger("project_logger");
 
     @Autowired
-    public ProjectService(ProjectRepository repository) {
+    public ProjectService(ProjectRepository repository,TeamRepository teamRepository) {
         this.repository = repository;
+        this.teamRepository = teamRepository;
     }
 
     public ProjectCardDto createNewProject(CreateProjectDto dto) throws Exception {
         if(dto == null){
             throw new NullProjectDtoException();
         }
+        if(Objects.equals(dto.getProjectCodeName(),"")) {
+            throw new EmptyCodeNameProjectException();
+        }
         Optional<Project> projectOptional = repository.findById(dto.getProjectCodeName());
         if (projectOptional.isEmpty()) {
             Project project = new Project();
-            if(!Objects.equals(dto.getProjectCodeName(),"")){
-                throw new EmptyCodeNameProjectException();
-            }else if(Objects.equals(dto.getProjectName(),"")){
+            if(Objects.equals(dto.getProjectName(),"")){
                 throw new EmptyNameProjectException();
             }
             project.setProjectCodeName(dto.getProjectCodeName());
             project.setProjectName(dto.getProjectName());
             project.setDescription(dto.getDescription());
             project.setProjectStatus(ProjectStatus.DRAFT);
-            repository.save(project);
+            project = repository.save(project);
+            Team team = new Team();
+            team.setProject(project);
+            team.setMembers(new ArrayList<TeamMember>());
+            team = teamRepository.save(team);
             logger.info("Created new project with code-name: " + project.getProjectCodeName());
             return ProjectMapper.getProjectCardDto(project);
         } else {
@@ -74,7 +81,7 @@ public class ProjectService {
             project.setProjectName(dto.getProjectName());
             project.setDescription(dto.getDescription());
             logger.info("Project " + project.getProjectCodeName() + " was updated");
-            repository.save(project);
+            project = repository.save(project);
             return ProjectMapper.getProjectCardDto(project);
         } else {
             throw new NotFoundProjectException();
@@ -107,7 +114,7 @@ public class ProjectService {
                 project.setProjectStatus(ProjectStatus.valueOf(dto.getNewStatus()));
                 logger.info("Project " + project.getProjectCodeName() +
                         " has new status now: " + project.getProjectStatus().toString());
-                repository.save(project);
+                project = repository.save(project);
                 return ProjectMapper.getProjectCardDto(project);
             } else {
                 logger.error("Not available status " + dto.getNewStatus() + " for project: "
