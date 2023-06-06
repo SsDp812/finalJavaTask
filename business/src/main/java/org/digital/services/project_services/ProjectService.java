@@ -1,7 +1,6 @@
 package org.digital.services.project_services;
 
 
-
 import lombok.extern.slf4j.Slf4j;
 import org.digital.enity_statuses.ProjectStatus;
 import org.digital.exceptions.project_exceptions.*;
@@ -32,22 +31,22 @@ public class ProjectService {
     private TeamRepository teamRepository;
 
     @Autowired
-    public ProjectService(ProjectRepository repository,TeamRepository teamRepository) {
+    public ProjectService(ProjectRepository repository, TeamRepository teamRepository) {
         this.repository = repository;
         this.teamRepository = teamRepository;
     }
 
     public ProjectCardDto createNewProject(CreateProjectDto dto) throws Exception {
-        if(dto == null){
+        if (dto == null) {
             throw new NullProjectDtoException();
         }
-        if(Objects.equals(dto.getProjectCodeName(),"")) {
+        if (Objects.equals(dto.getProjectCodeName(), "") || dto.getProjectCodeName() == null) {
             throw new EmptyCodeNameProjectException();
         }
         Optional<Project> projectOptional = repository.findById(dto.getProjectCodeName());
         if (projectOptional.isEmpty()) {
             Project project = new Project();
-            if(Objects.equals(dto.getProjectName(),"")){
+            if (Objects.equals(dto.getProjectName(), "") || dto.getProjectName() == null) {
                 throw new EmptyNameProjectException();
             }
             project.setProjectCodeName(dto.getProjectCodeName());
@@ -67,15 +66,15 @@ public class ProjectService {
     }
 
     public ProjectCardDto changeProject(UpdateProjectDto dto) throws Exception {
-        if(dto == null){
+        if (dto == null) {
             throw new NullProjectDtoException();
         }
         Optional<Project> projectOptional = repository.findById(dto.getProjectCodeName());
         if (projectOptional.isPresent()) {
             Project project = projectOptional.get();
-            if(Objects.equals(dto.getProjectCodeName(),"")){
+            if (Objects.equals(dto.getProjectCodeName(), "") || dto.getProjectCodeName() == null) {
                 throw new EmptyCodeNameProjectException();
-            }else if(Objects.equals(dto.getProjectName(),"")){
+            } else if (Objects.equals(dto.getProjectName(), "") || dto.getProjectName() == null) {
                 throw new EmptyNameProjectException();
             }
             project.setProjectCodeName(dto.getProjectCodeName());
@@ -90,20 +89,20 @@ public class ProjectService {
     }
 
     public List<ProjectCardDto> searchProject(SearchProjectDto dto) throws Exception {
-        if(dto == null){
+        if (dto == null) {
             throw new NullProjectDtoException();
         }
         List<Project> projects = repository.findAll(ProjectSpecifications.
                 searchByFilterAndStatuses(dto.getTextFilter(), dto.getStatus()));
-            List<ProjectCardDto> list = new ArrayList<>();
-            for(var project : projects){
-                list.add(ProjectMapper.getProjectCardDto(project));
-            }
-            return list;
+        List<ProjectCardDto> list = new ArrayList<>();
+        for (var project : projects) {
+            list.add(ProjectMapper.getProjectCardDto(project));
+        }
+        return list;
     }
 
     public ProjectCardDto changeProjectStatus(ChangeProjectStatusDto dto) throws Exception {
-        if(dto == null){
+        if (dto == null) {
             throw new NullProjectDtoException();
         }
         Optional<Project> projectOptional = repository.findById(dto.getProjectCodeName());
@@ -119,7 +118,7 @@ public class ProjectService {
                 return ProjectMapper.getProjectCardDto(project);
             } else {
                 log.error("Not available status " + dto.getNewStatus() + " for project: "
-                + project.getProjectCodeName());
+                        + project.getProjectCodeName());
                 throw new NotAvailableProjectStatusExeption();
             }
         } else {

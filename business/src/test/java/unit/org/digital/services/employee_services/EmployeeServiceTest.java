@@ -38,11 +38,11 @@ public class EmployeeServiceTest {
     @Test
     public void createNewEmployee() throws Exception {
         Employee employee = getSomeEmloyee();
-        employee.setPassword(passwordEncoder.encode(employee.getPassword()));
         EmployeeCardDto card = EmployeeMapper.getEmployeeDtoCard(employee);
         Employee employee2 = getSomeEmloyee();
         employee2.setAccountId(Long.parseLong("1"));
         Mockito.when(employeeRepository.save(employee)).thenReturn(employee2);
+        Mockito.when(passwordEncoder.encode(employee.getPassword())).thenReturn(employee.getPassword());
         EmployeeCardDto employeedto = employeeService.createNewEmployee(getCreateDto(employee));
         Assertions.assertEquals(employee.getSurname(),employeedto.getSurname());
         Assertions.assertEquals(employee.getName(),employeedto.getName());
@@ -64,11 +64,9 @@ public class EmployeeServiceTest {
         try {
             Employee employee = getSomeEmloyee();
             employee.setName(null);
-            employee.setPassword(passwordEncoder.encode(employee.getPassword()));
             EmployeeCardDto card = EmployeeMapper.getEmployeeDtoCard(employee);
             Employee employee2 = getSomeEmloyee();
             employee2.setAccountId(Long.parseLong("1"));
-            Mockito.when(employeeRepository.save(employee)).thenReturn(employee2);
             EmployeeCardDto employeedto = employeeService.createNewEmployee(getCreateDto(employee));
         } catch (Exception ex) {
             Assertions.assertEquals("Empty name for employee!",ex.getMessage());
@@ -80,11 +78,9 @@ public class EmployeeServiceTest {
         try {
             Employee employee = getSomeEmloyee();
             employee.setSurname(null);
-            employee.setPassword(passwordEncoder.encode(employee.getPassword()));
             EmployeeCardDto card = EmployeeMapper.getEmployeeDtoCard(employee);
             Employee employee2 = getSomeEmloyee();
             employee2.setAccountId(Long.parseLong("1"));
-            Mockito.when(employeeRepository.save(employee)).thenReturn(employee2);
             EmployeeCardDto employeedto = employeeService.createNewEmployee(getCreateDto(employee));
         } catch (Exception ex) {
             Assertions.assertEquals("Empty employee surname!",ex.getMessage());
@@ -96,11 +92,9 @@ public class EmployeeServiceTest {
         try {
             Employee employee = getSomeEmloyee();
             employee.setLogin(null);
-            employee.setPassword(passwordEncoder.encode(employee.getPassword()));
             EmployeeCardDto card = EmployeeMapper.getEmployeeDtoCard(employee);
             Employee employee2 = getSomeEmloyee();
             employee2.setAccountId(Long.parseLong("1"));
-            Mockito.when(employeeRepository.save(employee)).thenReturn(employee2);
             EmployeeCardDto employeedto = employeeService.createNewEmployee(getCreateDto(employee));
         } catch (Exception ex) {
             Assertions.assertEquals("Empty login!",ex.getMessage());
@@ -112,11 +106,9 @@ public class EmployeeServiceTest {
         try {
             Employee employee = getSomeEmloyee();
             employee.setPassword(null);
-            employee.setPassword(passwordEncoder.encode(employee.getPassword()));
             EmployeeCardDto card = EmployeeMapper.getEmployeeDtoCard(employee);
             Employee employee2 = getSomeEmloyee();
             employee2.setAccountId(Long.parseLong("1"));
-            Mockito.when(employeeRepository.save(employee)).thenReturn(employee2);
             EmployeeCardDto employeedto = employeeService.createNewEmployee(getCreateDto(employee));
         } catch (Exception ex) {
             Assertions.assertEquals("Empty password!",ex.getMessage());
@@ -134,7 +126,7 @@ public class EmployeeServiceTest {
         oldEmoloyee.setSurname("Lipov");
 
         Mockito.when(employeeRepository.findById(oldEmoloyee.getAccountId())).thenReturn(Optional.of(oldEmoloyee));
-        employee.setPassword(passwordEncoder.encode(employee.getPassword()));
+        Mockito.when(passwordEncoder.encode(employee.getPassword())).thenReturn(employee.getPassword());
         Mockito.when(employeeRepository.save(employee)).thenReturn(employee);
         EmployeeCardDto employeedto = employeeService.changeEmployeeInfo(getUpdateDto(employee));
         Assertions.assertEquals(employee.getSurname(),employeedto.getSurname());
@@ -160,7 +152,6 @@ public class EmployeeServiceTest {
             Employee employee = getSomeEmloyee();
             employee.setAccountId(Long.valueOf(1));
             Mockito.when(employeeRepository.findById(employee.getAccountId())).thenReturn(Optional.of(employee));
-            Mockito.when(employeeRepository.save(employee)).thenReturn(employee);
             Employee employeeForUpdate = getSomeEmloyee();
             employeeForUpdate.setAccountId(Long.valueOf(1));
             employeeForUpdate.setName(null);
@@ -176,7 +167,6 @@ public class EmployeeServiceTest {
             Employee employee = getSomeEmloyee();
             employee.setAccountId(Long.valueOf(1));
             Mockito.when(employeeRepository.findById(employee.getAccountId())).thenReturn(Optional.of(employee));
-            Mockito.when(employeeRepository.save(employee)).thenReturn(employee);
             Employee employeeForUpdate = getSomeEmloyee();
             employeeForUpdate.setAccountId(Long.valueOf(1));
             employeeForUpdate.setSurname(null);
@@ -192,7 +182,6 @@ public class EmployeeServiceTest {
             Employee employee = getSomeEmloyee();
             employee.setAccountId(Long.valueOf(1));
             Mockito.when(employeeRepository.findById(employee.getAccountId())).thenReturn(Optional.of(employee));
-            Mockito.when(employeeRepository.save(employee)).thenReturn(employee);
             Employee employeeForUpdate = getSomeEmloyee();
             employeeForUpdate.setAccountId(Long.valueOf(1));
             employeeForUpdate.setLogin(null);
@@ -208,7 +197,6 @@ public class EmployeeServiceTest {
             Employee employee = getSomeEmloyee();
             employee.setAccountId(Long.valueOf(1));
             Mockito.when(employeeRepository.findById(employee.getAccountId())).thenReturn(Optional.of(employee));
-            Mockito.when(employeeRepository.save(employee)).thenReturn(employee);
             Employee employeeForUpdate = getSomeEmloyee();
             employeeForUpdate.setAccountId(Long.valueOf(1));
             employeeForUpdate.setPassword(null);

@@ -7,6 +7,7 @@ import org.digital.task_model.Task;
 public class TaskMapper {
     public static TaskCardDto getTaskCardDto(Task task){
         TaskCardDto tempDto = new TaskCardDto();
+        tempDto.setTaskId(task.getTaskId());
         tempDto.setTaskName(task.getTaskName());
         tempDto.setTaskDescription(task.getTaskDescription());
         tempDto.setHours(task.getHours());

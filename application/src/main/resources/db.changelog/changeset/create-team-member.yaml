@@ -4,7 +4,7 @@ databaseChangeLog:
       author: DaniilEfankin
       changes:
         - createTable:
-            tableName: teamMember
+            tableName: teammember
             columns:
               - column:
                   name: member_id
@@ -21,9 +21,19 @@ databaseChangeLog:
                   type: varchar(255)
                   constraints:
                     nullable: false
+              - column:
+                  name: team
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
             foreignKeys:
               - foreignKey:
                   name: FK_TeamMember_Employee
                   referencedTableName: Employee
                   referencedColumnNames: accountid
                   baseColumnNames: employee_id
+              - foreignKey:
+                 name: FK_team
+                 referencedTableName: Team
+                 referencedColumnNames: project_code_name
+                 baseColumnNames: team

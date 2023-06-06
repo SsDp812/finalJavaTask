@@ -40,7 +40,7 @@ public class TaskService {
     private ProjectRepository projectRepository;
 
     @Autowired
-    public TaskService(TaskRepository repository, EmployeeRepository employeeRepository,ProjectRepository projectRepository) {
+    public TaskService(TaskRepository repository, EmployeeRepository employeeRepository, ProjectRepository projectRepository) {
         this.repository = repository;
         this.employeeRepository = employeeRepository;
         this.projectRepository = projectRepository;
@@ -48,50 +48,50 @@ public class TaskService {
 
 
     public TaskCardDto createNewTask(CreateTaskDto dto) throws Exception {
-        if(dto == null){
+        if (dto == null) {
             throw new NullTaskDtoException();
         }
         Task task = new Task();
-        if(Objects.equals(dto.getTaskName(),"")){
+        if (Objects.equals(dto.getTaskName(), "") || dto.getTaskName() == null) {
             throw new EmptyTaskNameException();
         }
         task.setTaskName(dto.getTaskName());
         task.setTaskDescription(dto.getTaskDescription());
 
         Optional<Employee> employee = employeeRepository.findById(dto.getExecutorId());
-        if(employee.isPresent()){
-            if(employee.get().getEmployeeStatus() == EmployeeStatus.ACTIVE){
+        if (employee.isPresent()) {
+            if (employee.get().getEmployeeStatus() == EmployeeStatus.ACTIVE) {
                 task.setExecutor(employee.get());
-            }else{
+            } else {
                 throw new EmployeeAlreadyDeletedException();
             }
-        }else{
+        } else {
             throw new EmployeeNotFoundException();
         }
 
 
         Optional<Project> optionalProject = projectRepository.findById(dto.getProjectCodeName());
-        if(optionalProject.isPresent()){
+        if (optionalProject.isPresent()) {
             Project project = optionalProject.get();
             task.setProject(project);
-        }else{
+        } else {
             throw new NotFoundProjectException();
         }
 
         task.setHours(dto.getHours());
         Date now = new Date();
-        if(TimeUnit.MILLISECONDS.toHours( dto.getDeadLineTime().getTime() - now.getTime()) >= dto.getHours()){
+        if (TimeUnit.MILLISECONDS.toHours(dto.getDeadLineTime().getTime() - now.getTime()) >= dto.getHours()) {
             task.setDeadLineTime(dto.getDeadLineTime());
             task.setHours(dto.getHours());
             task.setStartTaskTime(now);
             task.setEditTaskTime(now);
-        }else{
+        } else {
             throw new TooLessTimeTaskException();
         }
 
         task.setTaskStatus(TaskStatus.NEW);
         Optional<Employee> author = employeeRepository.findByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
-        if(!author.isPresent()){
+        if (!author.isPresent()) {
             throw new EmployeeNotFoundException();
         }
         task.setAuthor(author.get());
@@ -101,51 +101,51 @@ public class TaskService {
     }
 
     public TaskCardDto changeTask(UpdateTaskDto dto) throws Exception {
-        if(dto == null){
+        if (dto == null) {
             throw new NullTaskDtoException();
         }
         Optional<Task> optionalTask = repository.findById(dto.getTaskId());
-        if(optionalTask.isPresent()){
+        if (optionalTask.isPresent()) {
             Task task = optionalTask.get();
-            if(Objects.equals(dto.getTaskName(),"")){
+            if (Objects.equals(dto.getTaskName(), "") || dto.getTaskName() == null) {
                 throw new EmptyTaskNameException();
             }
             task.setTaskName(dto.getTaskName());
             task.setTaskDescription(dto.getTaskDescription());
 
             Optional<Project> optionalProject = projectRepository.findById(dto.getProjectCodeName());
-            if(optionalProject.isPresent()){
+            if (optionalProject.isPresent()) {
                 Project project = optionalProject.get();
                 task.setProject(project);
-            }else{
+            } else {
                 throw new NotFoundProjectException();
             }
 
             Optional<Employee> employee = employeeRepository.findById(dto.getExecutorId());
-            if(employee.isPresent()){
-                if(employee.get().getEmployeeStatus() == EmployeeStatus.ACTIVE){
+            if (employee.isPresent()) {
+                if (employee.get().getEmployeeStatus() == EmployeeStatus.ACTIVE) {
                     task.setExecutor(employee.get());
-                }else{
+                } else {
                     throw new EmployeeAlreadyDeletedException();
                 }
-            }else{
+            } else {
                 throw new EmployeeNotFoundException();
             }
-            if(TimeUnit.MILLISECONDS.toHours(dto.getDeadLineTime().getTime() - task.getStartTaskTime().getTime()) >= dto.getHours()){
+            if (TimeUnit.MILLISECONDS.toHours(dto.getDeadLineTime().getTime() - task.getStartTaskTime().getTime()) >= dto.getHours()) {
                 task.setDeadLineTime(dto.getDeadLineTime());
                 task.setHours(dto.getHours());
-            }else{
+            } else {
                 throw new TooLessTimeTaskException();
             }
             Optional<Employee> author = employeeRepository.findByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
-            if(!author.isPresent()){
+            if (!author.isPresent()) {
                 throw new EmployeeNotFoundException();
             }
             task.setAuthor(author.get());
             task = repository.save(task);
             log.info("Task with id = " + task.getTaskId() + " was updated!");
             return TaskMapper.getTaskCardDto(task);
-        }else {
+        } else {
             throw new NotFoundTaskException();
         }
 
@@ -154,18 +154,23 @@ public class TaskService {
 
 
     public List<TaskCardDto> searchTask(SearchTaskDto dto) throws Exception {
-        if(dto == null){
+        if (dto == null) {
             throw new NullTaskDtoException();
         }
         Employee author = null;
         Employee executor = null;
-        Optional<Employee> optionalAuthor = employeeRepository.findById(Long.parseLong(dto.getAuthorId()));
-        if(optionalAuthor.isPresent()){
-            author = optionalAuthor.get();
+        if(dto.getAuthorId() != null){
+            Optional<Employee> optionalAuthor = employeeRepository.findById(Long.parseLong(dto.getAuthorId()));
+            if (optionalAuthor.isPresent()) {
+                author = optionalAuthor.get();
+            }
         }
-        Optional<Employee> optionalEx = employeeRepository.findById(Long.parseLong(dto.getExecutorId()));
-        if(optionalEx.isPresent()){
-            executor = optionalEx.get();
+
+        if(dto.getExecutorId() != null){
+            Optional<Employee> optionalEx = employeeRepository.findById(Long.parseLong(dto.getExecutorId()));
+            if (optionalEx.isPresent()) {
+                executor = optionalEx.get();
+            }
         }
         List<Task> tasks = repository.findAll(TaskSpecifications.searchTask(
                         dto.getTextFilter(),
@@ -179,7 +184,7 @@ public class TaskService {
                 )
         );
         List<TaskCardDto> cardDtos = new ArrayList<>();
-        for(var task : tasks){
+        for (var task : tasks) {
             cardDtos.add(TaskMapper.getTaskCardDto(task));
         }
         return cardDtos;
@@ -187,7 +192,7 @@ public class TaskService {
 
 
     public TaskCardDto changeTaskStatus(ChangeStatusOfTaskDto dto) throws Exception {
-        if(dto == null){
+        if (dto == null) {
             throw new NullTaskDtoException();
         }
         Optional<Task> taskOptional = repository.findById(dto.getTaskId());
@@ -195,7 +200,7 @@ public class TaskService {
             Task task = taskOptional.get();
 
             if (checkAvailableToChangeStatus(task.getTaskStatus(),
-                  TaskStatus.valueOf(dto.getTaskStatus()))) {
+                    TaskStatus.valueOf(dto.getTaskStatus()))) {
                 task.setTaskStatus(TaskStatus.valueOf(dto.getTaskStatus()));
                 log.info("Task with id = " + task.getTaskId() + " has new status: " +
                         task.getTaskStatus().toString());

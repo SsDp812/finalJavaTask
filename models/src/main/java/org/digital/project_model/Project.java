@@ -31,4 +31,5 @@ public class Project {
     @Column(name = "project_status", columnDefinition = "VARCHAR")
     @Enumerated(value = EnumType.STRING)
     private ProjectStatus projectStatus;
+
 }

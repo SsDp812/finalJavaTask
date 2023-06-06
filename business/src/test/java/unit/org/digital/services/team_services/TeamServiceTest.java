@@ -6,6 +6,7 @@ import org.digital.employee_model.Employee;
 import org.digital.enity_statuses.EmployeeStatus;
 import org.digital.enity_statuses.ProjectStatus;
 import org.digital.member_dto.response_member_dto.MemberCardDto;
+import org.digital.project_dao.ProjectRepository;
 import org.digital.project_model.Project;
 import org.digital.roles.EmployeeProjectRole;
 import org.digital.services.team_member_services.MemberService;
@@ -14,6 +15,7 @@ import org.digital.team_dao.TeamRepository;
 import org.digital.team_dto.AddMemberDto;
 import org.digital.team_dto.GetAllMembersDto;
 import org.digital.team_dto.RemoveMemberDto;
+import org.digital.team_member_dao.TeamMemberRepository;
 import org.digital.team_member_model.TeamMember;
 import org.digital.team_model.Team;
 import org.junit.jupiter.api.Assertions;
@@ -41,6 +43,12 @@ public class TeamServiceTest {
     @Mock
     EmployeeRepository employeeRepository;
 
+    @Mock
+    ProjectRepository projectRepository;
+    @Mock
+
+    TeamMemberRepository teamMemberRepository;
+
     @InjectMocks
     TeamService teamService;
 
@@ -51,11 +59,14 @@ public class TeamServiceTest {
         Project project = getSomeProject();
         Team team = new Team();
         team.setProject(project);
+        team.setMembers(null);
         team.setMembers(new ArrayList<TeamMember>());
-        Mockito.when(teamRepository.findById(project.getProjectCodeName())).thenReturn(Optional.of(team));
+        Mockito.when(projectRepository.findById(project.getProjectCodeName())).thenReturn(Optional.of(project));
+        Mockito.when(teamRepository.findByProject(project)).thenReturn(Optional.ofNullable(team));
         Mockito.when(employeeRepository.findById(member.getMember().getAccountId())).thenReturn(Optional.ofNullable(member.getMember()));
-        Mockito.when(memberService.getMemberByEmployeeAndRole(member.getMember(),member.getRole()))
+        Mockito.when(memberService.getMemberByEmployeeAndRole(member.getMember(),member.getRole(),team))
                 .thenReturn(member);
+        Mockito.when(teamMemberRepository.findByMemberAndTeam(member.getMember(),team)).thenReturn(Optional.ofNullable(null));
         MemberCardDto dto = teamService.addMemberToTeam(new AddMemberDto(
                 project.getProjectCodeName(),
                 member.getMember().getAccountId(),
@@ -74,7 +85,8 @@ public class TeamServiceTest {
             Team team = new Team();
             team.setProject(project);
             team.setMembers(new ArrayList<TeamMember>());
-            Mockito.when(teamRepository.findById(project.getProjectCodeName())).thenReturn(Optional.of(team));
+            Mockito.when(projectRepository.findById(project.getProjectCodeName())).thenReturn(Optional.of(project));
+            Mockito.when(teamRepository.findByProject(project)).thenReturn(Optional.of(team));
             Mockito.when(employeeRepository.findById(member.getMember().getAccountId())).thenReturn(Optional.ofNullable(null));
             MemberCardDto dto = teamService.addMemberToTeam(new AddMemberDto(
                     project.getProjectCodeName(),
@@ -94,7 +106,7 @@ public class TeamServiceTest {
             Team team = new Team();
             team.setProject(project);
             team.setMembers(new ArrayList<TeamMember>());
-            Mockito.when(teamRepository.findById(project.getProjectCodeName())).thenReturn(Optional.ofNullable(null));
+            Mockito.when(projectRepository.findById(project.getProjectCodeName())).thenReturn(Optional.ofNullable(null));
             MemberCardDto dto = teamService.addMemberToTeam(new AddMemberDto(
                     project.getProjectCodeName(),
                     member.getMember().getAccountId(),
@@ -115,10 +127,10 @@ public class TeamServiceTest {
             team.setProject(project);
             team.setMembers(new ArrayList<TeamMember>());
             team.getMembers().add(member);
-            Mockito.when(teamRepository.findById(project.getProjectCodeName())).thenReturn(Optional.of(team));
+            Mockito.when(projectRepository.findById(project.getProjectCodeName())).thenReturn(Optional.of(project));
+            Mockito.when(teamRepository.findByProject(project)).thenReturn(Optional.of(team));
             Mockito.when(employeeRepository.findById(member.getMember().getAccountId())).thenReturn(Optional.ofNullable(member.getMember()));
-            Mockito.when(memberService.getMemberByEmployeeAndRole(member.getMember(),member.getRole()))
-                    .thenReturn(member);
+            Mockito.when(teamMemberRepository.findByMemberAndTeam(member.getMember(),team)).thenReturn(Optional.of(member));
             MemberCardDto dto = teamService.addMemberToTeam(new AddMemberDto(
                     project.getProjectCodeName(),
                     member.getMember().getAccountId(),
@@ -137,7 +149,8 @@ public class TeamServiceTest {
         team.setProject(project);
         team.setMembers(new ArrayList<>());
         team.getMembers().add(member);
-        Mockito.when(teamRepository.findById(project.getProjectCodeName()))
+        Mockito.when(projectRepository.findById(project.getProjectCodeName())).thenReturn(Optional.of(project));
+        Mockito.when(teamRepository.findByProject(project))
                 .thenReturn(Optional.of(team));
         Mockito.when(teamRepository.save(team)).thenReturn(team);
 
@@ -159,7 +172,8 @@ public class TeamServiceTest {
             team.setProject(project);
             team.setMembers(new ArrayList<>());
             team.getMembers().add(member);
-            Mockito.when(teamRepository.findById(project.getProjectCodeName()))
+            Mockito.when(projectRepository.findById(project.getProjectCodeName())).thenReturn(Optional.of(project));
+            Mockito.when(teamRepository.findByProject(project))
                     .thenReturn(Optional.of(team));
 
             MemberCardDto dto = teamService.removeMemberFromTeam(new RemoveMemberDto(
@@ -180,7 +194,8 @@ public class TeamServiceTest {
             team.setProject(project);
             team.setMembers(new ArrayList<>());
             team.getMembers().add(member);
-            Mockito.when(teamRepository.findById(project.getProjectCodeName()))
+            Mockito.when(projectRepository.findById(project.getProjectCodeName())).thenReturn(Optional.of(project));
+            Mockito.when(teamRepository.findByProject(project))
                     .thenReturn(Optional.ofNullable(null));
 
             MemberCardDto dto = teamService.removeMemberFromTeam(new RemoveMemberDto(
@@ -200,7 +215,8 @@ public class TeamServiceTest {
         team.setProject(project);
         team.setMembers(new ArrayList<>());
         team.getMembers().add(member);
-        Mockito.when(teamRepository.findById(project.getProjectCodeName()))
+        Mockito.when(projectRepository.findById(project.getProjectCodeName())).thenReturn(Optional.of(project));
+        Mockito.when(teamRepository.findByProject(project))
                 .thenReturn(Optional.of(team));
         List<MemberCardDto> dto = teamService.getAllMembers(new GetAllMembersDto(
                 project.getProjectCodeName()
@@ -219,7 +235,8 @@ public class TeamServiceTest {
             team.setProject(project);
             team.setMembers(new ArrayList<>());
             team.getMembers().add(member);
-            Mockito.when(teamRepository.findById(project.getProjectCodeName()))
+            Mockito.when(projectRepository.findById(project.getProjectCodeName())).thenReturn(Optional.of(project));
+            Mockito.when(teamRepository.findByProject(project))
                     .thenReturn(Optional.ofNullable(null));
             List<MemberCardDto> dto = teamService.getAllMembers(new GetAllMembersDto(
                     project.getProjectCodeName()
@@ -243,7 +260,8 @@ public class TeamServiceTest {
                         "email",
                         EmployeeStatus.ACTIVE
                 ),
-                EmployeeProjectRole.SUPERVISOR
+                EmployeeProjectRole.SUPERVISOR,
+                null
         );
     }
 

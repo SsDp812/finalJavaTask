@@ -31,9 +31,9 @@ public class MemberServiceTest  {
         teamMember.setMember(getSomeEmloyee());
         teamMember.setRole(EmployeeProjectRole.ANALYST);
 
-        Mockito.when(teamMemberRepository.findByMemberAndRole(teamMember.getMember(),teamMember.getRole()))
+        Mockito.when(teamMemberRepository.findByMemberAndRoleAndTeam(teamMember.getMember(),teamMember.getRole(),null))
                 .thenReturn(Optional.of(teamMember));
-        TeamMember newTeamMember = memberService.getMemberByEmployeeAndRole(teamMember.getMember(),teamMember.getRole());
+        TeamMember newTeamMember = memberService.getMemberByEmployeeAndRole(teamMember.getMember(),teamMember.getRole(),null);
         Assertions.assertEquals(teamMember.getMember().getName(),newTeamMember.getMember().getName());
         Assertions.assertEquals(teamMember.getRole().toString(),newTeamMember.getRole().toString());
     }
