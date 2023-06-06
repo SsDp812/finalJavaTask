@@ -1,6 +1,6 @@
-package unit.org.digital.services.task_services;
+package org.digital.services.task_services;
 
-import unit.org.digital.services.employee_services.EmployeeMapper;
+import org.digital.services.employee_services.EmployeeMapper;
 import org.digital.task_dto.response_task_dto.TaskCardDto;
 import org.digital.task_model.Task;
 

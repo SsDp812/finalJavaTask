@@ -7,6 +7,8 @@ import org.digital.employee_dto.request_employee_dto.*;
 import org.digital.employee_dto.response_employee_dto.EmployeeCardDto;
 import org.digital.employee_model.Employee;
 import org.digital.enity_statuses.EmployeeStatus;
+import org.digital.services.employee_services.EmployeeMapper;
+import org.digital.services.employee_services.EmployeeService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

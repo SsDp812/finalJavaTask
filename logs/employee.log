@@ -1,4 +1,0 @@
-2023-06-04 22:06:39,488 INFO o.d.s.e.EmployeeService [http-nio-8080-exec-4] Created new employee with id: 2
-2023-06-04 22:12:07,313 INFO o.d.s.e.EmployeeService [http-nio-8080-exec-2] Created new employee with id: 3
-2023-06-04 22:32:37,603 INFO o.d.s.e.EmployeeService [http-nio-8080-exec-4] Created new employee with id: 4
-2023-06-04 22:37:35,152 INFO o.d.s.e.EmployeeService [http-nio-8080-exec-1] Created new employee with id: 5

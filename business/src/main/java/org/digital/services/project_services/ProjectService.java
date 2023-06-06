@@ -1,7 +1,8 @@
-package unit.org.digital.services.project_services;
+package org.digital.services.project_services;
 
 
 
+import lombok.extern.slf4j.Slf4j;
 import org.digital.enity_statuses.ProjectStatus;
 import org.digital.exceptions.project_exceptions.*;
 import org.digital.project_dao.ProjectRepository;
@@ -25,10 +26,10 @@ import java.util.*;
 
 @Service
 @Transactional
+@Slf4j
 public class ProjectService {
     private ProjectRepository repository;
     private TeamRepository teamRepository;
-    private Logger logger = LoggerFactory.getLogger("project_logger");
 
     @Autowired
     public ProjectService(ProjectRepository repository,TeamRepository teamRepository) {
@@ -58,7 +59,7 @@ public class ProjectService {
             team.setProject(project);
             team.setMembers(new ArrayList<TeamMember>());
             team = teamRepository.save(team);
-            logger.info("Created new project with code-name: " + project.getProjectCodeName());
+            log.info("Created new project with code-name: " + project.getProjectCodeName());
             return ProjectMapper.getProjectCardDto(project);
         } else {
             throw new NotUniqueProjectCodeNameException();
@@ -80,7 +81,7 @@ public class ProjectService {
             project.setProjectCodeName(dto.getProjectCodeName());
             project.setProjectName(dto.getProjectName());
             project.setDescription(dto.getDescription());
-            logger.info("Project " + project.getProjectCodeName() + " was updated");
+            log.info("Project " + project.getProjectCodeName() + " was updated");
             project = repository.save(project);
             return ProjectMapper.getProjectCardDto(project);
         } else {
@@ -112,12 +113,12 @@ public class ProjectService {
             if (checkAvailableToChangeStatus(project.getProjectStatus(),
                     ProjectStatus.valueOf(dto.getNewStatus()))) {
                 project.setProjectStatus(ProjectStatus.valueOf(dto.getNewStatus()));
-                logger.info("Project " + project.getProjectCodeName() +
+                log.info("Project " + project.getProjectCodeName() +
                         " has new status now: " + project.getProjectStatus().toString());
                 project = repository.save(project);
                 return ProjectMapper.getProjectCardDto(project);
             } else {
-                logger.error("Not available status " + dto.getNewStatus() + " for project: "
+                log.error("Not available status " + dto.getNewStatus() + " for project: "
                 + project.getProjectCodeName());
                 throw new NotAvailableProjectStatusExeption();
             }

@@ -2,9 +2,10 @@ package org.digital.employee_сontrollers;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+
 import org.digital.employee_dto.request_employee_dto.*;
 import org.digital.employee_dto.response_employee_dto.EmployeeCardDto;
-import unit.org.digital.services.employee_services.EmployeeService;
+import org.digital.services.employee_services.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;

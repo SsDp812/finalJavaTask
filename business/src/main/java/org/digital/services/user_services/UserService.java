@@ -1,4 +1,4 @@
-package unit.org.digital.services.user_services;
+package org.digital.services.user_services;
 
 import jakarta.annotation.PostConstruct;
 import org.digital.employee_dao.EmployeeRepository;

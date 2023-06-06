@@ -7,7 +7,7 @@ import org.digital.project_dto.request_project_dto.CreateProjectDto;
 import org.digital.project_dto.request_project_dto.SearchProjectDto;
 import org.digital.project_dto.request_project_dto.UpdateProjectDto;
 import org.digital.project_dto.response_project_dto.ProjectCardDto;
-import unit.org.digital.services.project_services.ProjectService;
+import org.digital.services.project_services.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;

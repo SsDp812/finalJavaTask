@@ -1,8 +1,9 @@
-package unit.org.digital.services.employee_services;
+package org.digital.services.employee_services;
 
 
 
 
+import lombok.extern.slf4j.Slf4j;
 import org.digital.employee_dao.EmployeeRepository;
 import org.digital.employee_dao.specifications.EmployeeSpecifications;
 import org.digital.employee_dto.request_employee_dto.*;
@@ -24,11 +25,10 @@ import java.util.Optional;
 
 @Service
 @Transactional
+@Slf4j
 public class EmployeeService {
     private EmployeeRepository repository;
     private BCryptPasswordEncoder passwordEncoder;
-
-    private Logger logger = LoggerFactory.getLogger("employee_logger");
 
     @Autowired
     public EmployeeService(EmployeeRepository repository, BCryptPasswordEncoder passwordEncoder) {
@@ -62,7 +62,7 @@ public class EmployeeService {
        employee.setEmail(dto.getEmail());
        employee.setEmployeeStatus(EmployeeStatus.ACTIVE);
        employee = repository.save(employee);
-       logger.info("Created new employee with id: " + employee.getAccountId().toString());
+       log.info("Created new employee with id: " + employee.getAccountId().toString());
        return EmployeeMapper.getEmployeeDtoCard(employee);
     }
 
@@ -97,7 +97,7 @@ public class EmployeeService {
                employee.setLogin(dto.getLogin());
                employee.setPassword(passwordEncoder.encode(dto.getPassword()));
                employee = repository.save(employee);
-               logger.info("Employee info with id: " + employee.getAccountId().toString() +"was changed!");
+               log.info("Employee info with id: " + employee.getAccountId().toString() +"was changed!");
                return EmployeeMapper.getEmployeeDtoCard(employee);
            }
        }else{
@@ -114,12 +114,12 @@ public class EmployeeService {
         if(optionalEmployee.isPresent()){
             Employee employee = optionalEmployee.get();
             if(employee.getEmployeeStatus() == EmployeeStatus.DELETED){
-                logger.warn("Employee with id: " + employee.getAccountId().toString() + "was already deleted!");
+                log.warn("Employee with id: " + employee.getAccountId().toString() + "was already deleted!");
                 throw new EmployeeAlreadyDeletedException();
             }
             employee.setEmployeeStatus(EmployeeStatus.DELETED);
             employee = repository.save(employee);
-            logger.info("Employee with id: " + employee.getAccountId().toString() + "was deleted!");
+            log.info("Employee with id: " + employee.getAccountId().toString() + "was deleted!");
             return EmployeeMapper.getEmployeeDtoCard(employee);
         }else{
             throw new EmployeeNotFoundException();

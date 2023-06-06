@@ -1,6 +1,7 @@
-package unit.org.digital.services.task_services;
+package org.digital.services.task_services;
 
 
+import lombok.extern.slf4j.Slf4j;
 import org.digital.employee_dao.EmployeeRepository;
 import org.digital.employee_model.Employee;
 import org.digital.enity_statuses.EmployeeStatus;
@@ -31,12 +32,12 @@ import java.util.concurrent.TimeUnit;
 
 @Service
 @Transactional
+@Slf4j
 public class TaskService {
     private TaskRepository repository;
     private EmployeeRepository employeeRepository;
 
     private ProjectRepository projectRepository;
-    private Logger logger = LoggerFactory.getLogger("task_logger");
 
     @Autowired
     public TaskService(TaskRepository repository, EmployeeRepository employeeRepository,ProjectRepository projectRepository) {
@@ -95,7 +96,7 @@ public class TaskService {
         }
         task.setAuthor(author.get());
         task = repository.save(task);
-        logger.info("Created task with id: " + task.getTaskId().toString());
+        log.info("Created task with id: " + task.getTaskId().toString());
         return TaskMapper.getTaskCardDto(task);
     }
 
@@ -142,7 +143,7 @@ public class TaskService {
             }
             task.setAuthor(author.get());
             task = repository.save(task);
-            logger.info("Task with id = " + task.getTaskId() + " was updated!");
+            log.info("Task with id = " + task.getTaskId() + " was updated!");
             return TaskMapper.getTaskCardDto(task);
         }else {
             throw new NotFoundTaskException();
@@ -196,12 +197,12 @@ public class TaskService {
             if (checkAvailableToChangeStatus(task.getTaskStatus(),
                   TaskStatus.valueOf(dto.getTaskStatus()))) {
                 task.setTaskStatus(TaskStatus.valueOf(dto.getTaskStatus()));
-                logger.info("Task with id = " + task.getTaskId() + " has new status: " +
+                log.info("Task with id = " + task.getTaskId() + " has new status: " +
                         task.getTaskStatus().toString());
                 task = repository.save(task);
                 return TaskMapper.getTaskCardDto(task);
             } else {
-                logger.error("Not availbale status: " +
+                log.error("Not availbale status: " +
                         dto.getTaskStatus() + " for task with id: " + task.getTaskId().toString());
                 throw new NotAvailableTaskStatusException();
             }

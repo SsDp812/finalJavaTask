@@ -1,6 +1,7 @@
-package unit.org.digital.services.team_services;
+package org.digital.services.team_services;
 
 
+import lombok.extern.slf4j.Slf4j;
 import org.digital.employee_dao.EmployeeRepository;
 import org.digital.employee_model.Employee;
 import org.digital.exceptions.employee_exceptions.EmployeeNotFoundException;
@@ -9,9 +10,9 @@ import org.digital.exceptions.team_exceptions.EmployeeAlreadyInTeamException;
 import org.digital.exceptions.team_exceptions.NullTeamDtoException;
 import org.digital.member_dto.response_member_dto.MemberCardDto;
 import org.digital.roles.EmployeeProjectRole;
-import unit.org.digital.services.employee_services.EmployeeMapper;
-import unit.org.digital.services.team_member_services.MemberMapper;
-import unit.org.digital.services.team_member_services.MemberService;
+import org.digital.services.employee_services.EmployeeMapper;
+import org.digital.services.team_member_services.MemberMapper;
+import org.digital.services.team_member_services.MemberService;
 import org.digital.team_dao.TeamRepository;
 import org.digital.team_dto.AddMemberDto;
 import org.digital.team_dto.GetAllMembersDto;
@@ -31,12 +32,11 @@ import java.util.Optional;
 
 @Service
 @Transactional
+@Slf4j
 public class TeamService {
     private TeamRepository repository;
     private MemberService memberService;
     private EmployeeRepository employeeRepository;
-
-    private Logger logger = LoggerFactory.getLogger("team_logger");
 
     @Autowired
     public TeamService(TeamRepository repository,MemberService memberService, EmployeeRepository employeeRepository) {
@@ -60,11 +60,11 @@ public class TeamService {
                 if(!team.getMembers().stream().anyMatch(e -> e.getMember().getAccountId().equals(member.getMember().getAccountId()))){
                     team.getMembers().add(member);
                     team = repository.save(team);
-                    logger.info("Employee with account id: " + dto.getAccountId().toString() +
+                    log.info("Employee with account id: " + dto.getAccountId().toString() +
                             " was added to team: " + dto.getProjectCodeName() + " with role " + dto.getRole().toString());
                     return MemberMapper.getMemberCard(optionalEmployee.get(),EmployeeProjectRole.valueOf(dto.getRole()));
                 }else{
-                    logger.warn("Employee with account id: " + dto.getAccountId().toString() +
+                    log.warn("Employee with account id: " + dto.getAccountId().toString() +
                             " is already in team: " + dto.getProjectCodeName() + " with role " + dto.getRole().toString());
                     throw new EmployeeAlreadyInTeamException();
                 }
@@ -87,7 +87,7 @@ public class TeamService {
                if(Objects.equals(member.getMember().getAccountId(),dto.getAccountId())){
                    team.getMembers().remove(member);
                    team = repository.save(team);
-                   logger.info("Employee with account id: " + dto.getAccountId().toString() +
+                   log.info("Employee with account id: " + dto.getAccountId().toString() +
                            " was removed from team: " + dto.getProjectCodeName());
                    return MemberMapper.getMemberCard(member.getMember(),member.getRole());
                }

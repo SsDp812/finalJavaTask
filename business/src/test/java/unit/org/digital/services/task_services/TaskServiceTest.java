@@ -8,6 +8,7 @@ import org.digital.enity_statuses.ProjectStatus;
 import org.digital.enity_statuses.TaskStatus;
 import org.digital.project_dao.ProjectRepository;
 import org.digital.project_model.Project;
+import org.digital.services.task_services.TaskService;
 import org.digital.task_dao.TaskRepository;
 import org.digital.task_dto.request_task_dto.ChangeStatusOfTaskDto;
 import org.digital.task_dto.request_task_dto.CreateTaskDto;

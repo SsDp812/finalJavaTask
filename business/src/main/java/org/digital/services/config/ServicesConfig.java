@@ -1,4 +1,4 @@
-package unit.org.digital.services.config;
+package org.digital.services.config;
 
 
 import org.springframework.boot.autoconfigure.domain.EntityScan;

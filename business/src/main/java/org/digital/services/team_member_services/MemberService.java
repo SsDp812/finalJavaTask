@@ -1,6 +1,7 @@
-package unit.org.digital.services.team_member_services;
+package org.digital.services.team_member_services;
 
 
+import lombok.extern.slf4j.Slf4j;
 import org.digital.employee_model.Employee;
 import org.digital.exceptions.member_exception.NullMemberEmployeeException;
 import org.digital.roles.EmployeeProjectRole;
@@ -17,10 +18,9 @@ import java.util.Optional;
 
 @Service
 @Transactional
+@Slf4j
 public class MemberService {
     private TeamMemberRepository repository;
-
-    private Logger logger = LoggerFactory.getLogger("member_logger");
 
     @Autowired
     public MemberService(TeamMemberRepository repository) {
@@ -38,7 +38,7 @@ public class MemberService {
             TeamMember teamMember = new TeamMember();
             teamMember.setMember(employee);
             teamMember.setRole(role);
-            logger.info("New role: " + role.toString() + " to employee with account id: " + employee.getAccountId().toString());
+            log.info("New role: " + role.toString() + " to employee with account id: " + employee.getAccountId().toString());
             repository.save(teamMember);
             return teamMember;
         }

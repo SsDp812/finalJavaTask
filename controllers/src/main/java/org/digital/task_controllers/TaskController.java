@@ -2,7 +2,7 @@ package org.digital.task_controllers;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import unit.org.digital.services.task_services.TaskService;
+import org.digital.services.task_services.TaskService;
 import org.digital.task_dto.request_task_dto.ChangeStatusOfTaskDto;
 import org.digital.task_dto.request_task_dto.CreateTaskDto;
 import org.digital.task_dto.request_task_dto.SearchTaskDto;

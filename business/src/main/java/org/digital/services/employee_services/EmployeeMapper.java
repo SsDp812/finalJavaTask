@@ -1,4 +1,4 @@
-package unit.org.digital.services.employee_services;
+package org.digital.services.employee_services;
 
 import org.digital.employee_dto.request_employee_dto.CreateEmployeeDto;
 import org.digital.employee_dto.response_employee_dto.EmployeeCardDto;

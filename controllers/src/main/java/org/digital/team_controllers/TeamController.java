@@ -3,7 +3,7 @@ package org.digital.team_controllers;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.digital.member_dto.response_member_dto.MemberCardDto;
-import unit.org.digital.services.team_services.TeamService;
+import org.digital.services.team_services.TeamService;
 import org.digital.team_dto.AddMemberDto;
 import org.digital.team_dto.GetAllMembersDto;
 import org.digital.team_dto.RemoveMemberDto;

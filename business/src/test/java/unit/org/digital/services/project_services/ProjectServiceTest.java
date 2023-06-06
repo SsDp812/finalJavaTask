@@ -9,6 +9,7 @@ import org.digital.project_dto.request_project_dto.SearchProjectDto;
 import org.digital.project_dto.request_project_dto.UpdateProjectDto;
 import org.digital.project_dto.response_project_dto.ProjectCardDto;
 import org.digital.project_model.Project;
+import org.digital.services.project_services.ProjectService;
 import org.digital.team_dao.TeamRepository;
 import org.digital.team_member_model.TeamMember;
 import org.digital.team_model.Team;
