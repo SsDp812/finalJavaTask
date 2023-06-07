@@ -1,6 +1,5 @@
 package org.digital.services.team_member_services;
 
-import org.digital.employee_dto.response_employee_dto.EmployeeCardDto;
 import org.digital.employee_model.Employee;
 import org.digital.member_dto.response_member_dto.MemberCardDto;
 import org.digital.roles.EmployeeProjectRole;

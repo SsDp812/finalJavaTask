@@ -13,7 +13,7 @@ public interface ProjectSpecifications {
         return (root, query, builder) -> {
             Predicate searchTextPredicate = builder.or(
                     builder.like(builder.lower(root.get("projectName")), "%" + searchText.toLowerCase() + "%"),
-                    builder.like(builder.lower(root.get("projectCode")), "%" + searchText.toLowerCase() + "%")
+                    builder.like(builder.lower(root.get("projectCodeName")), "%" + searchText.toLowerCase() + "%")
             );
             Predicate statusPredicate = builder.in(root.get("projectStatus")).value(projectStatuses);
             return builder.and(searchTextPredicate, statusPredicate);

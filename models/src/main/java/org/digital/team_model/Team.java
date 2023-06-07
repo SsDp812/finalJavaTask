@@ -18,15 +18,17 @@ import java.util.List;
 @Entity
 @Table(name = "Team")
 public class Team {
+
     @Id
-    @Column(name = "project_code_name",columnDefinition = "VARCHAR(255)")
-    @JdbcTypeCode(SqlTypes.VARCHAR)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "teamid")
+    private Long teamId;
+
+    @JoinColumn(name = "project_code_name",referencedColumnName = "code_name")
+    @OneToOne()
     private Project project;
 
-    @OneToMany
-    @JoinColumn(name = "member_id",referencedColumnName = "member_id")
+    @OneToMany(mappedBy = "team")
     private List<TeamMember> members;
 
-    @Column(name = "member_id", insertable = false, updatable = false)
-    private Long memberId;
 }

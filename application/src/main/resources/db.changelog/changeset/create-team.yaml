@@ -7,14 +7,17 @@ databaseChangeLog:
             tableName: team
             columns:
               - column:
+                  name: teamid
+                  type: SERIAL
+                  constraints:
+                    primaryKey: true
+              - column:
                   name: project_code_name
                   type: varchar(255)
               - column:
                   name: member_id
                   type: int
             constraints:
-              - primaryKey:
-                  columnNames: project_code_name
               - foreignKey:
                   columnNames: project_code_name
                   referencedTableName: Project

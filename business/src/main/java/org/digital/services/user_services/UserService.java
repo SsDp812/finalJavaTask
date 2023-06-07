@@ -1,19 +1,15 @@
 package org.digital.services.user_services;
 
-import io.swagger.v3.oas.annotations.servers.Server;
 import jakarta.annotation.PostConstruct;
 import org.digital.employee_dao.EmployeeRepository;
 import org.digital.employee_model.Employee;
 import org.digital.enity_statuses.EmployeeStatus;
-import org.digital.exceptions.employee_exceptions.EmployeeNotFoundException;
-import org.digital.services.employee_services.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 

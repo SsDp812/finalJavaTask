@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.digital.employee_model.Employee;
 import org.digital.roles.EmployeeProjectRole;
+import org.digital.team_model.Team;
 
 @Data
 @AllArgsConstructor
@@ -25,4 +26,8 @@ public class TeamMember {
     @Column(name = "member_role")
     @Enumerated(value = EnumType.STRING)
     private EmployeeProjectRole role;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "team", referencedColumnName = "project_code_name")
+    private Team team;
 }
