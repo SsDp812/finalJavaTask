@@ -178,7 +178,6 @@
         </dependency>
 
 
-
         <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-log4j2 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -249,7 +248,10 @@
             <version>3.0.4</version>
         </dependency>
 
-
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-freemarker</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

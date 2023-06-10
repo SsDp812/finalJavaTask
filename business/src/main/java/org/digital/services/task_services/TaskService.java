@@ -67,7 +67,6 @@ public class TaskService {
         if (employee.isPresent()) {
             if (employee.get().getEmployeeStatus() == EmployeeStatus.ACTIVE) {
                 task.setExecutor(employee.get());
-                rabbitTemplate.convertAndSend("rabbitmq.queue",task);
             } else {
                 throw new EmployeeAlreadyDeletedException();
             }
@@ -103,6 +102,7 @@ public class TaskService {
         task.setAuthor(author.get());
         task = repository.save(task);
         log.info("Created task with id: " + task.getTaskId().toString());
+        rabbitTemplate.convertAndSend("my",task);
         return TaskMapper.getTaskCardDto(task);
     }
 
