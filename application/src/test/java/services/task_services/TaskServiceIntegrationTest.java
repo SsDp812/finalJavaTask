@@ -1,6 +1,7 @@
 package services.task_services;
 
 import org.digital.Main;
+import org.digital.employee_dao.EmployeeRepository;
 import org.digital.employee_dto.request_employee_dto.CreateEmployeeDto;
 import org.digital.employee_dto.request_employee_dto.DeleteEmployeeDto;
 import org.digital.employee_dto.response_employee_dto.EmployeeCardDto;
@@ -18,8 +19,14 @@ import org.digital.task_dto.request_task_dto.SearchTaskDto;
 import org.digital.task_dto.request_task_dto.UpdateTaskDto;
 import org.digital.task_dto.response_task_dto.TaskCardDto;
 import org.digital.task_model.Task;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -39,6 +46,27 @@ public class TaskServiceIntegrationTest extends BaseTest {
 
     @Autowired
     private ProjectRepository projectRepository;
+    @Autowired
+    private EmployeeRepository employeeRepository;
+
+    @BeforeEach
+    public void addUserToBaseForTest(){
+        Optional<Employee> optionalEmployee = employeeRepository.findByLogin("login");
+        Random random = new Random();
+        if(!optionalEmployee.isPresent()){
+            employeeRepository.save(new Employee(
+                    Long.valueOf(1000 + random.nextInt()),
+                    "Ivanov",
+                    "Ivan",
+                    "Ivanovich",
+                    "IT",
+                    "login",
+                    "password",
+                    "email",
+                    EmployeeStatus.ACTIVE
+            ));
+        }
+    }
 
     @Test
     @WithMockUser(username = "login")
@@ -86,8 +114,11 @@ public class TaskServiceIntegrationTest extends BaseTest {
     public void createNewTaskWithErrorEmployeeId() throws Exception {
         try {
             Task task = getSomeTask();
+            Employee employee = getSomeEmloyee();
+            Random random = new Random();
+            employee.setAccountId(Long.valueOf(1000 + random.nextInt()));
+            task.setExecutor(employee);
             CreateTaskDto dto = getCreateDto(task);
-            dto.setExecutorId(Long.valueOf(1000));
             service.createNewTask(getCreateDto(task));
         } catch (Exception ex) {
             Assertions.assertEquals("Employee was not found!", ex.getMessage());
