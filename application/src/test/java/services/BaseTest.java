@@ -16,20 +16,22 @@ import java.util.Date;
 import java.util.UUID;
 
 public class BaseTest {
-    static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres");
+    static PostgreSQLContainer<?> postgres  = new PostgreSQLContainer<>("postgres");
 
-    @BeforeAll
-    static void beforeAll() {
-        postgres.start();
-    }
-
-    @AfterAll
-    static void afterAll() {
-        postgres.stop();
-    }
+//    @BeforeAll
+//    static void beforeAll() {
+//        postgres = new PostgreSQLContainer<>("postgres");
+//        postgres.start();
+//    }
+//
+//    @AfterAll
+//    static void afterAll() {
+//        postgres.stop();
+//    }
 
     @DynamicPropertySource
     static void configureProperties(DynamicPropertyRegistry registry) {
+        postgres.start();
         registry.add("spring.datasource.url", postgres::getJdbcUrl);
         registry.add("spring.datasource.username", postgres::getUsername);
         registry.add("spring.datasource.password", postgres::getPassword);
@@ -56,7 +58,7 @@ public class BaseTest {
                 UUID.randomUUID().toString(),
                 "Name",
                 "Decs",
-                ProjectStatus.DEVELOPING
+                ProjectStatus.DRAFT
         );
     }
 
