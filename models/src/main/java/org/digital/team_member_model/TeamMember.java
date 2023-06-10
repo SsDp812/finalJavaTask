@@ -9,14 +9,12 @@ import org.digital.employee_model.Employee;
 import org.digital.roles.EmployeeProjectRole;
 import org.digital.team_model.Team;
 
-import java.io.Serializable;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name = "Teammember")
-public class TeamMember implements Serializable {
+public class TeamMember {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id")

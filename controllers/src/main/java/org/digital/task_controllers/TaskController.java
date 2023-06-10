@@ -11,7 +11,6 @@ import org.digital.task_dto.response_task_dto.TaskCardDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -30,29 +29,25 @@ public class TaskController {
 
     @Operation(summary = "Creating new task")
     @PostMapping(value = "/new",consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-<<<<<<< HEAD
-    public TaskCardDto createTask(@RequestBody CreateTaskDto dto) throws Exception {
-=======
     public TaskCardDto createTask(CreateTaskDto dto) throws Exception {
->>>>>>> parent of bb967b6 (rabbit)
         return service.createNewTask(dto);
     }
 
     @Operation(summary = "Updating task info")
     @PostMapping(value = "/update",consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public TaskCardDto changeTask(@RequestBody UpdateTaskDto dto) throws Exception {
+    public TaskCardDto changeTask(UpdateTaskDto dto) throws Exception {
         return service.changeTask(dto);
     }
 
     @Operation(summary = "Searching task by filter")
     @PostMapping(value = "/search",consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<TaskCardDto> searchTask(@RequestBody SearchTaskDto dto) throws Exception {
+    public List<TaskCardDto> searchTask(SearchTaskDto dto) throws Exception {
         return service.searchTask(dto);
     }
 
     @Operation(summary = "Changing status of task")
     @PostMapping(value = "/changeStatus",consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public TaskCardDto changeTaskStatus(@RequestBody ChangeStatusOfTaskDto dto) throws Exception {
+    public TaskCardDto changeTaskStatus(ChangeStatusOfTaskDto dto) throws Exception {
         return service.changeTaskStatus(dto);
     }
 }

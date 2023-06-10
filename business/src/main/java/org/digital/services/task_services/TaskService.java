@@ -97,7 +97,6 @@ public class TaskService {
         task.setAuthor(author.get());
         task = repository.save(task);
         log.info("Created task with id: " + task.getTaskId().toString());
-        rabbitTemplate.convertAndSend("my",task);
         return TaskMapper.getTaskCardDto(task);
     }
 
