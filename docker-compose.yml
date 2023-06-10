@@ -9,16 +9,6 @@ services:
       - 'POSTGRES_PASSWORD=rootroot'
       - 'POSTGRES_DB=TESTDB2'
 
-  rabbitmq:
-    image: 'rabbitmq:3.10.7-management'
-    container_name: 'rabbit'
-    environment:
-      - 'RABBITMQ_DEFAULT_USER=admin'
-      - 'RABBITMQ_DEFAULT_PASS=admin'
-    ports:
-      - "5672:5672"
-      - "15672:15672"
-
   app:
     build: ./
     container_name: 'java-app'

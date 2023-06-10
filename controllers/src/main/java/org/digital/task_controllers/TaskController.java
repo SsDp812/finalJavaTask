@@ -30,7 +30,11 @@ public class TaskController {
 
     @Operation(summary = "Creating new task")
     @PostMapping(value = "/new",consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+<<<<<<< HEAD
     public TaskCardDto createTask(@RequestBody CreateTaskDto dto) throws Exception {
+=======
+    public TaskCardDto createTask(CreateTaskDto dto) throws Exception {
+>>>>>>> parent of bb967b6 (rabbit)
         return service.createNewTask(dto);
     }
 

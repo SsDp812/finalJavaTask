@@ -305,7 +305,8 @@ public class TaskServiceIntegrationTest extends BaseTest {
                 task.getExecutor().getAccountId(),
                 task.getHours(),
                 task.getDeadLineTime(),
-                task.getStartTaskTime()
+                task.getStartTaskTime(),
+                task.getEditTaskTime()
         );
     }
 
