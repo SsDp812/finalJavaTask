@@ -265,45 +265,6 @@ public class TaskServiceIntegrationTest extends BaseTest {
     }
 
 
-    private Employee getSomeEmloyee() {
-        Employee employee = new Employee(
-                Long.valueOf(1),
-                "Ivanov",
-                "Ivan",
-                "Ivanovich",
-                "IT",
-                "login",
-                "password",
-                "email",
-                EmployeeStatus.ACTIVE
-        );
-        return employee;
-    }
-
-    private Task getSomeTask() {
-        return new Task(
-                Long.parseLong("1"),
-                getSomeProject(),
-                "TaskName",
-                "Decsc",
-                getSomeEmloyee(),
-                20,
-                new Date(124, 4, 12, 11, 0, 0),
-                getSomeEmloyee(),
-                new Date(123, 2, 21, 10, 0, 0),
-                new Date(123, 2, 23, 10, 0, 0),
-                TaskStatus.NEW
-        );
-    }
-
-    private Project getSomeProject() {
-        return new Project(
-                "CodeName",
-                "Name",
-                "desc",
-                ProjectStatus.DEVELOPING
-        );
-    }
 
     private CreateTaskDto getCreateDto(Task task) {
         return new CreateTaskDto(

@@ -62,26 +62,5 @@ public class MemberServiceIntegrationTest extends BaseTest {
     }
 
 
-    private Project getSomeProject() {
-        return new Project(
-                "CodeName",
-                "Name",
-                "desc",
-                ProjectStatus.DEVELOPING
-        );
-    }
-    private Employee getSomeEmloyee(){
-        Employee employee = new Employee(
-                null,
-                "Ivanov",
-                "Ivan",
-                "Ivanovich",
-                "IT",
-                "login",
-                "password",
-                "email",
-                EmployeeStatus.ACTIVE
-        );
-        return employee;
-    }
+
 }

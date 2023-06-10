@@ -320,29 +320,7 @@ public class TeamServiceIntegrationTest extends BaseTest {
         );
     }
 
-    private Project getSomeProject(){
-        return new Project(
-                UUID.randomUUID().toString(),
-                "Name",
-                "Decs",
-                ProjectStatus.DEVELOPING
-        );
-    }
 
-    private Employee getSomeEmloyee(){
-        Employee employee = new Employee(
-                null,
-                "Ivanov",
-                "Ivan",
-                "Ivanovich",
-                "IT",
-                "login",
-                "password",
-                "email",
-                EmployeeStatus.ACTIVE
-        );
-        return employee;
-    }
 
     private CreateEmployeeDto getCreateEmployeeDto(Employee employee) {
         return new CreateEmployeeDto(

@@ -187,13 +187,5 @@ public class ProjectServiceIntegrationTest extends BaseTest {
         );
     }
 
-    private Project getSomeProject() {
-        return new Project(
-                UUID.randomUUID().toString(),
-                "Name",
-                "Description",
-                ProjectStatus.DRAFT
-        );
-    }
 
 }
