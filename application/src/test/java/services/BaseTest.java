@@ -1,5 +1,7 @@
 package services;
 
+import org.digital.Main;
+import org.digital.employee_dao.EmployeeRepository;
 import org.digital.employee_model.Employee;
 import org.digital.enity_statuses.EmployeeStatus;
 import org.digital.enity_statuses.ProjectStatus;
@@ -8,6 +10,9 @@ import org.digital.project_model.Project;
 import org.digital.task_model.Task;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.PostgreSQLContainer;
@@ -15,8 +20,9 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import java.util.Date;
 import java.util.UUID;
 
+@SpringBootTest(classes = Main.class)
 public class BaseTest {
-    static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres");
+    static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres");;
 
     @BeforeAll
     static void beforeAll() {
@@ -25,7 +31,7 @@ public class BaseTest {
 
     @AfterAll
     static void afterAll() {
-        postgres.stop();
+        //postgres.stop();
     }
 
     @DynamicPropertySource
@@ -56,7 +62,7 @@ public class BaseTest {
                 UUID.randomUUID().toString(),
                 "Name",
                 "Decs",
-                ProjectStatus.DEVELOPING
+                ProjectStatus.DRAFT
         );
     }
 

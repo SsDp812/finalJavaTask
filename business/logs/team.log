@@ -40,3 +40,21 @@
 2023-06-06 23:49:39,410 WARN o.d.s.t.TeamService [main] Employee with account id: 1 is already in team: CodeName with role SUPERVISOR
 2023-06-06 23:49:39,425 INFO o.d.s.t.TeamService [main] Employee with account id: 1 was removed from team: CodeName
 2023-06-06 23:49:39,430 INFO o.d.s.t.TeamService [main] Employee with account id: 1 was added to team: CodeName with role SUPERVISOR
+2023-06-10 19:20:34,401 WARN o.d.s.t.TeamService [main] Employee with account id: 1 is already in team: CodeName with role SUPERVISOR
+2023-06-10 19:20:34,408 INFO o.d.s.t.TeamService [main] Employee with account id: 1 was removed from team: CodeName
+2023-06-10 19:20:34,413 INFO o.d.s.t.TeamService [main] Employee with account id: 1 was added to team: CodeName with role SUPERVISOR
+2023-06-10 19:23:25,574 WARN o.d.s.t.TeamService [main] Employee with account id: 1 is already in team: CodeName with role SUPERVISOR
+2023-06-10 19:23:25,581 INFO o.d.s.t.TeamService [main] Employee with account id: 1 was removed from team: CodeName
+2023-06-10 19:23:25,586 INFO o.d.s.t.TeamService [main] Employee with account id: 1 was added to team: CodeName with role SUPERVISOR
+2023-06-10 19:34:19,764 WARN o.d.s.t.TeamService [main] Employee with account id: 1 is already in team: CodeName with role SUPERVISOR
+2023-06-10 19:34:19,771 INFO o.d.s.t.TeamService [main] Employee with account id: 1 was removed from team: CodeName
+2023-06-10 19:34:19,777 INFO o.d.s.t.TeamService [main] Employee with account id: 1 was added to team: CodeName with role SUPERVISOR
+2023-06-10 19:36:04,300 WARN o.d.s.t.TeamService [main] Employee with account id: 1 is already in team: CodeName with role SUPERVISOR
+2023-06-10 19:36:04,307 INFO o.d.s.t.TeamService [main] Employee with account id: 1 was removed from team: CodeName
+2023-06-10 19:36:04,312 INFO o.d.s.t.TeamService [main] Employee with account id: 1 was added to team: CodeName with role SUPERVISOR
+2023-06-10 19:37:44,529 WARN o.d.s.t.TeamService [main] Employee with account id: 1 is already in team: CodeName with role SUPERVISOR
+2023-06-10 19:37:44,536 INFO o.d.s.t.TeamService [main] Employee with account id: 1 was removed from team: CodeName
+2023-06-10 19:37:44,542 INFO o.d.s.t.TeamService [main] Employee with account id: 1 was added to team: CodeName with role SUPERVISOR
+2023-06-10 19:41:32,932 WARN o.d.s.t.TeamService [main] Employee with account id: 1 is already in team: CodeName with role SUPERVISOR
+2023-06-10 19:41:32,939 INFO o.d.s.t.TeamService [main] Employee with account id: 1 was removed from team: CodeName
+2023-06-10 19:41:32,944 INFO o.d.s.t.TeamService [main] Employee with account id: 1 was added to team: CodeName with role SUPERVISOR
