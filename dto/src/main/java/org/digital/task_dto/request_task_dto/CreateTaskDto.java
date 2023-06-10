@@ -1,7 +1,8 @@
 package org.digital.task_dto.request_task_dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import org.digital.enity_statuses.TaskStatus;
 
 import java.sql.Timestamp;
@@ -25,5 +26,6 @@ public class CreateTaskDto {
     private Date deadLineTime;
     @Schema(description = "Start time for task")
     private Date startTaskTime;
-
+    @Schema(description = "Edit time for task")
+    private Date editTaskTime;
 }
