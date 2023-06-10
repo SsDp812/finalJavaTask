@@ -8,7 +8,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.digital.enity_statuses.EmployeeStatus;
 
-import java.io.Serializable;
 
 
 @Data
@@ -16,7 +15,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Entity
 @Table(name = "Employee")
-public class Employee implements Serializable {
+public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "accountid")

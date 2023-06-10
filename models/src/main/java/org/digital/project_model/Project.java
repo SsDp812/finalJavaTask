@@ -7,16 +7,13 @@ import lombok.NoArgsConstructor;
 import org.digital.enity_statuses.ProjectStatus;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
-import org.springframework.security.core.context.SecurityContext;
-
-import java.io.Serializable;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name = "Project")
-public class Project implements Serializable {
+public class Project {
 
     @Id
     @Column(name = "code_name", columnDefinition = "VARCHAR(255)")
