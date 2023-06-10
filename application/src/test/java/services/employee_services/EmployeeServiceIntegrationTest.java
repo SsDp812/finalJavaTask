@@ -56,7 +56,7 @@ public class EmployeeServiceIntegrationTest extends BaseTest {
     }
 
     @Test
-    public void createEmployeeWithNoyUniqueLogin(){
+    public void createEmployeeWithNotUniqueLogin(){
         try{
             Employee employee = getSomeEmloyee();
             service.createNewEmployee(getCreateDto(employee));
@@ -347,19 +347,5 @@ public class EmployeeServiceIntegrationTest extends BaseTest {
         return new DeleteEmployeeDto(employee.getAccountId());
     }
 
-    private Employee getSomeEmloyee() {
-        Employee employee = new Employee(
-                null,
-                "Ivanov",
-                "Ivan",
-                "Ivanovich",
-                "IT",
-                UUID.randomUUID().toString(),
-                "password",
-                "email",
-                EmployeeStatus.ACTIVE
-        );
-        return employee;
-    }
 }
 
