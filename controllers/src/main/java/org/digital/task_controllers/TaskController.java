@@ -30,6 +30,7 @@ public class TaskController {
     @Operation(summary = "Creating new task")
     @PostMapping(value = "/new",consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public TaskCardDto createTask(CreateTaskDto dto) throws Exception {
+        System.out.println((dto.getTaskName()));
         return service.createNewTask(dto);
     }
 

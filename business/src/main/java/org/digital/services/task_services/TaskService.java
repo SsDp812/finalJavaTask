@@ -22,6 +22,7 @@ import org.digital.task_dto.response_task_dto.TaskCardDto;
 import org.digital.task_model.Task;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -39,11 +40,15 @@ public class TaskService {
 
     private ProjectRepository projectRepository;
 
+    private RabbitTemplate rabbitTemplate;
+
     @Autowired
-    public TaskService(TaskRepository repository, EmployeeRepository employeeRepository, ProjectRepository projectRepository) {
+    public TaskService(TaskRepository repository, EmployeeRepository employeeRepository,
+                       ProjectRepository projectRepository,RabbitTemplate rabbitTemplate) {
         this.repository = repository;
         this.employeeRepository = employeeRepository;
         this.projectRepository = projectRepository;
+        this.rabbitTemplate = rabbitTemplate;
     }
 
 
@@ -62,6 +67,7 @@ public class TaskService {
         if (employee.isPresent()) {
             if (employee.get().getEmployeeStatus() == EmployeeStatus.ACTIVE) {
                 task.setExecutor(employee.get());
+                rabbitTemplate.convertAndSend("rabbitmq.queue",task);
             } else {
                 throw new EmployeeAlreadyDeletedException();
             }
