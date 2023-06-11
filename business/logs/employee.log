@@ -149,3 +149,7 @@
 2023-06-10 22:24:40,458 INFO o.d.s.e.EmployeeService [main] Employee with id: 1was deleted!
 2023-06-10 22:24:40,460 WARN o.d.s.e.EmployeeService [main] Employee with id: 1was already deleted!
 2023-06-10 22:24:40,477 INFO o.d.s.e.EmployeeService [main] Employee info with id: 1was changed!
+2023-06-11 12:52:06,713 INFO o.d.s.e.EmployeeService [main] Created new employee with id: 1
+2023-06-11 12:52:06,715 INFO o.d.s.e.EmployeeService [main] Employee with id: 1was deleted!
+2023-06-11 12:52:06,717 WARN o.d.s.e.EmployeeService [main] Employee with id: 1was already deleted!
+2023-06-11 12:52:06,734 INFO o.d.s.e.EmployeeService [main] Employee info with id: 1was changed!

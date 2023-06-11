@@ -3,10 +3,14 @@ package org.digital.services.mail_service;
 
 import freemarker.template.Configuration;
 import freemarker.template.TemplateException;
+import jakarta.mail.Message;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.digital.task_model.Task;
+
+import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -20,21 +24,29 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
+@EnableRabbit
 public class MailSender {
-    @Autowired
     private JavaMailSender mailSender;
-
-    @Autowired
     private Configuration freeMakerConfig;
 
-    @RabbitListener(queues = "my")
-    public void getMessage(Task task) throws MessagingException, TemplateException, IOException {
-        System.out.println("getted from mq");
-        sendNewTask(task);
+    private RabbitTemplate rabbitTemplate;
+
+    @Autowired
+    public MailSender(JavaMailSender mailSender, Configuration freeMakerConfig, RabbitTemplate rabbitTemplate) {
+        this.mailSender = mailSender;
+        this.freeMakerConfig = freeMakerConfig;
+        this.rabbitTemplate = rabbitTemplate;
     }
 
 
-    private void sendNewTask(Task task) throws MessagingException, TemplateException, IOException {
+
+    @RabbitListener(queues = "my-qu")
+    public void receiveMessage(Task task){
+        System.out.println("Getted from rabbit");
+    }
+
+
+    public void sendNewTask(Task task) throws MessagingException, TemplateException, IOException {
         System.out.println("catch!");
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage);

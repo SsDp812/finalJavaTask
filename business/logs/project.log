@@ -101,3 +101,7 @@
 2023-06-10 22:24:40,180 INFO o.d.s.p.ProjectService [main] Project CodeName has new status now: DEVELOPING
 2023-06-10 22:24:40,183 ERROR o.d.s.p.ProjectService [main] Not available status TESTING for project: CodeName
 2023-06-10 22:24:40,186 INFO o.d.s.p.ProjectService [main] Created new project with code-name: CodeName
+2023-06-11 12:52:06,453 INFO o.d.s.p.ProjectService [main] Project CodeName was updated
+2023-06-11 12:52:06,479 INFO o.d.s.p.ProjectService [main] Project CodeName has new status now: DEVELOPING
+2023-06-11 12:52:06,481 ERROR o.d.s.p.ProjectService [main] Not available status TESTING for project: CodeName
+2023-06-11 12:52:06,484 INFO o.d.s.p.ProjectService [main] Created new project with code-name: CodeName

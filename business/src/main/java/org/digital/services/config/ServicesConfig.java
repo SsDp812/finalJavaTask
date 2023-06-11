@@ -1,7 +1,6 @@
 package org.digital.services.config;
 
 
-import org.digital.services.config.mail.MailConfig;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -13,7 +12,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @ComponentScan("org.digital")
-@Import(MailConfig.class)
 public class ServicesConfig {
 
 }

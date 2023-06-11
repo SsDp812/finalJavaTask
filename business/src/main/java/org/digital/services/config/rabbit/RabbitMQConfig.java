@@ -16,45 +16,29 @@ import org.springframework.context.annotation.PropertySource;
 
 @Configuration
 @PropertySource("application.properties")
+
 public class RabbitMQConfig {
-    @Value("${spring.rabbitmq.username}")
-    private String username;
-    @Value("${spring.rabbitmq.password}")
-    private String password;
-    @Value("${rabbitmq.queue}")
+
+    @Value("my-qu")
     private String queueName;
-    @Value("${spring.rabbitmq.host}")
-    private String host;
+
+    @Value("${rabbitmq.exchange}")
+    private String exchangeName;
+    @Value("myKey")
+    private String routingKey;
 
     @Bean
-    public ConnectionFactory connectionFactory() {
-        CachingConnectionFactory connectionFactory = new CachingConnectionFactory(host);
-        connectionFactory.setUsername(username);
-        connectionFactory.setPassword(password);
-        return connectionFactory;
+    public Queue queue(){
+        return new Queue(queueName,false);
     }
 
     @Bean
-    public AmqpAdmin amqpAdmin() {
-        return new RabbitAdmin(connectionFactory());
+    public DirectExchange exchange(){
+        return new DirectExchange(exchangeName);
     }
 
     @Bean
-    public RabbitTemplate rabbitTemplate() {
-        return new RabbitTemplate(connectionFactory());
-    }
-
-    @Bean
-    public Queue myQueue() {
-        return new Queue(queueName);
-    }
-
-    @Bean
-    public SimpleMessageListenerContainer messageListenerContainer() {
-        SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
-        container.setConnectionFactory(connectionFactory());
-        container.setQueueNames(queueName);
-        container.setMessageListener(message -> new String(message.getBody()));
-        return container;
+    public Binding binding(Queue queue,DirectExchange exchange){
+        return BindingBuilder.bind(queue).to(exchange).with(routingKey);
     }
 }
