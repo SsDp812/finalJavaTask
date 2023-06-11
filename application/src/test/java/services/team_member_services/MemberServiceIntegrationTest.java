@@ -3,14 +3,12 @@ package services.team_member_services;
 import org.digital.Main;
 import org.digital.employee_dao.EmployeeRepository;
 import org.digital.employee_model.Employee;
-import org.digital.enity_statuses.EmployeeStatus;
-import org.digital.enity_statuses.ProjectStatus;
 import org.digital.project_dto.request_project_dto.CreateProjectDto;
 import org.digital.project_model.Project;
 import org.digital.roles.EmployeeProjectRole;
-import org.digital.services.project_services.ProjectService;
-import org.digital.services.team_member_services.MemberService;
-import org.digital.services.team_services.TeamService;
+import org.digital.services.project_services.ProjectServiceImpl;
+import org.digital.services.team_member_services.Impls.MemberServiceImpl;
+import org.digital.services.team_services.Impls.TeamServiceImpl;
 import org.digital.team_dao.TeamRepository;
 import org.digital.team_member_model.TeamMember;
 import org.digital.team_model.Team;
@@ -25,10 +23,10 @@ import java.util.Optional;
 @SpringBootTest(classes = Main.class)
 public class MemberServiceIntegrationTest extends BaseTest {
     @Autowired
-    private MemberService service;
+    private MemberServiceImpl service;
 
     @Autowired
-    private TeamService teamService;
+    private TeamServiceImpl teamService;
     @Autowired
     private TeamRepository teamRepository;
 
@@ -36,10 +34,10 @@ public class MemberServiceIntegrationTest extends BaseTest {
     private EmployeeRepository employeeRepository;
 
     @Autowired
-    private ProjectService projectService;
+    private ProjectServiceImpl projectService;
 
     @Autowired
-    private MemberService memberService;
+    private MemberServiceImpl memberService;
     @Test
     public void getMember() throws Exception {
 

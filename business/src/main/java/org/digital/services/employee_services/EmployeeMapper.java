@@ -7,7 +7,8 @@ import org.digital.enity_statuses.EmployeeStatus;
 
 public class EmployeeMapper {
 
-    public static EmployeeCardDto getEmployeeDtoCard(Employee employee){
+    //Mapper for mapping employee to EmployeeCardDto
+    public static EmployeeCardDto getEmployeeDtoCard(Employee employee) {
         EmployeeCardDto dtoCard = new EmployeeCardDto();
         dtoCard.setId(employee.getAccountId());
         dtoCard.setSurname(employee.getSurname());

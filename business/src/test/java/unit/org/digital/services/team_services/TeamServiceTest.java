@@ -9,8 +9,8 @@ import org.digital.member_dto.response_member_dto.MemberCardDto;
 import org.digital.project_dao.ProjectRepository;
 import org.digital.project_model.Project;
 import org.digital.roles.EmployeeProjectRole;
-import org.digital.services.team_member_services.MemberService;
-import org.digital.services.team_services.TeamService;
+import org.digital.services.team_member_services.Impls.MemberServiceImpl;
+import org.digital.services.team_services.Impls.TeamServiceImpl;
 import org.digital.team_dao.TeamRepository;
 import org.digital.team_dto.AddMemberDto;
 import org.digital.team_dto.GetAllMembersDto;
@@ -38,7 +38,7 @@ public class TeamServiceTest {
     TeamRepository teamRepository;
 
     @Mock
-    MemberService memberService;
+    MemberServiceImpl memberService;
 
     @Mock
     EmployeeRepository employeeRepository;
@@ -50,7 +50,7 @@ public class TeamServiceTest {
     TeamMemberRepository teamMemberRepository;
 
     @InjectMocks
-    TeamService teamService;
+    TeamServiceImpl teamService;
 
 
     @Test

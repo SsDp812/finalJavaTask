@@ -34,6 +34,10 @@
 
 ![App diagram](https://github.com/SsDp812/finalJavaTask/blob/main/diagram.png)
 
+# Пример письма с уведомлением на почту сотруднику
+![App diagram](https://github.com/SsDp812/finalJavaTask/blob/main/emailExample.png)
+
+
 # Тестирование
 ## Ссылка на отчет по функциональному тестированию
 https://docs.google.com/spreadsheets/d/1cdgyPRl3j5yEhDI6uSoP2qaPgu6IgF3pCiMT7qQT1zM/edit?usp=sharing

@@ -1,4 +1,4 @@
-package org.digital.services.config.rabbit;
+package org.digital.services.config;
 
 
 import org.springframework.amqp.core.*;
@@ -16,29 +16,27 @@ import org.springframework.context.annotation.PropertySource;
 
 @Configuration
 @PropertySource("application.properties")
-
 public class RabbitMQConfig {
-
-    @Value("my-qu")
+    @Value("${rabbitmq.queue}")
     private String queueName;
 
     @Value("${rabbitmq.exchange}")
     private String exchangeName;
-    @Value("myKey")
+    @Value("${rabbitmq.routingkey}")
     private String routingKey;
 
     @Bean
-    public Queue queue(){
-        return new Queue(queueName,false);
+    public Queue queue() {
+        return new Queue(queueName, false);
     }
 
     @Bean
-    public DirectExchange exchange(){
+    public DirectExchange exchange() {
         return new DirectExchange(exchangeName);
     }
 
     @Bean
-    public Binding binding(Queue queue,DirectExchange exchange){
+    public Binding binding(Queue queue, DirectExchange exchange) {
         return BindingBuilder.bind(queue).to(exchange).with(routingKey);
     }
 }

@@ -17,8 +17,8 @@ import static org.springframework.transaction.TransactionDefinition.withDefaults
 
 
 @Configuration
-public class SecurityConfig{
-
+public class SecurityConfig {
+    //Configuration for Spring Security 6+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
@@ -29,8 +29,9 @@ public class SecurityConfig{
                 )
                 .httpBasic(Customizer.withDefaults())
                 .formLogin(Customizer.withDefaults());
-                return httpSecurity.build();
+        return httpSecurity.build();
     }
+
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(10);

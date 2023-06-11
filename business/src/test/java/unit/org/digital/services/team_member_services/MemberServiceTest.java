@@ -5,7 +5,7 @@ import org.digital.employee_model.Employee;
 import org.digital.enity_statuses.EmployeeStatus;
 import org.digital.exceptions.member_exception.NullMemberEmployeeException;
 import org.digital.roles.EmployeeProjectRole;
-import org.digital.services.team_member_services.MemberService;
+import org.digital.services.team_member_services.Impls.MemberServiceImpl;
 import org.digital.team_member_dao.TeamMemberRepository;
 import org.digital.team_member_model.TeamMember;
 import org.junit.jupiter.api.Assertions;
@@ -23,7 +23,7 @@ public class MemberServiceTest  {
     @Mock
     private TeamMemberRepository teamMemberRepository;
     @InjectMocks
-    private MemberService memberService;
+    private MemberServiceImpl memberService;
 
     @Test
     public void getMember() throws NullMemberEmployeeException {

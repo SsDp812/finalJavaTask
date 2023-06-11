@@ -8,7 +8,7 @@ import org.digital.enity_statuses.ProjectStatus;
 import org.digital.enity_statuses.TaskStatus;
 import org.digital.project_dao.ProjectRepository;
 import org.digital.project_model.Project;
-import org.digital.services.task_services.TaskService;
+import org.digital.services.task_services.Impls.TaskServiceImpl;
 import org.digital.task_dao.TaskRepository;
 import org.digital.task_dto.request_task_dto.ChangeStatusOfTaskDto;
 import org.digital.task_dto.request_task_dto.CreateTaskDto;
@@ -23,6 +23,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
@@ -48,9 +49,11 @@ public class TaskServiceTest {
 
     @Mock
     private ProjectRepository projectRepository;
+    @Mock
+    private RabbitTemplate rabbitTemplate;
 
     @InjectMocks
-    private TaskService taskService;
+    private TaskServiceImpl taskService;
 
 
     @Test
@@ -73,34 +76,34 @@ public class TaskServiceTest {
         when(taskRepository.save(any())).thenReturn(task);
         TaskCardDto dto = taskService.createNewTask(getCreateDto(task));
 
-        Assertions.assertEquals(task.getTaskName(),dto.getTaskName());
-        Assertions.assertEquals(task.getTaskDescription(),dto.getTaskDescription());
-        Assertions.assertEquals(task.getAuthor().getName(),dto.getAuthor().getName());
+        Assertions.assertEquals(task.getTaskName(), dto.getTaskName());
+        Assertions.assertEquals(task.getTaskDescription(), dto.getTaskDescription());
+        Assertions.assertEquals(task.getAuthor().getName(), dto.getAuthor().getName());
     }
 
     @Test
-    public void createNewTaskByNullDto(){
-        try{
+    public void createNewTaskByNullDto() {
+        try {
             taskService.createNewTask(null);
         } catch (Exception ex) {
-            Assertions.assertEquals("Null task dto!",ex.getMessage());
+            Assertions.assertEquals("Null task dto!", ex.getMessage());
         }
     }
 
     @Test
-    public void createNewTaskWithEmptyName(){
+    public void createNewTaskWithEmptyName() {
         try {
             CreateTaskDto dto = getCreateDto(getSomeTask());
             dto.setTaskName("");
             taskService.createNewTask(dto);
         } catch (Exception ex) {
-            Assertions.assertEquals("Empty task name exception!",ex.getMessage());
+            Assertions.assertEquals("Empty task name exception!", ex.getMessage());
         }
     }
 
     @Test
     public void createNewTaskWithErrorEmployeeId() throws Exception {
-        try{
+        try {
             Employee employee = getSomeEmloyee();
             Task task = getSomeTask();
 
@@ -108,14 +111,14 @@ public class TaskServiceTest {
             when(employeeRepository.findById(employee.getAccountId()))
                     .thenReturn(Optional.ofNullable(null));
             TaskCardDto dto = taskService.createNewTask(getCreateDto(task));
-        }catch (Exception ex){
-            Assertions.assertEquals("Employee was not found!",ex.getMessage());
+        } catch (Exception ex) {
+            Assertions.assertEquals("Employee was not found!", ex.getMessage());
         }
     }
 
     @Test
-    public void createNewTaskWithDeletedEmployee(){
-        try{
+    public void createNewTaskWithDeletedEmployee() {
+        try {
             Employee employee = getSomeEmloyee();
             employee.setEmployeeStatus(EmployeeStatus.DELETED);
             Task task = getSomeTask();
@@ -124,14 +127,14 @@ public class TaskServiceTest {
             when(employeeRepository.findById(employee.getAccountId()))
                     .thenReturn(Optional.ofNullable(employee));
             TaskCardDto dto = taskService.createNewTask(getCreateDto(task));
-        }catch (Exception ex){
-            Assertions.assertEquals("Employee was deleted!",ex.getMessage());
+        } catch (Exception ex) {
+            Assertions.assertEquals("Employee was deleted!", ex.getMessage());
         }
     }
 
     @Test
-    public void createNewTaskWithLessTime(){
-        try{
+    public void createNewTaskWithLessTime() {
+        try {
             Employee employee = getSomeEmloyee();
             Task task = getSomeTask();
             task.setDeadLineTime(new Date());
@@ -142,8 +145,8 @@ public class TaskServiceTest {
                     .thenReturn(Optional.ofNullable(task.getProject()));
             TaskCardDto dto = taskService.createNewTask(getCreateDto(task));
 
-        }catch (Exception ex){
-            Assertions.assertEquals("Too less time for this task!",ex.getMessage());
+        } catch (Exception ex) {
+            Assertions.assertEquals("Too less time for this task!", ex.getMessage());
         }
     }
 
@@ -169,24 +172,24 @@ public class TaskServiceTest {
         when(taskRepository.save(task)).thenReturn(task);
         TaskCardDto dto = taskService.changeTask(getUpdateDto(task));
 
-        Assertions.assertEquals(task.getTaskName(),dto.getTaskName());
-        Assertions.assertEquals(task.getTaskDescription(),dto.getTaskDescription());
-        Assertions.assertEquals(task.getAuthor().getName(),dto.getAuthor().getName());
+        Assertions.assertEquals(task.getTaskName(), dto.getTaskName());
+        Assertions.assertEquals(task.getTaskDescription(), dto.getTaskDescription());
+        Assertions.assertEquals(task.getAuthor().getName(), dto.getAuthor().getName());
     }
 
 
     @Test
-    public void changeTaskByNullDto(){
+    public void changeTaskByNullDto() {
         try {
             taskService.changeTask(null);
-        }catch (Exception ex){
-            Assertions.assertEquals("Null task dto!",ex.getMessage());
+        } catch (Exception ex) {
+            Assertions.assertEquals("Null task dto!", ex.getMessage());
         }
     }
 
     @Test
-    public void changeTaskWithEmptyName(){
-        try{
+    public void changeTaskWithEmptyName() {
+        try {
             Employee employee = getSomeEmloyee();
             Task task = getSomeTask();
             Task oldTask = getSomeTask();
@@ -194,8 +197,8 @@ public class TaskServiceTest {
             Employee applicationUser = employee;
             when(taskRepository.findById(task.getTaskId())).thenReturn(Optional.of(oldTask));
             TaskCardDto dto = taskService.changeTask(getUpdateDto(task));
-        }catch (Exception ex){
-            Assertions.assertEquals("Empty task name exception!",ex.getMessage());
+        } catch (Exception ex) {
+            Assertions.assertEquals("Empty task name exception!", ex.getMessage());
         }
     }
 
@@ -207,7 +210,7 @@ public class TaskServiceTest {
                 .thenReturn(Optional.ofNullable(task.getAuthor()));
         Mockito.when(taskRepository.findAll((Specification<Task>) any())).thenReturn(Arrays.asList(task));
         List<TaskCardDto> tasks = taskService.searchTask(new SearchTaskDto(
-            task.getTaskName(),
+                task.getTaskName(),
                 Arrays.asList(TaskStatus.NEW),
                 "1",
                 "1",
@@ -216,8 +219,8 @@ public class TaskServiceTest {
                 null,
                 null
         ));
-        Assertions.assertEquals(task.getTaskName(),tasks.get(0).getTaskName());
-        Assertions.assertEquals(task.getTaskDescription(),tasks.get(0).getTaskDescription());
+        Assertions.assertEquals(task.getTaskName(), tasks.get(0).getTaskName());
+        Assertions.assertEquals(task.getTaskDescription(), tasks.get(0).getTaskDescription());
     }
 
     @Test
@@ -231,13 +234,13 @@ public class TaskServiceTest {
                 task.getTaskId(),
                 TaskStatus.INPROGRESS.toString()
         ));
-        Assertions.assertEquals(task.getTaskName(),dto.getTaskName());
-        Assertions.assertEquals(task.getTaskDescription(),dto.getTaskDescription());
+        Assertions.assertEquals(task.getTaskName(), dto.getTaskName());
+        Assertions.assertEquals(task.getTaskDescription(), dto.getTaskDescription());
     }
 
 
     @Test
-    public void changeStatusTaskToNotAvailableStatus(){
+    public void changeStatusTaskToNotAvailableStatus() {
         try {
             Task task = getSomeTask();
             Task newTask = getSomeTask();
@@ -246,12 +249,12 @@ public class TaskServiceTest {
                     task.getTaskId(),
                     TaskStatus.DONE.toString()
             ));
-        }catch (Exception ex){
-            Assertions.assertEquals("Not available task status!",ex.getMessage());
+        } catch (Exception ex) {
+            Assertions.assertEquals("Not available task status!", ex.getMessage());
         }
     }
 
-    private Employee getSomeEmloyee(){
+    private Employee getSomeEmloyee() {
         Employee employee = new Employee(
                 Long.valueOf(1),
                 "Ivanov",
@@ -266,7 +269,7 @@ public class TaskServiceTest {
         return employee;
     }
 
-    private Task getSomeTask(){
+    private Task getSomeTask() {
         return new Task(
                 Long.parseLong("1"),
                 getSomeProject(),
@@ -274,15 +277,15 @@ public class TaskServiceTest {
                 "Decsc",
                 getSomeEmloyee(),
                 20,
-                new Date(124,4,12,11,0,0),
+                new Date(124, 4, 12, 11, 0, 0),
                 getSomeEmloyee(),
-                new Date(123,2,21,10,0,0),
-                new Date(123,2,23,10,0,0),
+                new Date(123, 2, 21, 10, 0, 0),
+                new Date(123, 2, 23, 10, 0, 0),
                 TaskStatus.NEW
         );
     }
 
-    private Project getSomeProject(){
+    private Project getSomeProject() {
         return new Project(
                 "CodeName",
                 "Name",
@@ -291,7 +294,7 @@ public class TaskServiceTest {
         );
     }
 
-    private CreateTaskDto getCreateDto(Task task){
+    private CreateTaskDto getCreateDto(Task task) {
         return new CreateTaskDto(
                 task.getTaskName(),
                 task.getTaskDescription(),
@@ -304,7 +307,7 @@ public class TaskServiceTest {
     }
 
 
-    private UpdateTaskDto getUpdateDto(Task task){
+    private UpdateTaskDto getUpdateDto(Task task) {
         return new UpdateTaskDto(
                 Long.parseLong("1"),
                 task.getTaskName(),

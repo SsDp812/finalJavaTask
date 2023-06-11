@@ -8,7 +8,7 @@ import org.digital.project_dto.request_project_dto.SearchProjectDto;
 import org.digital.project_dto.request_project_dto.UpdateProjectDto;
 import org.digital.project_dto.response_project_dto.ProjectCardDto;
 import org.digital.project_model.Project;
-import org.digital.services.project_services.ProjectService;
+import org.digital.services.project_services.ProjectServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ import static org.mockito.ArgumentMatchers.any;
 @SpringBootTest(classes = Main.class)
 public class ProjectServiceIntegrationTest extends BaseTest {
     @Autowired
-    private ProjectService service;
+    private ProjectServiceImpl service;
 
 
     @Test

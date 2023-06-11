@@ -1,52 +1,46 @@
 package services.team_services;
 
 
-import org.checkerframework.checker.units.qual.A;
 import org.digital.Main;
 import org.digital.employee_dto.request_employee_dto.CreateEmployeeDto;
 import org.digital.employee_dto.response_employee_dto.EmployeeCardDto;
 import org.digital.employee_model.Employee;
 import org.digital.enity_statuses.EmployeeStatus;
-import org.digital.enity_statuses.ProjectStatus;
 import org.digital.member_dto.response_member_dto.MemberCardDto;
 import org.digital.project_dto.request_project_dto.CreateProjectDto;
 import org.digital.project_model.Project;
 import org.digital.roles.EmployeeProjectRole;
-import org.digital.services.employee_services.EmployeeService;
-import org.digital.services.project_services.ProjectService;
-import org.digital.services.team_member_services.MemberService;
-import org.digital.services.team_services.TeamService;
+import org.digital.services.employee_services.Impls.EmployeeServiceImpl;
+import org.digital.services.project_services.ProjectServiceImpl;
+import org.digital.services.team_member_services.Impls.MemberServiceImpl;
+import org.digital.services.team_services.Impls.TeamServiceImpl;
 import org.digital.team_dao.TeamRepository;
 import org.digital.team_dto.AddMemberDto;
 import org.digital.team_dto.GetAllMembersDto;
 import org.digital.team_dto.RemoveMemberDto;
 import org.digital.team_member_model.TeamMember;
-import org.digital.team_model.Team;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import services.BaseTest;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @SpringBootTest(classes = Main.class)
 public class TeamServiceIntegrationTest extends BaseTest {
 
     @Autowired
-    private TeamService service;
+    private TeamServiceImpl service;
     @Autowired
-    private EmployeeService employeeService;
+    private EmployeeServiceImpl employeeService;
 
     @Autowired
-    private MemberService memberService;
+    private MemberServiceImpl memberService;
 
     @Autowired
-    private ProjectService projectService;
+    private ProjectServiceImpl projectService;
     @Autowired
     private TeamRepository teamRepository;
 

@@ -7,26 +7,23 @@ import org.digital.employee_dto.request_employee_dto.DeleteEmployeeDto;
 import org.digital.employee_dto.response_employee_dto.EmployeeCardDto;
 import org.digital.employee_model.Employee;
 import org.digital.enity_statuses.EmployeeStatus;
-import org.digital.enity_statuses.ProjectStatus;
 import org.digital.enity_statuses.TaskStatus;
 import org.digital.project_dao.ProjectRepository;
 import org.digital.project_model.Project;
-import org.digital.services.employee_services.EmployeeService;
-import org.digital.services.task_services.TaskService;
+import org.digital.services.employee_services.Impls.EmployeeServiceImpl;
+import org.digital.services.task_services.Impls.TaskServiceImpl;
 import org.digital.task_dto.request_task_dto.ChangeStatusOfTaskDto;
 import org.digital.task_dto.request_task_dto.CreateTaskDto;
 import org.digital.task_dto.request_task_dto.SearchTaskDto;
 import org.digital.task_dto.request_task_dto.UpdateTaskDto;
 import org.digital.task_dto.response_task_dto.TaskCardDto;
 import org.digital.task_model.Task;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -39,10 +36,11 @@ import static org.mockito.Mockito.mock;
 
 @SpringBootTest(classes = Main.class)
 public class TaskServiceIntegrationTest extends BaseTest {
+
     @Autowired
-    private TaskService service;
+    private TaskServiceImpl service;
     @Autowired
-    private EmployeeService employeeService;
+    private EmployeeServiceImpl employeeService;
 
     @Autowired
     private ProjectRepository projectRepository;

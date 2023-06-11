@@ -2,6 +2,7 @@ package org.digital.task_controllers;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.digital.services.task_services.Impls.TaskServiceImpl;
 import org.digital.services.task_services.TaskService;
 import org.digital.task_dto.request_task_dto.ChangeStatusOfTaskDto;
 import org.digital.task_dto.request_task_dto.CreateTaskDto;
@@ -24,7 +25,7 @@ public class TaskController {
     private TaskService service;
 
     @Autowired
-    public TaskController(TaskService service) {
+    public TaskController(TaskServiceImpl service) {
         this.service = service;
     }
 

@@ -8,6 +8,7 @@ import org.digital.project_dto.request_project_dto.SearchProjectDto;
 import org.digital.project_dto.request_project_dto.UpdateProjectDto;
 import org.digital.project_dto.response_project_dto.ProjectCardDto;
 import org.digital.services.project_services.ProjectService;
+import org.digital.services.project_services.ProjectServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,7 +25,7 @@ public class ProjectController {
     private ProjectService service;
 
     @Autowired
-    public ProjectController(ProjectService service) {
+    public ProjectController(ProjectServiceImpl service) {
         this.service = service;
     }
 

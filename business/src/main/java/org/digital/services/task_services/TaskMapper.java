@@ -5,7 +5,8 @@ import org.digital.task_dto.response_task_dto.TaskCardDto;
 import org.digital.task_model.Task;
 
 public class TaskMapper {
-    public static TaskCardDto getTaskCardDto(Task task){
+    //Mapper for mapping task to TaskCardDto
+    public static TaskCardDto getTaskCardDto(Task task) {
         TaskCardDto tempDto = new TaskCardDto();
         tempDto.setTaskId(task.getTaskId());
         tempDto.setTaskName(task.getTaskName());

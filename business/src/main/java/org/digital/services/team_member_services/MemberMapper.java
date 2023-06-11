@@ -6,7 +6,8 @@ import org.digital.roles.EmployeeProjectRole;
 import org.digital.services.employee_services.EmployeeMapper;
 
 public class MemberMapper {
-    public static MemberCardDto getMemberCard(Employee employee, EmployeeProjectRole role){
+    //Mapper for mapping member to MemberCardDto
+    public static MemberCardDto getMemberCard(Employee employee, EmployeeProjectRole role) {
         MemberCardDto memberCardDto = new MemberCardDto();
         memberCardDto.setEmployee(EmployeeMapper.getEmployeeDtoCard(employee));
         memberCardDto.setRole(role);

@@ -16,6 +16,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.containers.RabbitMQContainer;
+import org.testcontainers.junit.jupiter.Container;
 
 import java.util.Date;
 import java.util.UUID;
@@ -23,7 +25,8 @@ import java.util.UUID;
 @SpringBootTest(classes = Main.class)
 public class BaseTest {
     static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres");;
-
+    @Container
+    protected static RabbitMQContainer container = new RabbitMQContainer();
     @BeforeAll
     static void beforeAll() {
         postgres.start();

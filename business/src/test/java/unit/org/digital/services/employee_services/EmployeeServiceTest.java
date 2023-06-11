@@ -8,7 +8,7 @@ import org.digital.employee_dto.response_employee_dto.EmployeeCardDto;
 import org.digital.employee_model.Employee;
 import org.digital.enity_statuses.EmployeeStatus;
 import org.digital.services.employee_services.EmployeeMapper;
-import org.digital.services.employee_services.EmployeeService;
+import org.digital.services.employee_services.Impls.EmployeeServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -33,7 +33,7 @@ public class EmployeeServiceTest {
     @Mock
     private BCryptPasswordEncoder passwordEncoder;
     @InjectMocks
-    private EmployeeService employeeService;
+    private EmployeeServiceImpl employeeService;
 
     @Test
     public void createNewEmployee() throws Exception {
