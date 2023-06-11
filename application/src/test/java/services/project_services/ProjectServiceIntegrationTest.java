@@ -1,14 +1,14 @@
 package services.project_services;
 
-import org.digital.Main;
-import org.digital.enity_statuses.ProjectStatus;
-import org.digital.project_dto.request_project_dto.ChangeProjectStatusDto;
-import org.digital.project_dto.request_project_dto.CreateProjectDto;
-import org.digital.project_dto.request_project_dto.SearchProjectDto;
-import org.digital.project_dto.request_project_dto.UpdateProjectDto;
-import org.digital.project_dto.response_project_dto.ProjectCardDto;
-import org.digital.project_model.Project;
-import org.digital.services.project_services.ProjectServiceImpl;
+import ru.digital.application.Main;
+import ru.digital.commons.enity_statuses.ProjectStatus;
+import ru.digital.dto.project_dto.request_project_dto.ChangeProjectStatusDto;
+import ru.digital.dto.project_dto.request_project_dto.CreateProjectDto;
+import ru.digital.dto.project_dto.request_project_dto.SearchProjectDto;
+import ru.digital.dto.project_dto.request_project_dto.UpdateProjectDto;
+import ru.digital.dto.project_dto.response_project_dto.ProjectCardDto;
+import ru.digital.models.project_model.Project;
+import ru.digital.business.project_services.ProjectServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

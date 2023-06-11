@@ -1,25 +1,16 @@
 .idea
-
+Thumbs.db
 *.iml
 *.log
-
 log
 
-src/test
-target
 
 
-Models/src/test
-Models/target
+commons/target
+dto/target
+application/target
+dao/target
+business/target
+controllers/target
+models/target
 
-
-Business/target
-
-Controllers/src/test
-Controllers/target
-
-Dao/src/test
-Dao/target
-
-Dto/src/test
-Dto/target
