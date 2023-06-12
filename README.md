@@ -63,6 +63,6 @@ https://docs.google.com/spreadsheets/d/1cdgyPRl3j5yEhDI6uSoP2qaPgu6IgF3pCiMT7qQT
 ![App diagram](https://github.com/SsDp812/finalJavaTask/blob/fixSender/unitTests.png)
 
 ### Результаты интеграционного тестирования
-![App diagram](https://github.com/SsDp812/finalJavaTask/blob/fixSender/integrationTests.png)
+![App diagram](https://github.com/SsDp812/finalJavaTask/blob/fixSender/IntegrationTests.png)
 Для интеграционного тестирования исполльзовалась зависимость testContainers.
 База данных и брокер сообщений помещались также в отдельные тестовые контейнеры.
