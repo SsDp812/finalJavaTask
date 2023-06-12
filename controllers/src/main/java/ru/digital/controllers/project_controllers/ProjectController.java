@@ -3,20 +3,19 @@ package ru.digital.controllers.project_controllers;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.*;
-import ru.digital.commons.exceptions.project_exceptions.EmptyCodeNameProjectException;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import ru.digital.business.project_services.ProjectService;
 import ru.digital.dto.project_dto.request_project_dto.ChangeProjectStatusDto;
 import ru.digital.dto.project_dto.request_project_dto.CreateProjectDto;
 import ru.digital.dto.project_dto.request_project_dto.SearchProjectDto;
 import ru.digital.dto.project_dto.request_project_dto.UpdateProjectDto;
 import ru.digital.dto.project_dto.response_project_dto.ProjectCardDto;
-import ru.digital.business.project_services.ProjectService;
-import ru.digital.business.project_services.Impls.ProjectServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 
 import java.util.List;
 

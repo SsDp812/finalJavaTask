@@ -2,21 +2,19 @@ package ru.digital.controllers.employee_сontrollers;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-
 import jakarta.validation.Valid;
-import ru.digital.dto.employee_dto.request_employee_dto.*;
-import ru.digital.dto.employee_dto.response_employee_dto.EmployeeCardDto;
-import ru.digital.business.employee_services.EmployeeService;
-import ru.digital.business.employee_services.Impls.EmployeeServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import ru.digital.business.employee_services.EmployeeService;
+import ru.digital.dto.employee_dto.request_employee_dto.*;
+import ru.digital.dto.employee_dto.response_employee_dto.EmployeeCardDto;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/employee")
-@Tag(name = "EmployeeController",description = "Controller for employees")
+@Tag(name = "EmployeeController", description = "Controller for employees")
 public class EmployeeController {
     private EmployeeService service;
 
@@ -26,14 +24,14 @@ public class EmployeeController {
     }
 
     @Operation(summary = "Creating new employee")
-    @PostMapping(value = "/new",consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/new", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public EmployeeCardDto createNew(@RequestBody @Valid CreateEmployeeDto dto) throws Exception {
         return service.createNewEmployee(dto);
     }
 
 
     @Operation(summary = "CUpdating employee info")
-    @PostMapping(value = "/update",consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/update", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public EmployeeCardDto updateEmployee(@RequestBody @Valid UpdateEmployeeDto dto) throws Exception {
         return service.changeEmployeeInfo(dto);
     }

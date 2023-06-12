@@ -13,6 +13,6 @@ import lombok.Data;
 public class DeleteEmployeeDto {
     @Schema(description = "Account id")
     @NotNull
-    @Min(value = 0,message = "id should be more than zero")
+    @Min(value = 0, message = "id should be more than zero")
     private Long accountId;
 }

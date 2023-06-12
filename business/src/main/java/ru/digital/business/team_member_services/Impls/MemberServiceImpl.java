@@ -2,16 +2,16 @@ package ru.digital.business.team_member_services.Impls;
 
 
 import lombok.extern.slf4j.Slf4j;
-import ru.digital.models.employee_model.Employee;
-import ru.digital.commons.exceptions.member_exception.NullMemberEmployeeException;
-import ru.digital.commons.roles.EmployeeProjectRole;
-import ru.digital.business.team_member_services.MemberService;
-import ru.digital.dao.team_member_dao.TeamMemberRepository;
-import ru.digital.models.team_member_model.TeamMember;
-import ru.digital.models.team_model.Team;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.digital.business.team_member_services.MemberService;
+import ru.digital.commons.exceptions.member_exception.NullMemberEmployeeException;
+import ru.digital.commons.roles.EmployeeProjectRole;
+import ru.digital.dao.team_member_dao.TeamMemberRepository;
+import ru.digital.models.employee_model.Employee;
+import ru.digital.models.team_member_model.TeamMember;
+import ru.digital.models.team_model.Team;
 
 import java.util.Optional;
 
@@ -31,7 +31,7 @@ public class MemberServiceImpl implements MemberService {
         if (employee == null) {
             throw new NullMemberEmployeeException();
         }
-        Optional<TeamMember> optionalTeamMember = repository.findByMemberAndRoleAndTeam(employee, role,team);
+        Optional<TeamMember> optionalTeamMember = repository.findByMemberAndRoleAndTeam(employee, role, team);
         if (optionalTeamMember.isPresent()) {
             return optionalTeamMember.get();
         } else {

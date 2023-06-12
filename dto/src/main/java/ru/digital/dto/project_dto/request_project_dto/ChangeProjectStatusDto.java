@@ -14,7 +14,7 @@ import ru.digital.commons.enity_statuses.ProjectStatus;
 public class ChangeProjectStatusDto {
     @Schema(description = "Project code name")
     @NotEmpty
-    @Size(min = 5,max = 25,message = "projectCodeName length should be between 5 and 25")
+    @Size(min = 5, max = 25, message = "projectCodeName length should be between 5 and 25")
     private String projectCodeName;
     @Schema(description = "New available project status")
     private ProjectStatus newStatus;

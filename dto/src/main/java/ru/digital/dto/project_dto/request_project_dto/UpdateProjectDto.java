@@ -13,11 +13,11 @@ import lombok.Data;
 public class UpdateProjectDto {
     @Schema(description = "Project code name")
     @NotEmpty
-    @Size(min = 5,max = 25,message = "projectCodeName length should be between 5 and 25")
+    @Size(min = 5, max = 25, message = "projectCodeName length should be between 5 and 25")
     private String projectCodeName;
     @Schema(description = "Project name")
     @NotEmpty
-    @Size(min = 5,max = 25,message = "project name length should be between 5 and 25")
+    @Size(min = 5, max = 25, message = "project name length should be between 5 and 25")
     private String projectName;
     @Schema(description = "Project description")
     private String description;

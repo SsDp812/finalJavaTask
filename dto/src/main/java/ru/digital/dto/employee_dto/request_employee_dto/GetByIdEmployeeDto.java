@@ -12,7 +12,7 @@ import lombok.Data;
 @Schema(description = "Employee for getting by id")
 public class GetByIdEmployeeDto {
     @Schema(description = "Account id")
-    @Min(value = 0,message = "id should be more than zero")
+    @Min(value = 0, message = "id should be more than zero")
     @NotNull
     private Long accountId;
 }

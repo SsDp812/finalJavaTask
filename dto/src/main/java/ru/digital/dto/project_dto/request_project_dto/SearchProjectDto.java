@@ -13,7 +13,7 @@ import java.util.List;
 @Schema(description = "Project for searching")
 public class SearchProjectDto {
     @Schema(description = "Text filter for project")
-    @Size(max = 20,message = "search filter should be less than 20 characters")
+    @Size(max = 20, message = "search filter should be less than 20 characters")
     private String textFilter;
     @Schema(description = "Filter - project statuses")
     private List<ProjectStatus> status;

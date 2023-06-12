@@ -12,6 +12,6 @@ import lombok.Data;
 public class GetAllMembersDto {
     @Schema(description = "Project code name")
     @NotEmpty
-    @Size(min = 5,max = 25,message = "project codeMame length should be between 5 and 25 characters")
+    @Size(min = 5, max = 25, message = "project codeMame length should be between 5 and 25 characters")
     private String projectCodeName;
 }

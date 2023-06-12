@@ -11,6 +11,6 @@ import lombok.Data;
 @Schema(description = "Search employee by textFilter")
 public class SearchEmployeeDto {
     @Schema(description = "Text for search")
-    @Size(max = 20,message = "max search filter length = 20")
+    @Size(max = 20, message = "max search filter length = 20")
     private String searchFilter;
 }

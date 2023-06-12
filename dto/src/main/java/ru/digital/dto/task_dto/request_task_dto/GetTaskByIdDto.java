@@ -9,7 +9,7 @@ import lombok.Data;
 @Schema(description = "Task for get by id")
 public class GetTaskByIdDto {
     @Schema(description = "Task id")
-    @Min(value = 0,message = "task id should be more than zero")
+    @Min(value = 0, message = "task id should be more than zero")
     @NotNull
     private Long taskId;
 }

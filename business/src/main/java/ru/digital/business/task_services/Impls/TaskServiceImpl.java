@@ -2,33 +2,34 @@ package ru.digital.business.task_services.Impls;
 
 
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.annotations.Parent;
-import org.springframework.web.multipart.MultipartFile;
-import ru.digital.commons.exceptions.NullDtoException;
-import ru.digital.commons.exceptions.NullIDException;
-import ru.digital.dao.employee_dao.EmployeeRepository;
-import ru.digital.dto.task_dto.request_task_dto.*;
-import ru.digital.models.employee_model.Employee;
-import ru.digital.commons.enity_statuses.EmployeeStatus;
-import ru.digital.commons.enity_statuses.TaskStatus;
-import ru.digital.commons.exceptions.employee_exceptions.EmployeeAlreadyDeletedException;
-import ru.digital.commons.exceptions.employee_exceptions.EmployeeNotFoundException;
-import ru.digital.commons.exceptions.project_exceptions.NotFoundProjectException;
-import ru.digital.dao.project_dao.ProjectRepository;
-import ru.digital.models.project_model.Project;
-import ru.digital.business.task_services.TaskMapper;
-import ru.digital.business.task_services.TaskService;
-import ru.digital.dao.task_dao.TaskRepository;
-import ru.digital.dao.task_dao.specifications.TaskSpecifications;
-import ru.digital.dto.task_dto.response_task_dto.TaskCardDto;
-import ru.digital.models.task_model.Task;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+import ru.digital.business.task_services.TaskMapper;
+import ru.digital.business.task_services.TaskService;
+import ru.digital.commons.enity_statuses.EmployeeStatus;
+import ru.digital.commons.enity_statuses.TaskStatus;
+import ru.digital.commons.exceptions.NullIDException;
+import ru.digital.commons.exceptions.employee_exceptions.EmployeeAlreadyDeletedException;
+import ru.digital.commons.exceptions.employee_exceptions.EmployeeNotFoundException;
+import ru.digital.commons.exceptions.project_exceptions.NotFoundProjectException;
 import ru.digital.commons.exceptions.task_exceptions.*;
+import ru.digital.dao.employee_dao.EmployeeRepository;
+import ru.digital.dao.project_dao.ProjectRepository;
+import ru.digital.dao.task_dao.TaskRepository;
+import ru.digital.dao.task_dao.specifications.TaskSpecifications;
+import ru.digital.dto.task_dto.request_task_dto.ChangeStatusOfTaskDto;
+import ru.digital.dto.task_dto.request_task_dto.CreateTaskDto;
+import ru.digital.dto.task_dto.request_task_dto.SearchTaskDto;
+import ru.digital.dto.task_dto.request_task_dto.UpdateTaskDto;
+import ru.digital.dto.task_dto.response_task_dto.TaskCardDto;
+import ru.digital.models.employee_model.Employee;
+import ru.digital.models.project_model.Project;
+import ru.digital.models.task_model.Task;
 
 import java.io.File;
 import java.util.*;
@@ -118,7 +119,7 @@ public class TaskServiceImpl implements TaskService {
         }
         task.setAuthor(author.get());
         task = repository.save(task);
-        if(parentTask != null){
+        if (parentTask != null) {
             if (parentTask.getChildTasks() == null) {
                 parentTask.setChildTasks(new ArrayList<Task>());
             }
@@ -131,33 +132,35 @@ public class TaskServiceImpl implements TaskService {
     }
 
 
-    public void loadFileToTask(MultipartFile file, Long taskId) throws Exception{
-        if(taskId == null){
+    public void loadFileToTask(MultipartFile file, Long taskId) throws Exception {
+        if (taskId == null) {
             throw new NullIDException();
         }
         Optional<Task> optionalTask = repository.findById(taskId);
-        if(file != null && optionalTask.isPresent()) {
+        if (file != null && optionalTask.isPresent()) {
             Task task = optionalTask.get();
             String oldFileName = task.getFileName();
             File uploadDir = new File(path);
-            if(!uploadDir.exists()){
+            if (!uploadDir.exists()) {
                 uploadDir.mkdir();
             }
             String fileName = UUID.randomUUID().toString();
             System.out.println(file.getOriginalFilename());
             String[] fileNameParts = file.getOriginalFilename().split("\\.");
-            fileName = path + "/" +  fileName + "." + fileNameParts[fileNameParts.length - 1];
+            fileName = path + "/" + fileName + "." + fileNameParts[fileNameParts.length - 1];
             file.transferTo(new File(fileName));
             task.setFileName(fileName);
             repository.save(task);
-            if(oldFileName != null){
+            if (oldFileName != null) {
                 File oldfFile = new File(oldFileName);
-                if(oldfFile.exists()){
+                if (oldfFile.exists()) {
                     oldfFile.delete();
                 }
             }
         }
-    };
+    }
+
+    ;
 
     public TaskCardDto changeTask(UpdateTaskDto dto) throws Exception {
         if (dto == null) {
@@ -168,11 +171,11 @@ public class TaskServiceImpl implements TaskService {
         if (optionalTask.isPresent()) {
             Task oldTaskParent = null;
             Task newParentTask = null;
-            if(task.getParentTask() != null && !Objects.equals(newParentTask,oldTaskParent)){
+            if (task.getParentTask() != null && !Objects.equals(newParentTask, oldTaskParent)) {
                 oldTaskParent = task.getParentTask();
                 oldTaskParent.getChildTasks().remove(task);
             }
-            if(dto.getParentTaskId() != null){
+            if (dto.getParentTaskId() != null) {
                 Optional<Task> optionalTaskParent = repository.findById(dto.getParentTaskId());
                 if (optionalTaskParent.isPresent()) {
                     task.setParentTask(optionalTaskParent.get());
@@ -181,7 +184,7 @@ public class TaskServiceImpl implements TaskService {
                 } else {
                     throw new NotFoundTaskException();
                 }
-            }else{
+            } else {
                 task.setParentTask(null);
             }
 
@@ -219,10 +222,10 @@ public class TaskServiceImpl implements TaskService {
                 throw new EmployeeNotFoundException();
             }
             task.setAuthor(author.get());
-            if(newParentTask != null){
+            if (newParentTask != null) {
                 newParentTask = repository.save(newParentTask);
             }
-            if(oldTaskParent != null){
+            if (oldTaskParent != null) {
                 oldTaskParent = repository.save(oldTaskParent);
             }
             task = repository.save(task);
@@ -238,10 +241,9 @@ public class TaskServiceImpl implements TaskService {
 
     public TaskCardDto getTaskById(Long id) throws NotFoundTaskException {
         Optional<Task> optionalTask = repository.findById(Long.valueOf(id));
-        if(optionalTask.isPresent()){
+        if (optionalTask.isPresent()) {
             return TaskMapper.getTaskCardDto(optionalTask.get());
-        }
-        else{
+        } else {
             throw new NotFoundTaskException();
         }
     }
@@ -308,7 +310,6 @@ public class TaskServiceImpl implements TaskService {
             throw new NotFoundTaskException();
         }
     }
-
 
 
     private boolean checkAvailableToChangeStatus(TaskStatus currentStatus, TaskStatus newStatus) throws Exception {

@@ -11,8 +11,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 @Configuration
-@Import({ContollersConfig.class, DaoConfig.class, ModelsConfig.class,
-        ServicesConfig.class})
+@Import({ContollersConfig.class, DaoConfig.class,
+        ModelsConfig.class, ServicesConfig.class})
 public class AppConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {

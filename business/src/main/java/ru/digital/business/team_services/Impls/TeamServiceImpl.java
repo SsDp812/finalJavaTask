@@ -2,31 +2,29 @@ package ru.digital.business.team_services.Impls;
 
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import ru.digital.business.employee_services.EmployeeMapper;
+import ru.digital.business.team_member_services.MemberMapper;
 import ru.digital.business.team_member_services.MemberService;
-import ru.digital.dao.employee_dao.EmployeeRepository;
-import ru.digital.models.employee_model.Employee;
+import ru.digital.business.team_services.TeamService;
 import ru.digital.commons.exceptions.employee_exceptions.EmployeeNotFoundException;
 import ru.digital.commons.exceptions.project_exceptions.NotFoundProjectException;
 import ru.digital.commons.exceptions.team_exceptions.EmployeeAlreadyInTeamException;
 import ru.digital.commons.exceptions.team_exceptions.NullTeamDtoException;
-import ru.digital.dto.member_dto.response_member_dto.MemberCardDto;
+import ru.digital.dao.employee_dao.EmployeeRepository;
 import ru.digital.dao.project_dao.ProjectRepository;
-import ru.digital.models.project_model.Project;
-import ru.digital.commons.roles.EmployeeProjectRole;
-import ru.digital.business.employee_services.EmployeeMapper;
-import ru.digital.business.team_member_services.MemberMapper;
-import ru.digital.business.team_member_services.Impls.MemberServiceImpl;
-import ru.digital.business.team_services.TeamService;
 import ru.digital.dao.team_dao.TeamRepository;
+import ru.digital.dao.team_member_dao.TeamMemberRepository;
+import ru.digital.dto.member_dto.response_member_dto.MemberCardDto;
 import ru.digital.dto.team_dto.AddMemberDto;
 import ru.digital.dto.team_dto.GetAllMembersDto;
 import ru.digital.dto.team_dto.RemoveMemberDto;
-import ru.digital.dao.team_member_dao.TeamMemberRepository;
+import ru.digital.models.employee_model.Employee;
+import ru.digital.models.project_model.Project;
 import ru.digital.models.team_member_model.TeamMember;
 import ru.digital.models.team_model.Team;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,7 +73,7 @@ public class TeamServiceImpl implements TeamService {
                             " is already in team: " + dto.getProjectCodeName() + " with role " + dto.getRole().toString());
                     throw new EmployeeAlreadyInTeamException();
                 } else {
-                    TeamMember member = memberService.getMemberByEmployeeAndRole(optionalEmployee.get(),dto.getRole(), team);
+                    TeamMember member = memberService.getMemberByEmployeeAndRole(optionalEmployee.get(), dto.getRole(), team);
                     team.getMembers().add(member);
                     team = repository.save(team);
                     log.info("Employee with account id: " + dto.getAccountId().toString() +

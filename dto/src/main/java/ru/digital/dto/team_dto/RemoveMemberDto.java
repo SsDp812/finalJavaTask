@@ -14,10 +14,10 @@ import lombok.Data;
 public class RemoveMemberDto {
     @Schema(description = "Project code name")
     @NotEmpty
-    @Size(min = 5,max = 25,message = "project codeMame length should be between 5 and 25 characters")
+    @Size(min = 5, max = 25, message = "project codeMame length should be between 5 and 25 characters")
     private String projectCodeName;
     @Schema(description = "Employee account id")
     @NotNull
-    @Min(value = 0,message = "accountId should be more than zero")
+    @Min(value = 0, message = "accountId should be more than zero")
     private Long accountId;
 }

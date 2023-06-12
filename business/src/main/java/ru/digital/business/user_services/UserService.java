@@ -1,9 +1,6 @@
 package ru.digital.business.user_services;
 
 import jakarta.annotation.PostConstruct;
-import ru.digital.dao.employee_dao.EmployeeRepository;
-import ru.digital.models.employee_model.Employee;
-import ru.digital.commons.enity_statuses.EmployeeStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,7 +8,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
+import ru.digital.commons.enity_statuses.EmployeeStatus;
+import ru.digital.dao.employee_dao.EmployeeRepository;
+import ru.digital.models.employee_model.Employee;
 
 import java.util.Collections;
 import java.util.Optional;
@@ -19,7 +18,6 @@ import java.util.Optional;
 @Service
 public class UserService implements UserDetailsService {
     private EmployeeRepository repository;
-
     private BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
@@ -36,10 +34,10 @@ public class UserService implements UserDetailsService {
     }
 
     @PostConstruct
-    public void initAdmin(){
+    public void initAdmin() {
         Optional<Employee> optionalEmployee = repository.findByLogin("ROOT");
 
-        if(!optionalEmployee.isPresent()){
+        if (!optionalEmployee.isPresent()) {
             repository.save(new Employee(
                     Long.valueOf("0"),
                     "Surname",

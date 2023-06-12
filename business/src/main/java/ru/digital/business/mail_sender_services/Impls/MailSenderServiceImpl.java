@@ -5,12 +5,12 @@ import freemarker.template.Configuration;
 import freemarker.template.TemplateException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.extern.slf4j.Slf4j;
-import ru.digital.business.mail_sender_services.MailSender;
-import ru.digital.models.task_model.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
+import ru.digital.business.mail_sender_services.MailSender;
+import ru.digital.models.task_model.Task;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -21,7 +21,6 @@ import java.util.Map;
 @Slf4j
 public class MailSenderServiceImpl implements MailSender {
     //Service to send notifications to employees
-
     private JavaMailSender mailSender;
     private Configuration freeMakerConfig;
 

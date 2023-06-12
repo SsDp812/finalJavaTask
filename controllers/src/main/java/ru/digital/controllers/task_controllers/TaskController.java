@@ -3,16 +3,16 @@ package ru.digital.controllers.task_controllers;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.converter.HttpMessageNotReadableException;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import ru.digital.business.task_services.Impls.TaskServiceImpl;
-import ru.digital.business.task_services.TaskService;
-import ru.digital.dto.task_dto.request_task_dto.*;
-import ru.digital.dto.task_dto.response_task_dto.TaskCardDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import ru.digital.business.task_services.TaskService;
+import ru.digital.dto.task_dto.request_task_dto.ChangeStatusOfTaskDto;
+import ru.digital.dto.task_dto.request_task_dto.CreateTaskDto;
+import ru.digital.dto.task_dto.request_task_dto.SearchTaskDto;
+import ru.digital.dto.task_dto.request_task_dto.UpdateTaskDto;
+import ru.digital.dto.task_dto.response_task_dto.TaskCardDto;
 
 import java.util.List;
 
@@ -35,7 +35,7 @@ public class TaskController {
 
     @PostMapping(value = "/addFile")
     public void add(@RequestParam("file") MultipartFile file, @RequestParam("taskId") Long taskId) throws Exception {
-       service.loadFileToTask(file,taskId);
+        service.loadFileToTask(file, taskId);
     }
 
     @Operation(summary = "Updating task info")
