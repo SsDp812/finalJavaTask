@@ -8,7 +8,7 @@ import ru.digital.dto.project_dto.request_project_dto.SearchProjectDto;
 import ru.digital.dto.project_dto.request_project_dto.UpdateProjectDto;
 import ru.digital.dto.project_dto.response_project_dto.ProjectCardDto;
 import ru.digital.models.project_model.Project;
-import ru.digital.business.project_services.ProjectServiceImpl;
+import ru.digital.business.project_services.Impls.ProjectServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -132,7 +132,7 @@ public class ProjectServiceIntegrationTest extends BaseTest {
         Project project = getSomeProject();
         service.createNewProject(getCreateDto(project));
         ProjectCardDto dto = service.changeProjectStatus(new ChangeProjectStatusDto(
-                project.getProjectCodeName(), ProjectStatus.DEVELOPING.toString()
+                project.getProjectCodeName(), ProjectStatus.DEVELOPING
         ));
         Assertions.assertEquals(ProjectStatus.DEVELOPING.toString(), dto.getProjectStatus().toString());
     }
@@ -143,7 +143,7 @@ public class ProjectServiceIntegrationTest extends BaseTest {
             Project project = getSomeProject();
             service.createNewProject(getCreateDto(project));
             ProjectCardDto dto = service.changeProjectStatus(new ChangeProjectStatusDto(
-                    project.getProjectCodeName(), ProjectStatus.DONE.toString()
+                    project.getProjectCodeName(), ProjectStatus.DONE
             ));
             Assertions.assertEquals(project.getProjectStatus().toString(), dto.getProjectStatus());
         } catch (Exception ex) {
@@ -183,7 +183,7 @@ public class ProjectServiceIntegrationTest extends BaseTest {
     private ChangeProjectStatusDto getStatusDto(Project project) {
         return new ChangeProjectStatusDto(
                 project.getProjectCodeName(),
-                project.getProjectStatus().toString()
+                project.getProjectStatus()
         );
     }
 

@@ -258,7 +258,7 @@ public class TaskServiceIntegrationTest extends BaseTest {
         task.setTaskId(dtoTask.getTaskId());
         TaskCardDto dto = service.changeTaskStatus(new ChangeStatusOfTaskDto(
                 dtoTask.getTaskId(),
-                TaskStatus.INPROGRESS.toString()
+                TaskStatus.INPROGRESS
         ));
         Assertions.assertEquals(task.getTaskName(), dto.getTaskName());
         Assertions.assertEquals(task.getTaskDescription(), dto.getTaskDescription());
@@ -283,7 +283,7 @@ public class TaskServiceIntegrationTest extends BaseTest {
             task.setTaskId(dtoTask.getTaskId());
             TaskCardDto dto = service.changeTaskStatus(new ChangeStatusOfTaskDto(
                     task.getTaskId(),
-                    TaskStatus.DONE.toString()
+                    TaskStatus.DONE
             ));
         } catch (Exception ex) {
             Assertions.assertEquals("Not available task status!", ex.getMessage());
@@ -299,8 +299,7 @@ public class TaskServiceIntegrationTest extends BaseTest {
                 task.getProject().getProjectCodeName(),
                 task.getExecutor().getAccountId(),
                 task.getHours(),
-                task.getDeadLineTime(),
-                task.getStartTaskTime()
+                task.getDeadLineTime()
         );
     }
 

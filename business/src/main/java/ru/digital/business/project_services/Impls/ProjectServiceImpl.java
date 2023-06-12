@@ -1,7 +1,9 @@
-package ru.digital.business.project_services;
+package ru.digital.business.project_services.Impls;
 
 
 import lombok.extern.slf4j.Slf4j;
+import ru.digital.business.project_services.ProjectMapper;
+import ru.digital.business.project_services.ProjectService;
 import ru.digital.commons.enity_statuses.ProjectStatus;
 import ru.digital.dao.project_dao.ProjectRepository;
 import ru.digital.dao.project_dao.specifications.ProjectSpecifications;
@@ -24,7 +26,7 @@ import java.util.*;
 @Service
 @Transactional
 @Slf4j
-public class ProjectServiceImpl implements ProjectService{
+public class ProjectServiceImpl implements ProjectService {
     private ProjectRepository repository;
     private TeamRepository teamRepository;
 
@@ -108,8 +110,8 @@ public class ProjectServiceImpl implements ProjectService{
             Project project = projectOptional.get();
 
             if (checkAvailableToChangeStatus(project.getProjectStatus(),
-                    ProjectStatus.valueOf(dto.getNewStatus()))) {
-                project.setProjectStatus(ProjectStatus.valueOf(dto.getNewStatus()));
+                    dto.getNewStatus())) {
+                project.setProjectStatus(dto.getNewStatus());
                 log.info("Project " + project.getProjectCodeName() +
                         " has new status now: " + project.getProjectStatus().toString());
                 project = repository.save(project);

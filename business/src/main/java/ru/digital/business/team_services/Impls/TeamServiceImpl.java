@@ -2,6 +2,7 @@ package ru.digital.business.team_services.Impls;
 
 
 import lombok.extern.slf4j.Slf4j;
+import ru.digital.business.team_member_services.MemberService;
 import ru.digital.dao.employee_dao.EmployeeRepository;
 import ru.digital.models.employee_model.Employee;
 import ru.digital.commons.exceptions.employee_exceptions.EmployeeNotFoundException;
@@ -37,13 +38,13 @@ import java.util.Optional;
 @Slf4j
 public class TeamServiceImpl implements TeamService {
     private TeamRepository repository;
-    private MemberServiceImpl memberService;
+    private MemberService memberService;
     private EmployeeRepository employeeRepository;
     private ProjectRepository projectRepository;
     private TeamMemberRepository teamMemberRepository;
 
     @Autowired
-    public TeamServiceImpl(TeamRepository repository, MemberServiceImpl memberService,
+    public TeamServiceImpl(TeamRepository repository, MemberService memberService,
                            EmployeeRepository employeeRepository, ProjectRepository projectRepository,
                            TeamMemberRepository teamMemberRepository) {
         this.repository = repository;
@@ -74,12 +75,12 @@ public class TeamServiceImpl implements TeamService {
                             " is already in team: " + dto.getProjectCodeName() + " with role " + dto.getRole().toString());
                     throw new EmployeeAlreadyInTeamException();
                 } else {
-                    TeamMember member = memberService.getMemberByEmployeeAndRole(optionalEmployee.get(), EmployeeProjectRole.valueOf(dto.getRole()), team);
+                    TeamMember member = memberService.getMemberByEmployeeAndRole(optionalEmployee.get(),dto.getRole(), team);
                     team.getMembers().add(member);
                     team = repository.save(team);
                     log.info("Employee with account id: " + dto.getAccountId().toString() +
                             " was added to team: " + dto.getProjectCodeName() + " with role " + dto.getRole().toString());
-                    return MemberMapper.getMemberCard(optionalEmployee.get(), EmployeeProjectRole.valueOf(dto.getRole()));
+                    return MemberMapper.getMemberCard(optionalEmployee.get(), dto.getRole());
                 }
 //
             } else {

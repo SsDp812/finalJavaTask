@@ -2,6 +2,7 @@ package ru.digital.controllers.team_controllers;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import ru.digital.dto.member_dto.response_member_dto.MemberCardDto;
 import ru.digital.business.team_services.Impls.TeamServiceImpl;
 import ru.digital.business.team_services.TeamService;
@@ -24,25 +25,25 @@ public class TeamController {
     private TeamService service;
 
     @Autowired
-    public TeamController(TeamServiceImpl service) {
+    public TeamController(TeamService service) {
         this.service = service;
     }
 
     @Operation(summary = "Adding member to team")
     @PostMapping(value = "/add",consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public MemberCardDto addMemberToTeam(@RequestBody AddMemberDto dto) throws Exception {
+    public MemberCardDto addMemberToTeam(@RequestBody @Valid AddMemberDto dto) throws Exception {
         return service.addMemberToTeam(dto);
     }
 
     @Operation(summary = "Removing member from team")
     @PostMapping(value = "/remove",consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public MemberCardDto removeMemberFromTeam(@RequestBody RemoveMemberDto dto) throws Exception {
+    public MemberCardDto removeMemberFromTeam(@RequestBody @Valid RemoveMemberDto dto) throws Exception {
         return service.removeMemberFromTeam(dto);
     }
 
     @Operation(summary = "Get all members of team")
     @PostMapping(value = "/all",consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<MemberCardDto> getMembersFromTeam(@RequestBody GetAllMembersDto dto) throws Exception {
+    public List<MemberCardDto> getMembersFromTeam(@RequestBody @Valid GetAllMembersDto dto) throws Exception {
         return service.getAllMembers(dto);
     }
 }

@@ -9,7 +9,7 @@ import ru.digital.dto.project_dto.request_project_dto.SearchProjectDto;
 import ru.digital.dto.project_dto.request_project_dto.UpdateProjectDto;
 import ru.digital.dto.project_dto.response_project_dto.ProjectCardDto;
 import ru.digital.models.project_model.Project;
-import ru.digital.business.project_services.ProjectServiceImpl;
+import ru.digital.business.project_services.Impls.ProjectServiceImpl;
 import ru.digital.dao.team_dao.TeamRepository;
 import ru.digital.models.team_member_model.TeamMember;
 import ru.digital.models.team_model.Team;
@@ -217,7 +217,7 @@ public class ProjectServiceTest {
     private ChangeProjectStatusDto getStatusDto(Project project){
         return new ChangeProjectStatusDto(
                 project.getProjectCodeName(),
-                project.getProjectStatus().toString()
+                project.getProjectStatus()
         );
     }
     private Project getSomeProject(){

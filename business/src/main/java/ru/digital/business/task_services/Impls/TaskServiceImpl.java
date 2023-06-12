@@ -170,14 +170,14 @@ public class TaskServiceImpl implements TaskService {
         Employee author = null;
         Employee executor = null;
         if (dto.getAuthorId() != null) {
-            Optional<Employee> optionalAuthor = employeeRepository.findById(Long.parseLong(dto.getAuthorId()));
+            Optional<Employee> optionalAuthor = employeeRepository.findById(dto.getAuthorId());
             if (optionalAuthor.isPresent()) {
                 author = optionalAuthor.get();
             }
         }
 
         if (dto.getExecutorId() != null) {
-            Optional<Employee> optionalEx = employeeRepository.findById(Long.parseLong(dto.getExecutorId()));
+            Optional<Employee> optionalEx = employeeRepository.findById(dto.getExecutorId());
             if (optionalEx.isPresent()) {
                 executor = optionalEx.get();
             }
@@ -210,8 +210,8 @@ public class TaskServiceImpl implements TaskService {
             Task task = taskOptional.get();
 
             if (checkAvailableToChangeStatus(task.getTaskStatus(),
-                    TaskStatus.valueOf(dto.getTaskStatus()))) {
-                task.setTaskStatus(TaskStatus.valueOf(dto.getTaskStatus()));
+                    dto.getTaskStatus())) {
+                task.setTaskStatus(dto.getTaskStatus());
                 log.info("Task with id = " + task.getTaskId() + " has new status: " +
                         task.getTaskStatus().toString());
                 task = repository.save(task);

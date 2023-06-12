@@ -212,8 +212,8 @@ public class TaskServiceTest {
         List<TaskCardDto> tasks = taskService.searchTask(new SearchTaskDto(
                 task.getTaskName(),
                 Arrays.asList(TaskStatus.NEW),
-                "1",
-                "1",
+                Long.valueOf(1),
+                Long.valueOf(1),
                 null,
                 null,
                 null,
@@ -232,7 +232,7 @@ public class TaskServiceTest {
         Mockito.when(taskRepository.save(newTask)).thenReturn(newTask);
         TaskCardDto dto = taskService.changeTaskStatus(new ChangeStatusOfTaskDto(
                 task.getTaskId(),
-                TaskStatus.INPROGRESS.toString()
+                TaskStatus.INPROGRESS
         ));
         Assertions.assertEquals(task.getTaskName(), dto.getTaskName());
         Assertions.assertEquals(task.getTaskDescription(), dto.getTaskDescription());
@@ -247,7 +247,7 @@ public class TaskServiceTest {
             Mockito.when(taskRepository.findById(task.getTaskId())).thenReturn(Optional.of(task));
             TaskCardDto dto = taskService.changeTaskStatus(new ChangeStatusOfTaskDto(
                     task.getTaskId(),
-                    TaskStatus.DONE.toString()
+                    TaskStatus.DONE
             ));
         } catch (Exception ex) {
             Assertions.assertEquals("Not available task status!", ex.getMessage());
@@ -301,8 +301,7 @@ public class TaskServiceTest {
                 task.getProject().getProjectCodeName(),
                 task.getExecutor().getAccountId(),
                 task.getHours(),
-                task.getDeadLineTime(),
-                task.getStartTaskTime()
+                task.getDeadLineTime()
         );
     }
 

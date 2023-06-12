@@ -3,6 +3,7 @@ package ru.digital.controllers.employee_сontrollers;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
+import jakarta.validation.Valid;
 import ru.digital.dto.employee_dto.request_employee_dto.*;
 import ru.digital.dto.employee_dto.response_employee_dto.EmployeeCardDto;
 import ru.digital.business.employee_services.EmployeeService;
@@ -20,44 +21,44 @@ public class EmployeeController {
     private EmployeeService service;
 
     @Autowired
-    public EmployeeController(EmployeeServiceImpl service) {
+    public EmployeeController(EmployeeService service) {
         this.service = service;
     }
 
     @Operation(summary = "Creating new employee")
     @PostMapping(value = "/new",consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public EmployeeCardDto createNew(@RequestBody CreateEmployeeDto dto) throws Exception {
+    public EmployeeCardDto createNew(@RequestBody @Valid CreateEmployeeDto dto) throws Exception {
         return service.createNewEmployee(dto);
     }
 
 
     @Operation(summary = "CUpdating employee info")
     @PostMapping(value = "/update",consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public EmployeeCardDto updateEmployee(@RequestBody UpdateEmployeeDto dto) throws Exception {
+    public EmployeeCardDto updateEmployee(@RequestBody @Valid UpdateEmployeeDto dto) throws Exception {
         return service.changeEmployeeInfo(dto);
     }
 
     @Operation(summary = "Deleting employee")
     @PostMapping(value = "/delete", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public EmployeeCardDto deleteEmployee(@RequestBody DeleteEmployeeDto dto) throws Exception {
+    public EmployeeCardDto deleteEmployee(@RequestBody @Valid DeleteEmployeeDto dto) throws Exception {
         return service.deleteEmployee(dto);
     }
 
     @Operation(summary = "Searching employee by filter")
     @PostMapping(value = "/search", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<EmployeeCardDto> searchEmployee(@RequestBody SearchEmployeeDto dto) throws Exception {
+    public List<EmployeeCardDto> searchEmployee(@RequestBody @Valid SearchEmployeeDto dto) throws Exception {
         return service.searchEmployee(dto);
     }
 
     @Operation(summary = "Get employee by id")
     @PostMapping(value = "/getById", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public EmployeeCardDto getEmployeeById(@RequestBody GetByIdEmployeeDto dto) throws Exception {
+    public EmployeeCardDto getEmployeeById(@RequestBody @Valid GetByIdEmployeeDto dto) throws Exception {
         return service.getEmployeeCardById(dto);
     }
 
     @Operation(summary = "Get employee by login and password")
     @GetMapping(value = "/getByAccount", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public EmployeeCardDto getEmployeeByAccount(@RequestBody GetEmployeeByLoginAndPassword dto) throws Exception {
+    public EmployeeCardDto getEmployeeByAccount(@RequestBody @Valid GetEmployeeByLoginAndPassword dto) throws Exception {
         return service.getEmployeeByAccount(dto);
     }
 }

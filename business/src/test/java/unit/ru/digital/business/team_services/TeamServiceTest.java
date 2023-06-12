@@ -1,6 +1,8 @@
 package unit.ru.digital.business.team_services;
 
 
+import ru.digital.business.team_member_services.Impls.MemberServiceImpl;
+import ru.digital.business.team_services.Impls.TeamServiceImpl;
 import ru.digital.dao.employee_dao.EmployeeRepository;
 import ru.digital.models.employee_model.Employee;
 import ru.digital.commons.enity_statuses.EmployeeStatus;
@@ -9,8 +11,6 @@ import ru.digital.dto.member_dto.response_member_dto.MemberCardDto;
 import ru.digital.dao.project_dao.ProjectRepository;
 import ru.digital.models.project_model.Project;
 import ru.digital.commons.roles.EmployeeProjectRole;
-import ru.digital.business.team_member_services.Impls.MemberServiceImpl;
-import ru.digital.business.team_services.Impls.TeamServiceImpl;
 import ru.digital.dao.team_dao.TeamRepository;
 import ru.digital.dto.team_dto.AddMemberDto;
 import ru.digital.dto.team_dto.GetAllMembersDto;
@@ -70,7 +70,7 @@ public class TeamServiceTest {
         MemberCardDto dto = teamService.addMemberToTeam(new AddMemberDto(
                 project.getProjectCodeName(),
                 member.getMember().getAccountId(),
-                member.getRole().toString()
+                member.getRole()
         ));
 
         Assertions.assertEquals(member.getMember().getName(),dto.getEmployee().getName());
@@ -91,7 +91,7 @@ public class TeamServiceTest {
             MemberCardDto dto = teamService.addMemberToTeam(new AddMemberDto(
                     project.getProjectCodeName(),
                     member.getMember().getAccountId(),
-                    member.getRole().toString()
+                    member.getRole()
             ));
         }catch (Exception ex){
             Assertions.assertEquals("Employee was not found!",ex.getMessage());
@@ -110,7 +110,7 @@ public class TeamServiceTest {
             MemberCardDto dto = teamService.addMemberToTeam(new AddMemberDto(
                     project.getProjectCodeName(),
                     member.getMember().getAccountId(),
-                    member.getRole().toString()
+                    member.getRole()
             ));
 
         } catch (Exception ex) {
@@ -134,7 +134,7 @@ public class TeamServiceTest {
             MemberCardDto dto = teamService.addMemberToTeam(new AddMemberDto(
                     project.getProjectCodeName(),
                     member.getMember().getAccountId(),
-                    member.getRole().toString()
+                    member.getRole()
             ));
         }catch (Exception ex){
             Assertions.assertEquals("Employee already in team!",ex.getMessage());
