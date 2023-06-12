@@ -10,15 +10,6 @@ CREATE TABLE employee (
   status varchar(255) NOT NULL
 );
 
-CREATE TABLE teammember (
-  member_id SERIAL PRIMARY KEY,
-  employee_id integer NOT NULL,
-  member_role varchar(255) NOT NULL,
-  team varchar(255) NOT NULL,
-  CONSTRAINT FK_TeamMember_Employee FOREIGN KEY (employee_id) REFERENCES Employee (accountid),
-  CONSTRAINT FK_team FOREIGN KEY (team) REFERENCES Team (project_code_name)
-);
-
 CREATE TABLE project (
   code_name VARCHAR(255) PRIMARY KEY,
   project_name VARCHAR(255) NOT NULL,
@@ -26,13 +17,6 @@ CREATE TABLE project (
   project_status VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE team (
-  teamid SERIAL PRIMARY KEY,
-  project_code_name VARCHAR(255),
-  member_id INT,
-  CONSTRAINT fk_team_project FOREIGN KEY (project_code_name) REFERENCES Project(code_name),
-  CONSTRAINT fk_team_member FOREIGN KEY (member_id) REFERENCES TeamMember(member_id)
-);
 
 CREATE TABLE task (
   task_id SERIAL PRIMARY KEY,
@@ -53,3 +37,20 @@ CREATE TABLE task (
   CONSTRAINT fk_task_author FOREIGN KEY (task_author) REFERENCES Employee(accountid),
   CONSTRAINT fk_project_code_name FOREIGN KEY (project_code_name) REFERENCES Project(code_name)
 );
+
+CREATE TABLE team (
+  teamid SERIAL PRIMARY KEY,
+  project_code_name VARCHAR(255) UNIQUE,
+  member_id INT,
+  CONSTRAINT fk_team_project FOREIGN KEY (project_code_name) REFERENCES Project(code_name)
+);
+
+CREATE TABLE teammember (
+  member_id SERIAL PRIMARY KEY,
+  employee_id integer NOT NULL,
+  member_role varchar(255) NOT NULL,
+  team varchar(255) NOT NULL,
+  CONSTRAINT FK_TeamMember_Employee FOREIGN KEY (employee_id) REFERENCES Employee (accountid),
+  CONSTRAINT FK_team FOREIGN KEY (team) REFERENCES Team (project_code_name)
+);
+
