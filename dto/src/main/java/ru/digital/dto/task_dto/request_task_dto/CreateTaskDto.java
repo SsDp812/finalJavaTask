@@ -3,6 +3,7 @@ package ru.digital.dto.task_dto.request_task_dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.*;
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 
@@ -30,4 +31,9 @@ public class CreateTaskDto {
     @Schema(description = "End time for task")
     @Future
     private Date deadLineTime;
+
+    @Schema(description = "Parent task")
+    @Min(value = 0,message = "parent task id should be more than zero")
+    private Long parentTaskId;
+
 }

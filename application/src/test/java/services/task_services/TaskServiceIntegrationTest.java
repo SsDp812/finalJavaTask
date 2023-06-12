@@ -299,7 +299,8 @@ public class TaskServiceIntegrationTest extends BaseTest {
                 task.getProject().getProjectCodeName(),
                 task.getExecutor().getAccountId(),
                 task.getHours(),
-                task.getDeadLineTime()
+                task.getDeadLineTime(),
+                null
         );
     }
 
@@ -312,7 +313,8 @@ public class TaskServiceIntegrationTest extends BaseTest {
                 task.getTaskDescription(),
                 task.getExecutor().getAccountId(),
                 task.getHours(),
-                task.getDeadLineTime()
+                task.getDeadLineTime(),
+                null
         );
     }
 

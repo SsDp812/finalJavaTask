@@ -34,10 +34,35 @@
 
 ![App diagram](https://github.com/SsDp812/finalJavaTask/blob/main/diagram.png)
 
-# Пример письма с уведомлением на почту сотруднику
+## Отправка уведомлений на почту при создании новой задачи
+### Реализация
+При создании новой задачи ее исполнитель получает уведомление на почту.
+Письма отправляются асинхронно через rabbitMQ.
+Для отправки сообщений используется JavaMailSender.
+Уже перед отправкой email сотрудника подменятеся на реальный для удобства тестирования.
+Email сотрудника указывается в теле самого письма.
+### Пример письма с уведомлением на почту сотруднику
 ![App diagram](https://github.com/SsDp812/finalJavaTask/blob/fixSender/emailExample.png)
 
+### Очередь в брокере сообщений
+![App diagram](https://github.com/SsDp812/finalJavaTask/blob/fixSender/queue.png)
 
-# Тестирование
-## Ссылка на отчет по функциональному тестированию
+## База данных
+### Создание
+База данных создается автоматически при помощи liquiBase.
+Но также в папке resourses есть sql скрипт для альтернативного создания базы.
+### Диаграмма базы данных
+![App diagram](https://github.com/SsDp812/finalJavaTask/blob/fixSender/dbDiagram.png)
+
+## Тестирование
+### Ссылка на отчет по функциональному тестированию
 https://docs.google.com/spreadsheets/d/1cdgyPRl3j5yEhDI6uSoP2qaPgu6IgF3pCiMT7qQT1zM/edit?usp=sharing
+Также в папке resourses лежит pdf вариант этого документа
+
+### Результаты модульного (юнит) тестирования
+![App diagram](https://github.com/SsDp812/finalJavaTask/blob/fixSender/unitTests.png)
+
+### Результаты интеграционного тестирования
+![App diagram](https://github.com/SsDp812/finalJavaTask/blob/fixSender/integrationTests.png)
+Для интеграционного тестирования исполльзовалась зависимость testContainers.
+База данных и брокер сообщений помещались также в отдельные тестовые контейнеры.

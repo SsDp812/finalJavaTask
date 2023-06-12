@@ -4,14 +4,17 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Fetch;
 import ru.digital.models.employee_model.Employee;
 import ru.digital.models.project_model.Project;
 import ru.digital.commons.enity_statuses.TaskStatus;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
+import ru.digital.models.team_member_model.TeamMember;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 
 @Data
@@ -24,7 +27,6 @@ public class Task implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "task_id")
     private Long taskId;
-
 
     @ManyToOne
     @JdbcTypeCode(SqlTypes.VARCHAR)
@@ -61,4 +63,13 @@ public class Task implements Serializable {
     @Enumerated(value = EnumType.STRING)
     private TaskStatus taskStatus;
 
+    @ManyToOne
+    @JoinColumn(name = "parent")
+    private Task parentTask;
+
+    @OneToMany(mappedBy = "parentTask",fetch = FetchType.EAGER)
+    private List<Task> childTasks;
+
+    @Column(name = "file")
+    private String fileName;
 }

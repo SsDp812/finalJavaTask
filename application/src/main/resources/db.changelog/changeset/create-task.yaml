@@ -57,12 +57,23 @@ databaseChangeLog:
               - column:
                   name: edit_time
                   type: timestamp
+              - column:
+                  name: parent
+                  type: integer
+              - column:
+                  name: file
+                  type: varchar(255)
             foreignKeys:
               - foreignKey:
                   name: fk_task_executor
                   referencedTableName: Employee
                   referencedColumnNames: accountid
                   baseColumnNames: task_executor
+              - foreignKey:
+                  name: fk_parent
+                  referencedTableName: task
+                  referencedColumnNames: task_id
+                  baseColumnNames: parent
               - foreignKey:
                   name: fk_task_author
                   referencedTableName: Employee

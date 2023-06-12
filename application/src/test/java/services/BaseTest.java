@@ -26,7 +26,7 @@ import java.util.UUID;
 
 @SpringBootTest(classes = Main.class, properties = {"rabbitmq.queue=myQueue", "rabbitmq.routingkey=myKey",
         "rabbitmq.exchange=mails-exchange","spring.rabbitmq.username=admin","spring.rabbitmq.password=admin",
-        "spring.rabbitmq.host.port=5672"
+        "spring.rabbitmq.host.port=5672", "upload.path=/files"
 })
 public class BaseTest {
     @Container
@@ -98,7 +98,10 @@ public class BaseTest {
                 getSomeEmloyee(),
                 new Date(123, 2, 21, 10, 0, 0),
                 new Date(123, 2, 23, 10, 0, 0),
-                TaskStatus.NEW
+                TaskStatus.NEW,
+                null,
+                null,
+                null
         );
     }
 }

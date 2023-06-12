@@ -281,7 +281,10 @@ public class TaskServiceTest {
                 getSomeEmloyee(),
                 new Date(123, 2, 21, 10, 0, 0),
                 new Date(123, 2, 23, 10, 0, 0),
-                TaskStatus.NEW
+                TaskStatus.NEW,
+                null,
+                null,
+                null
         );
     }
 
@@ -301,7 +304,8 @@ public class TaskServiceTest {
                 task.getProject().getProjectCodeName(),
                 task.getExecutor().getAccountId(),
                 task.getHours(),
-                task.getDeadLineTime()
+                task.getDeadLineTime(),
+                null
         );
     }
 
@@ -314,7 +318,8 @@ public class TaskServiceTest {
                 task.getTaskDescription(),
                 task.getExecutor().getAccountId(),
                 task.getHours(),
-                task.getDeadLineTime()
+                task.getDeadLineTime(),
+                null
         );
     }
 }

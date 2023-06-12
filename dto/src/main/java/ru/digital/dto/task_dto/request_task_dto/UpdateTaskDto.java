@@ -36,4 +36,7 @@ public class UpdateTaskDto {
     @Future
     @Schema(description = "End time for task")
     private Date deadLineTime;
+    @Schema(description = "Parent task")
+    @Min(value = 0,message = "parent task id should be more than zero")
+    private Long parentTaskId;
 }
