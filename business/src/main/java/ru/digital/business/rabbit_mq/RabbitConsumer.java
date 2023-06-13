@@ -5,7 +5,7 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.digital.business.mail_sender_services.MailSender;
-import ru.digital.models.task_model.Task;
+import ru.digital.dto.task_dto.response_task_dto.NotifyTaskDto;
 
 
 @Component
@@ -20,8 +20,8 @@ public class RabbitConsumer {
     }
 
     @RabbitListener(queues = "myQueue")
-    public void receiveMessage(Task task) throws Exception {
-        log.info("Getted task with id = " + task.getTaskId() + " from rabbit!");
-        mailSenderService.sendNotificationAboutTask(task);
+    public void receiveMessage(NotifyTaskDto dto) throws Exception {
+        log.info("Getted task with id = " + dto.getTaskId() + " from rabbit!");
+        mailSenderService.sendNotificationAboutTask(dto);
     }
 }

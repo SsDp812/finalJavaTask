@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.digital.business.task_services.TaskMapper;
 import ru.digital.business.task_services.TaskService;
 import ru.digital.commons.enity_statuses.EmployeeStatus;
+import ru.digital.commons.enity_statuses.NotifyStatus;
 import ru.digital.commons.enity_statuses.TaskStatus;
 import ru.digital.commons.exceptions.employee_exceptions.EmployeeAlreadyDeletedException;
 import ru.digital.commons.exceptions.employee_exceptions.EmployeeNotFoundException;
@@ -240,7 +241,7 @@ public class TaskServiceImpl implements TaskService {
             }
             task = repository.save(task);
             log.info("Task with id = " + task.getTaskId() + " was updated!");
-            rabbitTemplate.convertAndSend(rabbitExchangeName, rabbitRoutingKey, task);
+            rabbitTemplate.convertAndSend(rabbitExchangeName, rabbitRoutingKey, TaskMapper.getNotifyTaskDto(task, NotifyStatus.NEWTASK));
             return TaskMapper.getTaskCardDto(task);
         } else {
             throw new NotFoundTaskException();

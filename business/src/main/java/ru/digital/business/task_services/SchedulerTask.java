@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import ru.digital.commons.enity_statuses.NotifyStatus;
 import ru.digital.commons.enity_statuses.TaskStatus;
 import ru.digital.dao.task_dao.TaskRepository;
 import ru.digital.models.task_model.Task;
@@ -31,9 +32,9 @@ public class SchedulerTask {
         this.rabbitTemplate = rabbitTemplate;
     }
 
-    @Scheduled(initialDelay = 1000, fixedDelay = 60 * 60 * 1000 * 12)
+    @Scheduled(cron = "${action.notification.cron}")
     public void findOpenTasks() {
-        // Every 12 hours scheduler will be start
+        // Every day at 11:00 scheduler will be start
         Date now = new Date();
         log.info("Scheduler was activated!");
         List<Task> openTasks = repository.findBytaskStatusIn(Arrays.asList(
@@ -44,7 +45,8 @@ public class SchedulerTask {
             if (TimeUnit.HOURS.convert((now.getTime() - task.getDeadLineTime().getTime()),
                     TimeUnit.MILLISECONDS) <= 24) {
                 countOfNotifies++;
-                rabbitTemplate.convertAndSend(rabbitExchangeName, rabbitRoutingKey, task);
+                rabbitTemplate.convertAndSend(rabbitExchangeName, rabbitRoutingKey,
+                        TaskMapper.getNotifyTaskDto(task, NotifyStatus.REMEMBER));
             }
         }
         log.info(countOfNotifies.toString() + " open tasks with soon deadline was found!");

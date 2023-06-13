@@ -1,6 +1,8 @@
 package ru.digital.business.task_services;
 
 import ru.digital.business.employee_services.EmployeeMapper;
+import ru.digital.commons.enity_statuses.NotifyStatus;
+import ru.digital.dto.task_dto.response_task_dto.NotifyTaskDto;
 import ru.digital.dto.task_dto.response_task_dto.TaskCardDto;
 import ru.digital.models.task_model.Task;
 
@@ -37,5 +39,18 @@ public class TaskMapper {
             tempDto.setFile(new File(task.getFileName()));
         }
         return tempDto;
+    }
+
+    public static NotifyTaskDto getNotifyTaskDto(Task task, NotifyStatus status) {
+        NotifyTaskDto dto = new NotifyTaskDto();
+        dto.setEmail(task.getExecutor().getEmail());
+        dto.setEmployeeName(task.getExecutor().getName());
+        dto.setTaskName(task.getTaskName());
+        dto.setEmployeeSurname(task.getExecutor().getSurname());
+        dto.setTaskDescription(task.getTaskDescription());
+        dto.setDeadline(task.getDeadLineTime());
+        dto.setStatus(status);
+        dto.setTaskId(task.getTaskId());
+        return dto;
     }
 }

@@ -1,7 +1,7 @@
 package ru.digital.business.mail_sender_services;
 
-import ru.digital.models.task_model.Task;
+import ru.digital.dto.task_dto.response_task_dto.NotifyTaskDto;
 
 public interface MailSender {
-    public void sendNotificationAboutTask(Task task) throws Exception;
+    public void sendNotificationAboutTask(NotifyTaskDto dto) throws Exception;
 }
