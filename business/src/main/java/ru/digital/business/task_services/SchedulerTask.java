@@ -38,7 +38,7 @@ public class SchedulerTask {
         Date now = new Date();
         log.info("Scheduler was activated!");
         List<Task> openTasks = repository.findBytaskStatusIn(Arrays.asList(
-                TaskStatus.INPROGRESS
+                TaskStatus.INPROGRESS, TaskStatus.NEW
         ));
         Long countOfNotifies = Long.valueOf(0);
         for (var task : openTasks) {
