@@ -1,52 +1,46 @@
 package services.team_services;
 
 
-import org.checkerframework.checker.units.qual.A;
-import org.digital.Main;
-import org.digital.employee_dto.request_employee_dto.CreateEmployeeDto;
-import org.digital.employee_dto.response_employee_dto.EmployeeCardDto;
-import org.digital.employee_model.Employee;
-import org.digital.enity_statuses.EmployeeStatus;
-import org.digital.enity_statuses.ProjectStatus;
-import org.digital.member_dto.response_member_dto.MemberCardDto;
-import org.digital.project_dto.request_project_dto.CreateProjectDto;
-import org.digital.project_model.Project;
-import org.digital.roles.EmployeeProjectRole;
-import org.digital.services.employee_services.EmployeeService;
-import org.digital.services.project_services.ProjectService;
-import org.digital.services.team_member_services.MemberService;
-import org.digital.services.team_services.TeamService;
-import org.digital.team_dao.TeamRepository;
-import org.digital.team_dto.AddMemberDto;
-import org.digital.team_dto.GetAllMembersDto;
-import org.digital.team_dto.RemoveMemberDto;
-import org.digital.team_member_model.TeamMember;
-import org.digital.team_model.Team;
+import ru.digital.application.Main;
+import ru.digital.dto.employee_dto.request_employee_dto.CreateEmployeeDto;
+import ru.digital.dto.employee_dto.response_employee_dto.EmployeeCardDto;
+import ru.digital.models.employee_model.Employee;
+import ru.digital.commons.enity_statuses.EmployeeStatus;
+import ru.digital.dto.member_dto.response_member_dto.MemberCardDto;
+import ru.digital.dto.project_dto.request_project_dto.CreateProjectDto;
+import ru.digital.models.project_model.Project;
+import ru.digital.commons.roles.EmployeeProjectRole;
+import ru.digital.business.employee_services.Impls.EmployeeServiceImpl;
+import ru.digital.business.project_services.Impls.ProjectServiceImpl;
+import ru.digital.business.team_member_services.Impls.MemberServiceImpl;
+import ru.digital.business.team_services.Impls.TeamServiceImpl;
+import ru.digital.dao.team_dao.TeamRepository;
+import ru.digital.dto.team_dto.AddMemberDto;
+import ru.digital.dto.team_dto.GetAllMembersDto;
+import ru.digital.dto.team_dto.RemoveMemberDto;
+import ru.digital.models.team_member_model.TeamMember;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import services.BaseTest;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @SpringBootTest(classes = Main.class)
 public class TeamServiceIntegrationTest extends BaseTest {
 
     @Autowired
-    private TeamService service;
+    private TeamServiceImpl service;
     @Autowired
-    private EmployeeService employeeService;
+    private EmployeeServiceImpl employeeService;
 
     @Autowired
-    private MemberService memberService;
+    private MemberServiceImpl memberService;
 
     @Autowired
-    private ProjectService projectService;
+    private ProjectServiceImpl projectService;
     @Autowired
     private TeamRepository teamRepository;
 
@@ -67,7 +61,7 @@ public class TeamServiceIntegrationTest extends BaseTest {
         MemberCardDto dto = service.addMemberToTeam(new AddMemberDto(
                 project.getProjectCodeName(),
                 employee.getAccountId(),
-                EmployeeProjectRole.ANALYST.toString()
+                EmployeeProjectRole.ANALYST
         ));
 
         Assertions.assertEquals(employeeCardDto.getName(),dto.getEmployee().getName());
@@ -92,7 +86,7 @@ public class TeamServiceIntegrationTest extends BaseTest {
             MemberCardDto dto = service.addMemberToTeam(new AddMemberDto(
                     project.getProjectCodeName(),
                     employee.getAccountId() + 100,
-                    EmployeeProjectRole.ANALYST.toString()
+                    EmployeeProjectRole.ANALYST
             ));
 
         }catch (Exception ex){
@@ -118,7 +112,7 @@ public class TeamServiceIntegrationTest extends BaseTest {
             MemberCardDto dto = service.addMemberToTeam(new AddMemberDto(
                     project.getProjectCodeName() + "!",
                     employee.getAccountId(),
-                    EmployeeProjectRole.ANALYST.toString()
+                    EmployeeProjectRole.ANALYST
             ));
 
         } catch (Exception ex) {
@@ -144,13 +138,13 @@ public class TeamServiceIntegrationTest extends BaseTest {
             MemberCardDto dto = service.addMemberToTeam(new AddMemberDto(
                     project.getProjectCodeName(),
                     employee.getAccountId(),
-                    EmployeeProjectRole.ANALYST.toString()
+                    EmployeeProjectRole.ANALYST
             ));
             employee.setAccountId(employeeCardDto.getId());
             MemberCardDto dto2 = service.addMemberToTeam(new AddMemberDto(
                     project.getProjectCodeName(),
                     employee.getAccountId(),
-                    EmployeeProjectRole.SUPERVISOR.toString()
+                    EmployeeProjectRole.SUPERVISOR
             ));
 
         }catch (Exception ex){
@@ -175,7 +169,7 @@ public class TeamServiceIntegrationTest extends BaseTest {
         MemberCardDto dto = service.addMemberToTeam(new AddMemberDto(
                 project.getProjectCodeName(),
                 employee.getAccountId(),
-                EmployeeProjectRole.ANALYST.toString()
+                EmployeeProjectRole.ANALYST
         ));
         MemberCardDto removedMember = service.removeMemberFromTeam(new RemoveMemberDto(
                 project.getProjectCodeName(),
@@ -204,7 +198,7 @@ public class TeamServiceIntegrationTest extends BaseTest {
             MemberCardDto dto = service.addMemberToTeam(new AddMemberDto(
                     project.getProjectCodeName(),
                     employee.getAccountId(),
-                    EmployeeProjectRole.ANALYST.toString()
+                    EmployeeProjectRole.ANALYST
             ));
             MemberCardDto removedMember = service.removeMemberFromTeam(new RemoveMemberDto(
                     project.getProjectCodeName(),
@@ -233,7 +227,7 @@ public class TeamServiceIntegrationTest extends BaseTest {
             MemberCardDto dto = service.addMemberToTeam(new AddMemberDto(
                     project.getProjectCodeName(),
                     employee.getAccountId(),
-                    EmployeeProjectRole.ANALYST.toString()
+                    EmployeeProjectRole.ANALYST
             ));
             MemberCardDto removedMember = service.removeMemberFromTeam(new RemoveMemberDto(
                     project.getProjectCodeName() + "!",
@@ -261,7 +255,7 @@ public class TeamServiceIntegrationTest extends BaseTest {
         MemberCardDto dto = service.addMemberToTeam(new AddMemberDto(
                 project.getProjectCodeName(),
                 employee.getAccountId(),
-                EmployeeProjectRole.ANALYST.toString()
+                EmployeeProjectRole.ANALYST
         ));
 
         List<MemberCardDto> members = service.getAllMembers(new GetAllMembersDto(
@@ -290,7 +284,7 @@ public class TeamServiceIntegrationTest extends BaseTest {
             MemberCardDto dto = service.addMemberToTeam(new AddMemberDto(
                     project.getProjectCodeName() + "!",
                     employee.getAccountId(),
-                    EmployeeProjectRole.ANALYST.toString()
+                    EmployeeProjectRole.ANALYST
             ));
 
             List<MemberCardDto> members = service.getAllMembers(new GetAllMembersDto(

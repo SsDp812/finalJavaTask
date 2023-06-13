@@ -1,20 +1,19 @@
 package services.employee_services;
 
-import org.digital.Main;
-import org.digital.employee_dto.request_employee_dto.*;
-import org.digital.services.employee_services.EmployeeMapper;
+import ru.digital.application.Main;
+import ru.digital.business.employee_services.EmployeeMapper;
+import ru.digital.dto.employee_dto.request_employee_dto.*;
 import services.BaseTest;
-import org.digital.employee_dto.response_employee_dto.EmployeeCardDto;
-import org.digital.employee_model.Employee;
-import org.digital.enity_statuses.EmployeeStatus;
-import org.digital.services.employee_services.EmployeeService;
+import ru.digital.dto.employee_dto.response_employee_dto.EmployeeCardDto;
+import ru.digital.models.employee_model.Employee;
+import ru.digital.commons.enity_statuses.EmployeeStatus;
+import ru.digital.business.employee_services.Impls.EmployeeServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
-import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
 
@@ -22,7 +21,7 @@ import static org.mockito.ArgumentMatchers.any;
 public class EmployeeServiceIntegrationTest extends BaseTest {
 
     @Autowired
-    private EmployeeService service;
+    private EmployeeServiceImpl service;
 
     @Test
     public void createEmployee() throws Exception {

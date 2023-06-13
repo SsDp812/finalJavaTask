@@ -1,0 +1,1297 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "description": "Project Employee System",
+    "version": "v0.0.1"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080",
+      "description": "Generated server url"
+    }
+  ],
+  "tags": [
+    {
+      "name": "EmployeeController",
+      "description": "Controller for employees"
+    },
+    {
+      "name": "ProjectController",
+      "description": "Controller for project"
+    },
+    {
+      "name": "TaskController",
+      "description": "Controller for tasks"
+    },
+    {
+      "name": "TeamController",
+      "description": "Controller for team"
+    }
+  ],
+  "paths": {
+    "/team/remove": {
+      "post": {
+        "tags": [
+          "TeamController"
+        ],
+        "summary": "Removing member from team",
+        "operationId": "removeMemberFromTeam",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RemoveMemberDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MemberCardDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/team/all": {
+      "post": {
+        "tags": [
+          "TeamController"
+        ],
+        "summary": "Get all members of team",
+        "operationId": "getMembersFromTeam",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetAllMembersDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MemberCardDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/team/add": {
+      "post": {
+        "tags": [
+          "TeamController"
+        ],
+        "summary": "Adding member to team",
+        "operationId": "addMemberToTeam",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddMemberDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MemberCardDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tasks/update": {
+      "post": {
+        "tags": [
+          "TaskController"
+        ],
+        "summary": "Updating task info",
+        "operationId": "changeTask",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateTaskDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskCardDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tasks/search": {
+      "post": {
+        "tags": [
+          "TaskController"
+        ],
+        "summary": "Searching task by filter",
+        "operationId": "searchTask",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SearchTaskDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TaskCardDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tasks/new": {
+      "post": {
+        "tags": [
+          "TaskController"
+        ],
+        "summary": "Creating new task",
+        "operationId": "createTask",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateTaskDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskCardDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tasks/getById": {
+      "post": {
+        "tags": [
+          "TaskController"
+        ],
+        "operationId": "getTaskById",
+        "parameters": [
+          {
+            "name": "taskId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskCardDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tasks/changeStatus": {
+      "post": {
+        "tags": [
+          "TaskController"
+        ],
+        "summary": "Changing status of task",
+        "operationId": "changeTaskStatus",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangeStatusOfTaskDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskCardDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tasks/addFile": {
+      "post": {
+        "tags": [
+          "TaskController"
+        ],
+        "operationId": "add",
+        "parameters": [
+          {
+            "name": "taskId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "required": [
+                  "file"
+                ],
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/project/update": {
+      "post": {
+        "tags": [
+          "ProjectController"
+        ],
+        "summary": "Updating project",
+        "operationId": "updateProject",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateProjectDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProjectCardDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/project/search": {
+      "post": {
+        "tags": [
+          "ProjectController"
+        ],
+        "summary": "Searching project by filter",
+        "operationId": "searchProject",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SearchProjectDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProjectCardDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/project/new": {
+      "post": {
+        "tags": [
+          "ProjectController"
+        ],
+        "summary": "Creating new project",
+        "operationId": "createProject",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateProjectDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProjectCardDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/project/changeStatus": {
+      "post": {
+        "tags": [
+          "ProjectController"
+        ],
+        "summary": "Changing project status",
+        "operationId": "changeProjectStatus",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangeProjectStatusDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProjectCardDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/employee/update": {
+      "post": {
+        "tags": [
+          "EmployeeController"
+        ],
+        "summary": "CUpdating employee info",
+        "operationId": "updateEmployee",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateEmployeeDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmployeeCardDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/employee/search": {
+      "post": {
+        "tags": [
+          "EmployeeController"
+        ],
+        "summary": "Searching employee by filter",
+        "operationId": "searchEmployee",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SearchEmployeeDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EmployeeCardDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/employee/new": {
+      "post": {
+        "tags": [
+          "EmployeeController"
+        ],
+        "summary": "Creating new employee",
+        "operationId": "createNew",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateEmployeeDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmployeeCardDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/employee/getById": {
+      "post": {
+        "tags": [
+          "EmployeeController"
+        ],
+        "summary": "Get employee by id",
+        "operationId": "getEmployeeById",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetByIdEmployeeDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmployeeCardDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/employee/delete": {
+      "post": {
+        "tags": [
+          "EmployeeController"
+        ],
+        "summary": "Deleting employee",
+        "operationId": "deleteEmployee",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeleteEmployeeDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmployeeCardDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/employee/getByAccount": {
+      "get": {
+        "tags": [
+          "EmployeeController"
+        ],
+        "summary": "Get employee by login and password",
+        "operationId": "getEmployeeByAccount",
+        "parameters": [
+          {
+            "name": "dto",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/GetEmployeeByLoginAndPassword"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmployeeCardDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "RemoveMemberDto": {
+        "required": [
+          "accountId",
+          "projectCodeName"
+        ],
+        "type": "object",
+        "properties": {
+          "projectCodeName": {
+            "maxLength": 25,
+            "minLength": 5,
+            "type": "string",
+            "description": "Project code name"
+          },
+          "accountId": {
+            "minimum": 0,
+            "type": "integer",
+            "description": "Employee account id",
+            "format": "int64"
+          }
+        },
+        "description": "Member for removing from team"
+      },
+      "EmployeeCardDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "surname": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "middleName": {
+            "type": "string"
+          },
+          "jobTitle": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "ACTIVE",
+              "DELETED"
+            ]
+          }
+        }
+      },
+      "MemberCardDto": {
+        "type": "object",
+        "properties": {
+          "employee": {
+            "$ref": "#/components/schemas/EmployeeCardDto"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "SUPERVISOR",
+              "ANALYST",
+              "DEVELOPER",
+              "TESTER"
+            ]
+          }
+        }
+      },
+      "GetAllMembersDto": {
+        "required": [
+          "projectCodeName"
+        ],
+        "type": "object",
+        "properties": {
+          "projectCodeName": {
+            "maxLength": 25,
+            "minLength": 5,
+            "type": "string",
+            "description": "Project code name"
+          }
+        },
+        "description": "Getting all members of team"
+      },
+      "AddMemberDto": {
+        "required": [
+          "accountId",
+          "projectCodeName"
+        ],
+        "type": "object",
+        "properties": {
+          "projectCodeName": {
+            "maxLength": 25,
+            "minLength": 5,
+            "type": "string",
+            "description": "Project code name"
+          },
+          "accountId": {
+            "minimum": 0,
+            "type": "integer",
+            "description": "Employee account id",
+            "format": "int64"
+          },
+          "role": {
+            "type": "string",
+            "description": "Employee role in team",
+            "enum": [
+              "SUPERVISOR",
+              "ANALYST",
+              "DEVELOPER",
+              "TESTER"
+            ]
+          }
+        },
+        "description": "Member to adding in team"
+      },
+      "UpdateTaskDto": {
+        "required": [
+          "executorId",
+          "projectCodeName",
+          "taskId",
+          "taskName"
+        ],
+        "type": "object",
+        "properties": {
+          "taskId": {
+            "minimum": 0,
+            "type": "integer",
+            "description": "Task id",
+            "format": "int64"
+          },
+          "taskName": {
+            "maxLength": 25,
+            "minLength": 5,
+            "type": "string",
+            "description": "Task name"
+          },
+          "projectCodeName": {
+            "maxLength": 25,
+            "minLength": 5,
+            "type": "string",
+            "description": "Project code name"
+          },
+          "taskDescription": {
+            "type": "string",
+            "description": "Task description"
+          },
+          "executorId": {
+            "minimum": 0,
+            "type": "integer",
+            "description": "Executor id",
+            "format": "int64"
+          },
+          "hours": {
+            "minimum": 1,
+            "type": "integer",
+            "description": "Hours time for task",
+            "format": "int32"
+          },
+          "deadLineTime": {
+            "type": "string",
+            "description": "End time for task",
+            "format": "date-time"
+          },
+          "parentTaskId": {
+            "minimum": 0,
+            "type": "integer",
+            "description": "Parent task",
+            "format": "int64"
+          }
+        },
+        "description": "Task for update"
+      },
+      "TaskCardDto": {
+        "type": "object",
+        "properties": {
+          "taskId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "taskName": {
+            "type": "string"
+          },
+          "taskDescription": {
+            "type": "string"
+          },
+          "executor": {
+            "$ref": "#/components/schemas/EmployeeCardDto"
+          },
+          "hours": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "deadLineTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "author": {
+            "$ref": "#/components/schemas/EmployeeCardDto"
+          },
+          "startTaskTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "editTaskTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "taskStatus": {
+            "type": "string",
+            "enum": [
+              "NEW",
+              "INPROGRESS",
+              "DONE",
+              "CLOSED"
+            ]
+          },
+          "file": {
+            "type": "string",
+            "format": "binary"
+          },
+          "parentTask": {
+            "$ref": "#/components/schemas/TaskCardDto"
+          },
+          "childTasksIds": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        }
+      },
+      "SearchTaskDto": {
+        "type": "object",
+        "properties": {
+          "textFilter": {
+            "type": "string",
+            "description": "Text filter for searching"
+          },
+          "statuses": {
+            "type": "array",
+            "description": "Filter - task statuses",
+            "items": {
+              "type": "string",
+              "description": "Filter - task statuses",
+              "enum": [
+                "NEW",
+                "INPROGRESS",
+                "DONE",
+                "CLOSED"
+              ]
+            }
+          },
+          "executorId": {
+            "minimum": 0,
+            "type": "integer",
+            "description": "Executor id",
+            "format": "int64"
+          },
+          "authorId": {
+            "minimum": 0,
+            "type": "integer",
+            "description": "Author id",
+            "format": "int64"
+          },
+          "deadLineTimeStart": {
+            "type": "string",
+            "description": "End time start for task",
+            "format": "date-time"
+          },
+          "deadLineTimeEnd": {
+            "type": "string",
+            "description": "End time end for task",
+            "format": "date-time"
+          },
+          "startTaskTimeStart": {
+            "type": "string",
+            "description": "Start time start for task",
+            "format": "date-time"
+          },
+          "startTaskTimeEnd": {
+            "type": "string",
+            "description": "Start time end for task",
+            "format": "date-time"
+          }
+        },
+        "description": "Task for searching"
+      },
+      "CreateTaskDto": {
+        "required": [
+          "executorId",
+          "projectCodeName",
+          "taskName"
+        ],
+        "type": "object",
+        "properties": {
+          "taskName": {
+            "maxLength": 25,
+            "minLength": 5,
+            "type": "string",
+            "description": "Task name"
+          },
+          "taskDescription": {
+            "type": "string",
+            "description": "Task description"
+          },
+          "projectCodeName": {
+            "maxLength": 25,
+            "minLength": 5,
+            "type": "string",
+            "description": "Project code name"
+          },
+          "executorId": {
+            "minimum": 0,
+            "type": "integer",
+            "description": "Executor id",
+            "format": "int64"
+          },
+          "hours": {
+            "minimum": 1,
+            "type": "integer",
+            "description": "Hours time for task",
+            "format": "int32"
+          },
+          "deadLineTime": {
+            "type": "string",
+            "description": "End time for task",
+            "format": "date-time"
+          },
+          "parentTaskId": {
+            "minimum": 0,
+            "type": "integer",
+            "description": "Parent task",
+            "format": "int64"
+          }
+        },
+        "description": "Task for create"
+      },
+      "ChangeStatusOfTaskDto": {
+        "required": [
+          "taskId"
+        ],
+        "type": "object",
+        "properties": {
+          "taskId": {
+            "minimum": 0,
+            "type": "integer",
+            "description": "Task id",
+            "format": "int64"
+          },
+          "taskStatus": {
+            "type": "string",
+            "description": "Task status",
+            "enum": [
+              "NEW",
+              "INPROGRESS",
+              "DONE",
+              "CLOSED"
+            ]
+          }
+        },
+        "description": "Task for changing status"
+      },
+      "UpdateProjectDto": {
+        "required": [
+          "projectCodeName",
+          "projectName"
+        ],
+        "type": "object",
+        "properties": {
+          "projectCodeName": {
+            "maxLength": 25,
+            "minLength": 5,
+            "type": "string",
+            "description": "Project code name"
+          },
+          "projectName": {
+            "maxLength": 25,
+            "minLength": 5,
+            "type": "string",
+            "description": "Project name"
+          },
+          "description": {
+            "type": "string",
+            "description": "Project description"
+          }
+        },
+        "description": "Project for updating"
+      },
+      "ProjectCardDto": {
+        "type": "object",
+        "properties": {
+          "projectCodeName": {
+            "type": "string"
+          },
+          "projectName": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "projectStatus": {
+            "type": "string"
+          }
+        }
+      },
+      "SearchProjectDto": {
+        "type": "object",
+        "properties": {
+          "textFilter": {
+            "maxLength": 20,
+            "minLength": 0,
+            "type": "string",
+            "description": "Text filter for project"
+          },
+          "status": {
+            "type": "array",
+            "description": "Filter - project statuses",
+            "items": {
+              "type": "string",
+              "description": "Filter - project statuses",
+              "enum": [
+                "DRAFT",
+                "DEVELOPING",
+                "TESTING",
+                "DONE"
+              ]
+            }
+          }
+        },
+        "description": "Project for searching"
+      },
+      "CreateProjectDto": {
+        "required": [
+          "projectCodeName",
+          "projectName"
+        ],
+        "type": "object",
+        "properties": {
+          "projectCodeName": {
+            "maxLength": 25,
+            "minLength": 5,
+            "type": "string",
+            "description": "Project code name"
+          },
+          "projectName": {
+            "maxLength": 25,
+            "minLength": 5,
+            "type": "string",
+            "description": "Project name"
+          },
+          "description": {
+            "type": "string",
+            "description": "Project description"
+          }
+        },
+        "description": "Project for creating"
+      },
+      "ChangeProjectStatusDto": {
+        "required": [
+          "projectCodeName"
+        ],
+        "type": "object",
+        "properties": {
+          "projectCodeName": {
+            "maxLength": 25,
+            "minLength": 5,
+            "type": "string",
+            "description": "Project code name"
+          },
+          "newStatus": {
+            "type": "string",
+            "description": "New available project status",
+            "enum": [
+              "DRAFT",
+              "DEVELOPING",
+              "TESTING",
+              "DONE"
+            ]
+          }
+        },
+        "description": "Project for change status"
+      },
+      "UpdateEmployeeDto": {
+        "required": [
+          "accountId",
+          "name",
+          "surname"
+        ],
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "minimum": 0,
+            "type": "integer",
+            "description": "Account id",
+            "format": "int64"
+          },
+          "surname": {
+            "maxLength": 20,
+            "minLength": 3,
+            "type": "string",
+            "description": "Surname"
+          },
+          "name": {
+            "maxLength": 20,
+            "minLength": 3,
+            "type": "string",
+            "description": "Name"
+          },
+          "middleName": {
+            "type": "string",
+            "description": "Middlename"
+          },
+          "jobTitle": {
+            "type": "string",
+            "description": "Job title"
+          },
+          "email": {
+            "maxLength": 30,
+            "minLength": 3,
+            "type": "string",
+            "description": "Email address"
+          },
+          "login": {
+            "maxLength": 30,
+            "minLength": 5,
+            "type": "string",
+            "description": "Account login"
+          },
+          "password": {
+            "maxLength": 30,
+            "minLength": 8,
+            "type": "string",
+            "description": "Account Password"
+          }
+        },
+        "description": "Employee for update"
+      },
+      "SearchEmployeeDto": {
+        "type": "object",
+        "properties": {
+          "searchFilter": {
+            "maxLength": 20,
+            "minLength": 0,
+            "type": "string",
+            "description": "Text for search"
+          }
+        },
+        "description": "Search employee by textFilter"
+      },
+      "CreateEmployeeDto": {
+        "required": [
+          "name",
+          "surname"
+        ],
+        "type": "object",
+        "properties": {
+          "surname": {
+            "maxLength": 20,
+            "minLength": 3,
+            "type": "string",
+            "description": "Surname"
+          },
+          "name": {
+            "maxLength": 20,
+            "minLength": 3,
+            "type": "string",
+            "description": "Name"
+          },
+          "middleName": {
+            "type": "string",
+            "description": "Middlename"
+          },
+          "jobTitle": {
+            "type": "string",
+            "description": "Job title"
+          },
+          "email": {
+            "maxLength": 30,
+            "minLength": 3,
+            "type": "string",
+            "description": "Email address"
+          },
+          "login": {
+            "maxLength": 30,
+            "minLength": 5,
+            "type": "string",
+            "description": "Account login"
+          },
+          "password": {
+            "maxLength": 30,
+            "minLength": 8,
+            "type": "string",
+            "description": "Account Password"
+          }
+        },
+        "description": "Employee for create"
+      },
+      "GetByIdEmployeeDto": {
+        "required": [
+          "accountId"
+        ],
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "minimum": 0,
+            "type": "integer",
+            "description": "Account id",
+            "format": "int64"
+          }
+        },
+        "description": "Employee for getting by id"
+      },
+      "DeleteEmployeeDto": {
+        "required": [
+          "accountId"
+        ],
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "minimum": 0,
+            "type": "integer",
+            "description": "Account id",
+            "format": "int64"
+          }
+        },
+        "description": "Employee for delete"
+      },
+      "GetEmployeeByLoginAndPassword": {
+        "type": "object",
+        "properties": {
+          "login": {
+            "maxLength": 30,
+            "minLength": 5,
+            "type": "string",
+            "description": "Account login"
+          },
+          "password": {
+            "maxLength": 30,
+            "minLength": 8,
+            "type": "string",
+            "description": "Account password"
+          }
+        },
+        "description": "Employee for getting by login and password"
+      }
+    }
+  }
+}

@@ -1,32 +1,26 @@
 package services.task_services;
 
-import org.digital.Main;
-import org.digital.employee_dao.EmployeeRepository;
-import org.digital.employee_dto.request_employee_dto.CreateEmployeeDto;
-import org.digital.employee_dto.request_employee_dto.DeleteEmployeeDto;
-import org.digital.employee_dto.response_employee_dto.EmployeeCardDto;
-import org.digital.employee_model.Employee;
-import org.digital.enity_statuses.EmployeeStatus;
-import org.digital.enity_statuses.ProjectStatus;
-import org.digital.enity_statuses.TaskStatus;
-import org.digital.project_dao.ProjectRepository;
-import org.digital.project_model.Project;
-import org.digital.services.employee_services.EmployeeService;
-import org.digital.services.task_services.TaskService;
-import org.digital.task_dto.request_task_dto.ChangeStatusOfTaskDto;
-import org.digital.task_dto.request_task_dto.CreateTaskDto;
-import org.digital.task_dto.request_task_dto.SearchTaskDto;
-import org.digital.task_dto.request_task_dto.UpdateTaskDto;
-import org.digital.task_dto.response_task_dto.TaskCardDto;
-import org.digital.task_model.Task;
-import org.junit.Before;
-import org.junit.BeforeClass;
+import ru.digital.application.Main;
+import ru.digital.dao.employee_dao.EmployeeRepository;
+import ru.digital.dto.employee_dto.request_employee_dto.CreateEmployeeDto;
+import ru.digital.dto.employee_dto.request_employee_dto.DeleteEmployeeDto;
+import ru.digital.dto.employee_dto.response_employee_dto.EmployeeCardDto;
+import ru.digital.models.employee_model.Employee;
+import ru.digital.commons.enity_statuses.EmployeeStatus;
+import ru.digital.commons.enity_statuses.TaskStatus;
+import ru.digital.dao.project_dao.ProjectRepository;
+import ru.digital.models.project_model.Project;
+import ru.digital.business.employee_services.Impls.EmployeeServiceImpl;
+import ru.digital.business.task_services.Impls.TaskServiceImpl;
+import ru.digital.dto.task_dto.request_task_dto.ChangeStatusOfTaskDto;
+import ru.digital.dto.task_dto.request_task_dto.CreateTaskDto;
+import ru.digital.dto.task_dto.request_task_dto.SearchTaskDto;
+import ru.digital.dto.task_dto.request_task_dto.UpdateTaskDto;
+import ru.digital.dto.task_dto.response_task_dto.TaskCardDto;
+import ru.digital.models.task_model.Task;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -39,10 +33,11 @@ import static org.mockito.Mockito.mock;
 
 @SpringBootTest(classes = Main.class)
 public class TaskServiceIntegrationTest extends BaseTest {
+
     @Autowired
-    private TaskService service;
+    private TaskServiceImpl service;
     @Autowired
-    private EmployeeService employeeService;
+    private EmployeeServiceImpl employeeService;
 
     @Autowired
     private ProjectRepository projectRepository;
@@ -263,7 +258,7 @@ public class TaskServiceIntegrationTest extends BaseTest {
         task.setTaskId(dtoTask.getTaskId());
         TaskCardDto dto = service.changeTaskStatus(new ChangeStatusOfTaskDto(
                 dtoTask.getTaskId(),
-                TaskStatus.INPROGRESS.toString()
+                TaskStatus.INPROGRESS
         ));
         Assertions.assertEquals(task.getTaskName(), dto.getTaskName());
         Assertions.assertEquals(task.getTaskDescription(), dto.getTaskDescription());
@@ -288,7 +283,7 @@ public class TaskServiceIntegrationTest extends BaseTest {
             task.setTaskId(dtoTask.getTaskId());
             TaskCardDto dto = service.changeTaskStatus(new ChangeStatusOfTaskDto(
                     task.getTaskId(),
-                    TaskStatus.DONE.toString()
+                    TaskStatus.DONE
             ));
         } catch (Exception ex) {
             Assertions.assertEquals("Not available task status!", ex.getMessage());
@@ -305,8 +300,7 @@ public class TaskServiceIntegrationTest extends BaseTest {
                 task.getExecutor().getAccountId(),
                 task.getHours(),
                 task.getDeadLineTime(),
-                task.getStartTaskTime(),
-                task.getEditTaskTime()
+                null
         );
     }
 
@@ -319,7 +313,8 @@ public class TaskServiceIntegrationTest extends BaseTest {
                 task.getTaskDescription(),
                 task.getExecutor().getAccountId(),
                 task.getHours(),
-                task.getDeadLineTime()
+                task.getDeadLineTime(),
+                null
         );
     }
 

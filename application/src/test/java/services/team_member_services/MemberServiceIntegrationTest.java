@@ -1,19 +1,17 @@
 package services.team_member_services;
 
-import org.digital.Main;
-import org.digital.employee_dao.EmployeeRepository;
-import org.digital.employee_model.Employee;
-import org.digital.enity_statuses.EmployeeStatus;
-import org.digital.enity_statuses.ProjectStatus;
-import org.digital.project_dto.request_project_dto.CreateProjectDto;
-import org.digital.project_model.Project;
-import org.digital.roles.EmployeeProjectRole;
-import org.digital.services.project_services.ProjectService;
-import org.digital.services.team_member_services.MemberService;
-import org.digital.services.team_services.TeamService;
-import org.digital.team_dao.TeamRepository;
-import org.digital.team_member_model.TeamMember;
-import org.digital.team_model.Team;
+import ru.digital.application.Main;
+import ru.digital.dao.employee_dao.EmployeeRepository;
+import ru.digital.models.employee_model.Employee;
+import ru.digital.dto.project_dto.request_project_dto.CreateProjectDto;
+import ru.digital.models.project_model.Project;
+import ru.digital.commons.roles.EmployeeProjectRole;
+import ru.digital.business.project_services.Impls.ProjectServiceImpl;
+import ru.digital.business.team_member_services.Impls.MemberServiceImpl;
+import ru.digital.business.team_services.Impls.TeamServiceImpl;
+import ru.digital.dao.team_dao.TeamRepository;
+import ru.digital.models.team_member_model.TeamMember;
+import ru.digital.models.team_model.Team;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +23,10 @@ import java.util.Optional;
 @SpringBootTest(classes = Main.class)
 public class MemberServiceIntegrationTest extends BaseTest {
     @Autowired
-    private MemberService service;
+    private MemberServiceImpl service;
 
     @Autowired
-    private TeamService teamService;
+    private TeamServiceImpl teamService;
     @Autowired
     private TeamRepository teamRepository;
 
@@ -36,10 +34,10 @@ public class MemberServiceIntegrationTest extends BaseTest {
     private EmployeeRepository employeeRepository;
 
     @Autowired
-    private ProjectService projectService;
+    private ProjectServiceImpl projectService;
 
     @Autowired
-    private MemberService memberService;
+    private MemberServiceImpl memberService;
     @Test
     public void getMember() throws Exception {
 
