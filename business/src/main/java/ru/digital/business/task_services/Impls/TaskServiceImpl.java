@@ -13,7 +13,6 @@ import ru.digital.business.task_services.TaskMapper;
 import ru.digital.business.task_services.TaskService;
 import ru.digital.commons.enity_statuses.EmployeeStatus;
 import ru.digital.commons.enity_statuses.TaskStatus;
-import ru.digital.commons.exceptions.NullIDException;
 import ru.digital.commons.exceptions.employee_exceptions.EmployeeAlreadyDeletedException;
 import ru.digital.commons.exceptions.employee_exceptions.EmployeeNotFoundException;
 import ru.digital.commons.exceptions.project_exceptions.NotFoundProjectException;
@@ -89,6 +88,10 @@ public class TaskServiceImpl implements TaskService {
             if (optionalTaskParent.isPresent()) {
                 task.setParentTask(optionalTaskParent.get());
                 parentTask = optionalTaskParent.get();
+                if (parentTask.getTaskStatus() == TaskStatus.DONE ||
+                        parentTask.getTaskStatus() == TaskStatus.CLOSED) {
+                    throw new ParentTaskIsDoneException();
+                }
             } else {
                 throw new NotFoundTaskException();
             }
@@ -134,10 +137,13 @@ public class TaskServiceImpl implements TaskService {
 
     public void loadFileToTask(MultipartFile file, Long taskId) throws Exception {
         if (taskId == null) {
-            throw new NullIDException();
+            throw new NullTaskIdException();
+        }
+        if (file == null) {
+            throw new NullFileException();
         }
         Optional<Task> optionalTask = repository.findById(taskId);
-        if (file != null && optionalTask.isPresent()) {
+        if (optionalTask.isPresent()) {
             Task task = optionalTask.get();
             String oldFileName = task.getFileName();
             File uploadDir = new File(path);
@@ -181,6 +187,10 @@ public class TaskServiceImpl implements TaskService {
                     task.setParentTask(optionalTaskParent.get());
                     newParentTask = optionalTaskParent.get();
                     newParentTask.getChildTasks().add(task);
+                    if (newParentTask.getTaskStatus() == TaskStatus.DONE ||
+                            newParentTask.getTaskStatus() == TaskStatus.CLOSED) {
+                        throw new ParentTaskIsDoneException();
+                    }
                 } else {
                     throw new NotFoundTaskException();
                 }
@@ -293,9 +303,13 @@ public class TaskServiceImpl implements TaskService {
         Optional<Task> taskOptional = repository.findById(dto.getTaskId());
         if (taskOptional.isPresent()) {
             Task task = taskOptional.get();
-
             if (checkAvailableToChangeStatus(task.getTaskStatus(),
                     dto.getTaskStatus())) {
+                if (dto.getTaskStatus() == TaskStatus.DONE) {
+                    if (!checkAvailableToDoneTask(task)) {
+                        throw new ParentTaskIsDoneException();
+                    }
+                }
                 task.setTaskStatus(dto.getTaskStatus());
                 log.info("Task with id = " + task.getTaskId() + " has new status: " +
                         task.getTaskStatus().toString());
@@ -311,6 +325,20 @@ public class TaskServiceImpl implements TaskService {
         }
     }
 
+
+    private boolean checkAvailableToDoneTask(Task task) {
+        //if child tasks in new or inprogress status is unavailable
+        // to close or done parent task
+        if (task.getChildTasks() != null && !task.getChildTasks().isEmpty()) {
+            for (var childTask : task.getChildTasks()) {
+                if (childTask.getTaskStatus() == TaskStatus.NEW ||
+                        childTask.getTaskStatus() == TaskStatus.INPROGRESS) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 
     private boolean checkAvailableToChangeStatus(TaskStatus currentStatus, TaskStatus newStatus) throws Exception {
         switch (currentStatus) {

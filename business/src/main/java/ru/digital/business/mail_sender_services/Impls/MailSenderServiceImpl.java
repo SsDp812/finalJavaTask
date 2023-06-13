@@ -10,6 +10,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 import ru.digital.business.mail_sender_services.MailSender;
+import ru.digital.commons.enity_statuses.TaskStatus;
 import ru.digital.models.task_model.Task;
 
 import java.io.IOException;
@@ -30,14 +31,18 @@ public class MailSenderServiceImpl implements MailSender {
         this.freeMakerConfig = freeMakerConfig;
     }
 
-    public void sendNewTask(Task task) throws Exception {
+    public void sendNotificationAboutTask(Task task) throws Exception {
         //send method
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage);
-        helper.setSubject("New task!");
+        if (task.getTaskStatus() == TaskStatus.NEW) {
+            helper.setSubject("New task!");
+        } else {
+            helper.setSubject("Remember about task!");
+        }
         helper.setTo(task.getExecutor().getEmail());
         helper.setFrom("digitalTestMail@yandex.ru");
-        String emailContent = getHtmlContentTemplate(task);
+        String emailContent = getHtmlContent(task);
         helper.setText(emailContent, true);
         try {
             //change email for real to testing
@@ -49,7 +54,13 @@ public class MailSenderServiceImpl implements MailSender {
         }
     }
 
-    private String getHtmlContentTemplate(Task task) throws IOException, TemplateException {
+    private String getHtmlContent(Task task) throws IOException, TemplateException {
+        String templateName = "";
+        if (task.getTaskStatus() == TaskStatus.NEW) {
+            templateName = "taskMail.ftl";
+        } else {
+            templateName = "rememberMail.ftl";
+        }
         //method to get html templte model for mail
         StringWriter stringWriter = new StringWriter();
         Map<String, Object> model = new HashMap<>();
@@ -59,7 +70,7 @@ public class MailSenderServiceImpl implements MailSender {
         model.put("taskDeadline", task.getDeadLineTime().toString());
         model.put("sendTo", task.getExecutor().getEmail());
         try {
-            freeMakerConfig.getTemplate("taskMail.ftl")
+            freeMakerConfig.getTemplate(templateName)
                     .process(model, stringWriter);
         } catch (Exception ex) {
             System.out.println(ex.getMessage());

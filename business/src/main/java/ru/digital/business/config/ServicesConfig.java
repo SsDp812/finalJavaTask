@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Import;
 
 @Configuration
 @ComponentScan("ru.digital.business")
-@Import(RabbitMQConfig.class)
+@Import({RabbitMQConfig.class, SchedulerConfig.class})
 public class ServicesConfig {
 
 }

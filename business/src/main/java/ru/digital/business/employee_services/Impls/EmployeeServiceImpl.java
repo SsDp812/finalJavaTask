@@ -2,19 +2,20 @@ package ru.digital.business.employee_services.Impls;
 
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import ru.digital.business.employee_services.EmployeeMapper;
+import ru.digital.business.employee_services.EmployeeService;
+import ru.digital.business.task_services.SchedulerTask;
+import ru.digital.commons.enity_statuses.EmployeeStatus;
+import ru.digital.commons.exceptions.employee_exceptions.*;
 import ru.digital.dao.employee_dao.EmployeeRepository;
 import ru.digital.dao.employee_dao.specifications.EmployeeSpecifications;
 import ru.digital.dto.employee_dto.request_employee_dto.*;
 import ru.digital.dto.employee_dto.response_employee_dto.EmployeeCardDto;
 import ru.digital.models.employee_model.Employee;
-import ru.digital.commons.enity_statuses.EmployeeStatus;
-import ru.digital.business.employee_services.EmployeeMapper;
-import ru.digital.business.employee_services.EmployeeService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import ru.digital.commons.exceptions.employee_exceptions.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +30,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     private BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
-    public EmployeeServiceImpl(EmployeeRepository repository, BCryptPasswordEncoder passwordEncoder) {
+    public EmployeeServiceImpl(EmployeeRepository repository, BCryptPasswordEncoder passwordEncoder, SchedulerTask scheduler) {
         this.repository = repository;
         this.passwordEncoder = passwordEncoder;
     }
