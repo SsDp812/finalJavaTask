@@ -10,11 +10,11 @@ public interface EmployeeSpecifications {
     static Specification<Employee> searchByFilterAndStatuses(String searchText, EmployeeStatus employeeStatus) {
         return (root, query, builder) -> {
             Predicate searchTextPredicate = builder.or(
-                    builder.like(root.get("surname"), "%" + searchText + "%"),
-                    builder.like(root.get("name"), "%" + searchText + "%"),
-                    builder.like(root.get("middleName"), "%" + searchText + "%"),
-                    builder.like(root.get("jobTitle"), "%" + searchText + "%"),
-                    builder.like(root.get("email"), "%" + searchText + "%")
+                    builder.like(builder.lower(root.get("surname")), "%" + searchText.toLowerCase() + "%"),
+                    builder.like(builder.lower(root.get("name")), "%" + searchText.toLowerCase() + "%"),
+                    builder.like(builder.lower(root.get("middleName")), "%" + searchText.toLowerCase() + "%"),
+                    builder.like(builder.lower(root.get("jobTitle")), "%" + searchText.toLowerCase() + "%"),
+                    builder.like(builder.lower(root.get("email")), "%" + searchText.toLowerCase() + "%")
             );
             Predicate statusPredicate = builder.equal(root.get("employeeStatus"), "0");
             return searchTextPredicate;
