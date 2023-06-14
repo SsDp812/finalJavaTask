@@ -6,15 +6,15 @@ import ru.digital.dto.employee_dto.response_employee_dto.EmployeeCardDto;
 import java.util.List;
 
 public interface EmployeeService {
-    public EmployeeCardDto createNewEmployee(CreateEmployeeDto dto) throws Exception;
+    public EmployeeCardDto createNewEmployee(CreateEmployeeDto dto);
 
-    public EmployeeCardDto changeEmployeeInfo(UpdateEmployeeDto dto) throws Exception;
+    public EmployeeCardDto changeEmployeeInfo(UpdateEmployeeDto dto);
 
-    public EmployeeCardDto deleteEmployee(DeleteEmployeeDto dto) throws Exception;
+    public EmployeeCardDto deleteEmployee(DeleteEmployeeDto dto);
 
-    public EmployeeCardDto getEmployeeCardById(GetByIdEmployeeDto dtoId) throws Exception;
+    public EmployeeCardDto getEmployeeCardById(Long id);
 
-    public EmployeeCardDto getEmployeeByAccount(GetEmployeeByLoginAndPassword accountDto) throws Exception;
+    public EmployeeCardDto getEmployeeByAccount(GetEmployeeByLoginAndPassword accountDto);
 
-    public List<EmployeeCardDto> searchEmployee(SearchEmployeeDto searchDto) throws Exception;
+    public List<EmployeeCardDto> searchEmployee(SearchEmployeeDto searchDto);
 }

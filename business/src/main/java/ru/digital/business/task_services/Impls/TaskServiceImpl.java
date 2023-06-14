@@ -32,6 +32,7 @@ import ru.digital.models.project_model.Project;
 import ru.digital.models.task_model.Task;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -60,7 +61,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
 
-    public TaskCardDto createNewTask(CreateTaskDto dto) throws Exception {
+    public TaskCardDto createNewTask(CreateTaskDto dto) {
         if (dto == null) {
             throw new NullTaskDtoException();
         }
@@ -131,12 +132,12 @@ public class TaskServiceImpl implements TaskService {
             repository.save(parentTask);
         }
         log.info("Created task with id: " + task.getTaskId().toString());
-        rabbitTemplate.convertAndSend(rabbitExchangeName, rabbitRoutingKey, task);
+        rabbitTemplate.convertAndSend(rabbitExchangeName, rabbitRoutingKey, TaskMapper.getNotifyTaskDto(task, NotifyStatus.NEWTASK));
         return TaskMapper.getTaskCardDto(task);
     }
 
 
-    public void loadFileToTask(MultipartFile file, Long taskId) throws Exception {
+    public void loadFileToTask(MultipartFile file, Long taskId) {
         if (taskId == null) {
             throw new NullTaskIdException();
         }
@@ -155,21 +156,26 @@ public class TaskServiceImpl implements TaskService {
             System.out.println(file.getOriginalFilename());
             String[] fileNameParts = file.getOriginalFilename().split("\\.");
             fileName = path + "/" + fileName + "." + fileNameParts[fileNameParts.length - 1];
-            file.transferTo(new File(fileName));
-            task.setFileName(fileName);
-            repository.save(task);
-            if (oldFileName != null) {
-                File oldfFile = new File(oldFileName);
-                if (oldfFile.exists()) {
-                    oldfFile.delete();
+            try {
+                file.transferTo(new File(fileName));
+                task.setFileName(fileName);
+                repository.save(task);
+                if (oldFileName != null) {
+                    File oldfFile = new File(oldFileName);
+                    if (oldfFile.exists()) {
+                        oldfFile.delete();
+                    }
                 }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
+
         }
     }
 
     ;
 
-    public TaskCardDto changeTask(UpdateTaskDto dto) throws Exception {
+    public TaskCardDto changeTask(UpdateTaskDto dto) {
         if (dto == null) {
             throw new NullTaskDtoException();
         }
@@ -241,7 +247,7 @@ public class TaskServiceImpl implements TaskService {
             }
             task = repository.save(task);
             log.info("Task with id = " + task.getTaskId() + " was updated!");
-            rabbitTemplate.convertAndSend(rabbitExchangeName, rabbitRoutingKey, TaskMapper.getNotifyTaskDto(task, NotifyStatus.NEWTASK));
+            rabbitTemplate.convertAndSend(rabbitExchangeName, rabbitRoutingKey, TaskMapper.getNotifyTaskDto(task, NotifyStatus.REMEMBER));
             return TaskMapper.getTaskCardDto(task);
         } else {
             throw new NotFoundTaskException();
@@ -250,7 +256,7 @@ public class TaskServiceImpl implements TaskService {
 
     }
 
-    public TaskCardDto getTaskById(Long id) throws NotFoundTaskException {
+    public TaskCardDto getTaskById(Long id) {
         Optional<Task> optionalTask = repository.findById(Long.valueOf(id));
         if (optionalTask.isPresent()) {
             return TaskMapper.getTaskCardDto(optionalTask.get());
@@ -259,7 +265,7 @@ public class TaskServiceImpl implements TaskService {
         }
     }
 
-    public List<TaskCardDto> searchTask(SearchTaskDto dto) throws Exception {
+    public List<TaskCardDto> searchTask(SearchTaskDto dto) {
         if (dto == null) {
             throw new NullTaskDtoException();
         }
@@ -297,7 +303,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
 
-    public TaskCardDto changeTaskStatus(ChangeStatusOfTaskDto dto) throws Exception {
+    public TaskCardDto changeTaskStatus(ChangeStatusOfTaskDto dto) {
         if (dto == null) {
             throw new NullTaskDtoException();
         }
@@ -341,7 +347,7 @@ public class TaskServiceImpl implements TaskService {
         return true;
     }
 
-    private boolean checkAvailableToChangeStatus(TaskStatus currentStatus, TaskStatus newStatus) throws Exception {
+    private boolean checkAvailableToChangeStatus(TaskStatus currentStatus, TaskStatus newStatus) {
         switch (currentStatus) {
             case NEW -> {
                 return newStatus == TaskStatus.INPROGRESS;

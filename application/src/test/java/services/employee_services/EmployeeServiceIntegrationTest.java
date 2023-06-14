@@ -1,21 +1,19 @@
 package services.employee_services;
 
-import ru.digital.application.Main;
-import ru.digital.business.employee_services.EmployeeMapper;
-import ru.digital.dto.employee_dto.request_employee_dto.*;
-import services.BaseTest;
-import ru.digital.dto.employee_dto.response_employee_dto.EmployeeCardDto;
-import ru.digital.models.employee_model.Employee;
-import ru.digital.commons.enity_statuses.EmployeeStatus;
-import ru.digital.business.employee_services.Impls.EmployeeServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import ru.digital.application.Main;
+import ru.digital.business.employee_services.EmployeeMapper;
+import ru.digital.business.employee_services.Impls.EmployeeServiceImpl;
+import ru.digital.commons.enity_statuses.EmployeeStatus;
+import ru.digital.dto.employee_dto.request_employee_dto.*;
+import ru.digital.dto.employee_dto.response_employee_dto.EmployeeCardDto;
+import ru.digital.models.employee_model.Employee;
+import services.BaseTest;
 
 import java.util.List;
-
-import static org.mockito.ArgumentMatchers.any;
 
 @SpringBootTest(classes = Main.class)
 public class EmployeeServiceIntegrationTest extends BaseTest {
@@ -55,21 +53,21 @@ public class EmployeeServiceIntegrationTest extends BaseTest {
     }
 
     @Test
-    public void createEmployeeWithNotUniqueLogin(){
-        try{
+    public void createEmployeeWithNotUniqueLogin() {
+        try {
             Employee employee = getSomeEmloyee();
             service.createNewEmployee(getCreateDto(employee));
             Employee employee2 = getSomeEmloyee();
             employee2.setLogin(employee.getLogin());
             service.createNewEmployee(getCreateDto(employee2));
         } catch (Exception ex) {
-            Assertions.assertEquals("Not unique login!",ex.getMessage());
+            Assertions.assertEquals("Not unique login!", ex.getMessage());
         }
     }
 
     @Test
-    public void changeEmployeeLoginToNotUnique(){
-        try{
+    public void changeEmployeeLoginToNotUnique() {
+        try {
             Employee employee = getSomeEmloyee();
             service.createNewEmployee(getCreateDto(employee));
             Employee employee2 = getSomeEmloyee();
@@ -77,8 +75,8 @@ public class EmployeeServiceIntegrationTest extends BaseTest {
             employee2.setAccountId(dto.getId());
             employee2.setLogin(employee.getLogin());
             service.changeEmployeeInfo(getUpdateDto(employee2));
-        }catch (Exception ex) {
-            Assertions.assertEquals("Not unique login!",ex.getMessage());
+        } catch (Exception ex) {
+            Assertions.assertEquals("Not unique login!", ex.getMessage());
         }
     }
 
@@ -241,7 +239,7 @@ public class EmployeeServiceIntegrationTest extends BaseTest {
         EmployeeCardDto dto = service.createNewEmployee(getCreateDto(employee));
         employee.setAccountId(dto.getId());
 
-        EmployeeCardDto employeedto = service.getEmployeeCardById(new GetByIdEmployeeDto(employee.getAccountId()));
+        EmployeeCardDto employeedto = service.getEmployeeCardById(employee.getAccountId());
         Assertions.assertEquals(employee.getSurname(), employeedto.getSurname());
         Assertions.assertEquals(employee.getName(), employeedto.getName());
         Assertions.assertEquals(employee.getMiddleName(), employeedto.getMiddleName());
@@ -257,7 +255,7 @@ public class EmployeeServiceIntegrationTest extends BaseTest {
             Employee employee = getSomeEmloyee();
             employee.setAccountId(Long.valueOf("1"));
 
-            EmployeeCardDto employeedto = service.getEmployeeCardById(new GetByIdEmployeeDto(employee.getAccountId()));
+            EmployeeCardDto employeedto = service.getEmployeeCardById(employee.getAccountId());
         } catch (Exception ex) {
             Assertions.assertEquals("Employee was not found!", ex.getMessage());
         }

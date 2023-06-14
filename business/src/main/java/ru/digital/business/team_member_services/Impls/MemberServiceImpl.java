@@ -27,7 +27,7 @@ public class MemberServiceImpl implements MemberService {
         this.repository = repository;
     }
 
-    public TeamMember getMemberByEmployeeAndRole(Employee employee, EmployeeProjectRole role, Team team) throws NullMemberEmployeeException {
+    public TeamMember getMemberByEmployeeAndRole(Employee employee, EmployeeProjectRole role, Team team) {
         if (employee == null) {
             throw new NullMemberEmployeeException();
         }
