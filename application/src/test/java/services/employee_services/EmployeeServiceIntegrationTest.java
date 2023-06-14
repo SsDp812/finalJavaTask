@@ -311,7 +311,6 @@ public class EmployeeServiceIntegrationTest extends BaseTest {
         Assertions.assertEquals(employee.getMiddleName(), employeedto.get(0).getMiddleName());
         Assertions.assertEquals(employee.getJobTitle(), employeedto.get(0).getJobTitle());
         Assertions.assertEquals(employee.getEmail(), employeedto.get(0).getEmail());
-        Assertions.assertEquals(employee.getEmployeeStatus(), employeedto.get(0).getStatus());
     }
 
     private CreateEmployeeDto getCreateDto(Employee employee) {

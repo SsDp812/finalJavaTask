@@ -159,11 +159,9 @@ public class EmployeeServiceImpl implements EmployeeService {
         if (searchDto == null) {
             throw new NullEmployeeDtoException();
         }
-        System.out.println(searchDto.getSearchFilter());
         List<Employee> employees = repository.findAll(EmployeeSpecifications.
                 searchByFilterAndStatuses(searchDto.getSearchFilter(), EmployeeStatus.ACTIVE));
         List<EmployeeCardDto> list = new ArrayList<>();
-        System.out.println(employees.size());
         for (var employee : employees) {
             list.add(EmployeeMapper.getEmployeeDtoCard(employee));
         }

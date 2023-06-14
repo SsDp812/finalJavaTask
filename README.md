@@ -37,7 +37,7 @@
 
 ## Диаграмма архитектуры приложения
 
-![App diagram](https://github.com/SsDp812/finalJavaTask/blob/dev/images/diagram.png)
+![App diagram](https://github.com/SsDp812/finalJavaTask/blob/main/diagram.png)
 
 ## База данных
 
@@ -48,7 +48,7 @@
 
 ### Диаграмма базы данных
 
-![App diagram](https://github.com/SsDp812/finalJavaTask/blob/fixSender/images/dbDiagram.png)
+![App diagram](https://github.com/SsDp812/finalJavaTask/blob/main/images/dbDiagram.png)
 
 ## Отправка уведомлений на почту при создании новой задачи
 
@@ -62,7 +62,7 @@ Email сотрудника указывается в теле самого пи�
 
 ### Пример письма с уведомлением на почту сотруднику
 
-![App diagram](https://github.com/SsDp812/finalJavaTask/blob/fixSender/images/emailExample.png)
+![App diagram](https://github.com/SsDp812/finalJavaTask/blob/main/images/emailExample.png)
 
 ### Дополнительные уведомления на почту сотруднику
 
@@ -72,11 +72,11 @@ Email сотрудника указывается в теле самого пи�
 
 ### Пример письма с напоминанием на почту сотруднику
 
-![App diagram](https://github.com/SsDp812/finalJavaTask/blob/fixSender/images/rememberMail.png)
+![App diagram](https://github.com/SsDp812/finalJavaTask/blob/main/images/rememberMail.png)
 
 ### Очередь в брокере сообщений
 
-![App diagram](https://github.com/SsDp812/finalJavaTask/blob/fixSender/images/queue.png)
+![App diagram](https://github.com/SsDp812/finalJavaTask/blob/main/images/queue.png)
 
 ## Аутентификация в приложении
 
@@ -108,11 +108,11 @@ Email сотрудника указывается в теле самого пи�
 
 ### Демонстрация прикрепления файла
 
-![App diagram](https://github.com/SsDp812/finalJavaTask/blob/fixSender/images/sendFile.png)
+![App diagram](https://github.com/SsDp812/finalJavaTask/blob/main/images/sendFile.png)
 
 ### Демонстрация получени задачи с файлом
 
-![App diagram](https://github.com/SsDp812/finalJavaTask/blob/fixSender/images/getFile.png)
+![App diagram](https://github.com/SsDp812/finalJavaTask/blob/main/images/getFile.png)
 
 ## Минимальные требования к входным данным
 
@@ -155,10 +155,10 @@ https://docs.google.com/spreadsheets/d/1cdgyPRl3j5yEhDI6uSoP2qaPgu6IgF3pCiMT7qQT
 
 ### Результаты модульного (юнит) тестирования
 
-![App diagram](https://github.com/SsDp812/finalJavaTask/blob/fixSender/images/unitTests.png)
+![App diagram](https://github.com/SsDp812/finalJavaTask/blob/main/images/unitTests.png)
 
 ### Результаты интеграционного тестирования
 
 Для интеграционного тестирования исполльзовалась зависимость testContainers.
 База данных и брокер сообщений помещались также в отдельные тестовые контейнеры.
-![App diagram](https://github.com/SsDp812/finalJavaTask/blob/fixSender/images/IntegrationTests.png)
+![App diagram](https://github.com/SsDp812/finalJavaTask/blob/main/images/IntegrationTests.png)
