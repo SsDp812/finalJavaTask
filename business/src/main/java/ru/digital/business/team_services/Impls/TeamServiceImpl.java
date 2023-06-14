@@ -53,7 +53,7 @@ public class TeamServiceImpl implements TeamService {
     }
 
 
-    public MemberCardDto addMemberToTeam(AddMemberDto dto) throws Exception {
+    public MemberCardDto addMemberToTeam(AddMemberDto dto) {
         if (dto == null) {
             throw new NullTeamDtoException();
         }
@@ -88,7 +88,7 @@ public class TeamServiceImpl implements TeamService {
         throw new NotFoundProjectException();
     }
 
-    public MemberCardDto removeMemberFromTeam(RemoveMemberDto dto) throws Exception {
+    public MemberCardDto removeMemberFromTeam(RemoveMemberDto dto) {
         if (dto == null) {
             throw new NullTeamDtoException();
         }
@@ -102,6 +102,7 @@ public class TeamServiceImpl implements TeamService {
             for (var member : team.getMembers()) {
                 if (Objects.equals(member.getMember().getAccountId(), dto.getAccountId())) {
                     team.getMembers().remove(member);
+                    teamMemberRepository.delete(member);
                     team = repository.save(team);
                     log.info("Employee with account id: " + dto.getAccountId().toString() +
                             " was removed from team: " + dto.getProjectCodeName());
@@ -115,7 +116,7 @@ public class TeamServiceImpl implements TeamService {
     }
 
 
-    public List<MemberCardDto> getAllMembers(GetAllMembersDto dto) throws Exception {
+    public List<MemberCardDto> getAllMembers(GetAllMembersDto dto) {
         if (dto == null) {
             throw new NullTeamDtoException();
         }

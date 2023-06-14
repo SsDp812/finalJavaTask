@@ -5,10 +5,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.digital.business.team_services.TeamService;
 import ru.digital.dto.member_dto.response_member_dto.MemberCardDto;
 import ru.digital.dto.team_dto.AddMemberDto;
@@ -30,19 +27,20 @@ public class TeamController {
 
     @Operation(summary = "Adding member to team")
     @PostMapping(value = "/add", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public MemberCardDto addMemberToTeam(@RequestBody @Valid AddMemberDto dto) throws Exception {
+    public MemberCardDto addMemberToTeam(@RequestBody @Valid AddMemberDto dto) {
         return service.addMemberToTeam(dto);
     }
 
     @Operation(summary = "Removing member from team")
     @PostMapping(value = "/remove", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public MemberCardDto removeMemberFromTeam(@RequestBody @Valid RemoveMemberDto dto) throws Exception {
+    public MemberCardDto removeMemberFromTeam(@RequestBody @Valid RemoveMemberDto dto) {
         return service.removeMemberFromTeam(dto);
     }
 
     @Operation(summary = "Get all members of team")
-    @PostMapping(value = "/all", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<MemberCardDto> getMembersFromTeam(@RequestBody @Valid GetAllMembersDto dto) throws Exception {
-        return service.getAllMembers(dto);
+    @PostMapping(value = "/all")
+    public List<MemberCardDto> getMembersFromTeam(@RequestParam("project") String projectCodeName) {
+        return service.getAllMembers(new GetAllMembersDto(projectCodeName));
     }
+
 }

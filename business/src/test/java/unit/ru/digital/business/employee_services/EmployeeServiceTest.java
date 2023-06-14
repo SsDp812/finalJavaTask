@@ -1,14 +1,6 @@
 package unit.ru.digital.business.employee_services;
 
 
-import ru.digital.dao.employee_dao.EmployeeRepository;
-
-import ru.digital.dto.employee_dto.request_employee_dto.*;
-import ru.digital.dto.employee_dto.response_employee_dto.EmployeeCardDto;
-import ru.digital.models.employee_model.Employee;
-import ru.digital.commons.enity_statuses.EmployeeStatus;
-import ru.digital.business.employee_services.EmployeeMapper;
-import ru.digital.business.employee_services.Impls.EmployeeServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,6 +10,13 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import ru.digital.business.employee_services.EmployeeMapper;
+import ru.digital.business.employee_services.Impls.EmployeeServiceImpl;
+import ru.digital.commons.enity_statuses.EmployeeStatus;
+import ru.digital.dao.employee_dao.EmployeeRepository;
+import ru.digital.dto.employee_dto.request_employee_dto.*;
+import ru.digital.dto.employee_dto.response_employee_dto.EmployeeCardDto;
+import ru.digital.models.employee_model.Employee;
 
 import java.util.Arrays;
 import java.util.List;
@@ -44,23 +43,25 @@ public class EmployeeServiceTest {
         Mockito.when(employeeRepository.save(employee)).thenReturn(employee2);
         Mockito.when(passwordEncoder.encode(employee.getPassword())).thenReturn(employee.getPassword());
         EmployeeCardDto employeedto = employeeService.createNewEmployee(getCreateDto(employee));
-        Assertions.assertEquals(employee.getSurname(),employeedto.getSurname());
-        Assertions.assertEquals(employee.getName(),employeedto.getName());
-        Assertions.assertEquals(employee.getMiddleName(),employeedto.getMiddleName());
-        Assertions.assertEquals(employee.getJobTitle(),employeedto.getJobTitle());
-        Assertions.assertEquals(employee.getEmail(),employeedto.getEmail());
-        Assertions.assertEquals(employee.getEmployeeStatus(),employeedto.getStatus());
+        Assertions.assertEquals(employee.getSurname(), employeedto.getSurname());
+        Assertions.assertEquals(employee.getName(), employeedto.getName());
+        Assertions.assertEquals(employee.getMiddleName(), employeedto.getMiddleName());
+        Assertions.assertEquals(employee.getJobTitle(), employeedto.getJobTitle());
+        Assertions.assertEquals(employee.getEmail(), employeedto.getEmail());
+        Assertions.assertEquals(employee.getEmployeeStatus(), employeedto.getStatus());
     }
+
     @Test()
-    public void createNewEmployeeByNullDto(){
-        try{
+    public void createNewEmployeeByNullDto() {
+        try {
             employeeService.createNewEmployee(null);
         } catch (Exception ex) {
-            Assertions.assertEquals("Employee dto is null!",ex.getMessage());
+            Assertions.assertEquals("Employee dto is null!", ex.getMessage());
         }
     }
+
     @Test
-    public void createNewEmployeeWithEmptyName(){
+    public void createNewEmployeeWithEmptyName() {
         try {
             Employee employee = getSomeEmloyee();
             employee.setName(null);
@@ -69,12 +70,12 @@ public class EmployeeServiceTest {
             employee2.setAccountId(Long.parseLong("1"));
             EmployeeCardDto employeedto = employeeService.createNewEmployee(getCreateDto(employee));
         } catch (Exception ex) {
-            Assertions.assertEquals("Empty name for employee!",ex.getMessage());
+            Assertions.assertEquals("Empty name for employee!", ex.getMessage());
         }
     }
 
     @Test
-    public void createNewEmployeeWithEmptySurname(){
+    public void createNewEmployeeWithEmptySurname() {
         try {
             Employee employee = getSomeEmloyee();
             employee.setSurname(null);
@@ -83,12 +84,12 @@ public class EmployeeServiceTest {
             employee2.setAccountId(Long.parseLong("1"));
             EmployeeCardDto employeedto = employeeService.createNewEmployee(getCreateDto(employee));
         } catch (Exception ex) {
-            Assertions.assertEquals("Empty employee surname!",ex.getMessage());
+            Assertions.assertEquals("Empty employee surname!", ex.getMessage());
         }
     }
 
     @Test
-    public void createNewEmployeeWithEmptyLogin(){
+    public void createNewEmployeeWithEmptyLogin() {
         try {
             Employee employee = getSomeEmloyee();
             employee.setLogin(null);
@@ -97,12 +98,12 @@ public class EmployeeServiceTest {
             employee2.setAccountId(Long.parseLong("1"));
             EmployeeCardDto employeedto = employeeService.createNewEmployee(getCreateDto(employee));
         } catch (Exception ex) {
-            Assertions.assertEquals("Empty login!",ex.getMessage());
+            Assertions.assertEquals("Empty login!", ex.getMessage());
         }
     }
 
     @Test
-    public void createNewEmployeeWithEmptyPassword(){
+    public void createNewEmployeeWithEmptyPassword() {
         try {
             Employee employee = getSomeEmloyee();
             employee.setPassword(null);
@@ -111,7 +112,7 @@ public class EmployeeServiceTest {
             employee2.setAccountId(Long.parseLong("1"));
             EmployeeCardDto employeedto = employeeService.createNewEmployee(getCreateDto(employee));
         } catch (Exception ex) {
-            Assertions.assertEquals("Empty password!",ex.getMessage());
+            Assertions.assertEquals("Empty password!", ex.getMessage());
         }
     }
 
@@ -129,26 +130,26 @@ public class EmployeeServiceTest {
         Mockito.when(passwordEncoder.encode(employee.getPassword())).thenReturn(employee.getPassword());
         Mockito.when(employeeRepository.save(employee)).thenReturn(employee);
         EmployeeCardDto employeedto = employeeService.changeEmployeeInfo(getUpdateDto(employee));
-        Assertions.assertEquals(employee.getSurname(),employeedto.getSurname());
-        Assertions.assertEquals(employee.getName(),employeedto.getName());
-        Assertions.assertEquals(employee.getMiddleName(),employeedto.getMiddleName());
-        Assertions.assertEquals(employee.getJobTitle(),employeedto.getJobTitle());
-        Assertions.assertEquals(employee.getEmail(),employeedto.getEmail());
-        Assertions.assertEquals(employee.getEmployeeStatus(),employeedto.getStatus());
+        Assertions.assertEquals(employee.getSurname(), employeedto.getSurname());
+        Assertions.assertEquals(employee.getName(), employeedto.getName());
+        Assertions.assertEquals(employee.getMiddleName(), employeedto.getMiddleName());
+        Assertions.assertEquals(employee.getJobTitle(), employeedto.getJobTitle());
+        Assertions.assertEquals(employee.getEmail(), employeedto.getEmail());
+        Assertions.assertEquals(employee.getEmployeeStatus(), employeedto.getStatus());
     }
 
     @Test
-    public void updateEmployeeByNullDto(){
-        try{
+    public void updateEmployeeByNullDto() {
+        try {
             employeeService.changeEmployeeInfo(null);
         } catch (Exception ex) {
-            Assertions.assertEquals("Employee dto is null!",ex.getMessage());
+            Assertions.assertEquals("Employee dto is null!", ex.getMessage());
         }
     }
 
     @Test
-    public void updateEmployeeWithEmptyNewName(){
-        try{
+    public void updateEmployeeWithEmptyNewName() {
+        try {
             Employee employee = getSomeEmloyee();
             employee.setAccountId(Long.valueOf(1));
             Mockito.when(employeeRepository.findById(employee.getAccountId())).thenReturn(Optional.of(employee));
@@ -157,13 +158,13 @@ public class EmployeeServiceTest {
             employeeForUpdate.setName(null);
             employeeService.changeEmployeeInfo(getUpdateDto(employeeForUpdate));
         } catch (Exception ex) {
-            Assertions.assertEquals("Empty name for employee!",ex.getMessage());
+            Assertions.assertEquals("Empty name for employee!", ex.getMessage());
         }
     }
 
     @Test
-    public void updateEmployeeWithEmptyNewSurname(){
-        try{
+    public void updateEmployeeWithEmptyNewSurname() {
+        try {
             Employee employee = getSomeEmloyee();
             employee.setAccountId(Long.valueOf(1));
             Mockito.when(employeeRepository.findById(employee.getAccountId())).thenReturn(Optional.of(employee));
@@ -172,13 +173,13 @@ public class EmployeeServiceTest {
             employeeForUpdate.setSurname(null);
             employeeService.changeEmployeeInfo(getUpdateDto(employeeForUpdate));
         } catch (Exception ex) {
-            Assertions.assertEquals("Empty employee surname!",ex.getMessage());
+            Assertions.assertEquals("Empty employee surname!", ex.getMessage());
         }
     }
 
     @Test
-    public void updateEmployeeWithEmptyNewLogin(){
-        try{
+    public void updateEmployeeWithEmptyNewLogin() {
+        try {
             Employee employee = getSomeEmloyee();
             employee.setAccountId(Long.valueOf(1));
             Mockito.when(employeeRepository.findById(employee.getAccountId())).thenReturn(Optional.of(employee));
@@ -187,13 +188,13 @@ public class EmployeeServiceTest {
             employeeForUpdate.setLogin(null);
             employeeService.changeEmployeeInfo(getUpdateDto(employeeForUpdate));
         } catch (Exception ex) {
-            Assertions.assertEquals("Empty login!",ex.getMessage());
+            Assertions.assertEquals("Empty login!", ex.getMessage());
         }
     }
 
     @Test
-    public void updateEmployeeWithEmptyNewPassword(){
-        try{
+    public void updateEmployeeWithEmptyNewPassword() {
+        try {
             Employee employee = getSomeEmloyee();
             employee.setAccountId(Long.valueOf(1));
             Mockito.when(employeeRepository.findById(employee.getAccountId())).thenReturn(Optional.of(employee));
@@ -202,7 +203,7 @@ public class EmployeeServiceTest {
             employeeForUpdate.setPassword(null);
             employeeService.changeEmployeeInfo(getUpdateDto(employeeForUpdate));
         } catch (Exception ex) {
-            Assertions.assertEquals("Empty password!",ex.getMessage());
+            Assertions.assertEquals("Empty password!", ex.getMessage());
         }
     }
 
@@ -213,48 +214,48 @@ public class EmployeeServiceTest {
         Mockito.when(employeeRepository.findById(employee.getAccountId())).thenReturn(Optional.of(employee));
         Mockito.when(employeeRepository.save(employee)).thenReturn(employee);
         EmployeeCardDto deletedEmployee = employeeService.deleteEmployee(getDeleteDto(employee));
-        Assertions.assertEquals(employee.getSurname(),deletedEmployee.getSurname());
-        Assertions.assertEquals(employee.getName(),deletedEmployee.getName());
-        Assertions.assertEquals(employee.getMiddleName(),deletedEmployee.getMiddleName());
-        Assertions.assertEquals(employee.getJobTitle(),deletedEmployee.getJobTitle());
-        Assertions.assertEquals(employee.getEmail(),deletedEmployee.getEmail());
-        Assertions.assertEquals(employee.getEmployeeStatus(),EmployeeStatus.DELETED);
+        Assertions.assertEquals(employee.getSurname(), deletedEmployee.getSurname());
+        Assertions.assertEquals(employee.getName(), deletedEmployee.getName());
+        Assertions.assertEquals(employee.getMiddleName(), deletedEmployee.getMiddleName());
+        Assertions.assertEquals(employee.getJobTitle(), deletedEmployee.getJobTitle());
+        Assertions.assertEquals(employee.getEmail(), deletedEmployee.getEmail());
+        Assertions.assertEquals(employee.getEmployeeStatus(), EmployeeStatus.DELETED);
     }
 
     @Test
-    public void deleteEmployeeByFalseId(){
-        try{
+    public void deleteEmployeeByFalseId() {
+        try {
             Employee employee = getSomeEmloyee();
             employee.setAccountId(Long.valueOf(1));
             Mockito.when(employeeRepository.findById(employee.getAccountId())).thenReturn(Optional.ofNullable(null));
             EmployeeCardDto deletedEmployee = employeeService.deleteEmployee(getDeleteDto(employee));
-            Assertions.assertEquals(employee.getSurname(),deletedEmployee.getSurname());
-            Assertions.assertEquals(employee.getName(),deletedEmployee.getName());
-            Assertions.assertEquals(employee.getMiddleName(),deletedEmployee.getMiddleName());
-            Assertions.assertEquals(employee.getJobTitle(),deletedEmployee.getJobTitle());
-            Assertions.assertEquals(employee.getEmail(),deletedEmployee.getEmail());
-            Assertions.assertEquals(employee.getEmployeeStatus(),EmployeeStatus.DELETED);
+            Assertions.assertEquals(employee.getSurname(), deletedEmployee.getSurname());
+            Assertions.assertEquals(employee.getName(), deletedEmployee.getName());
+            Assertions.assertEquals(employee.getMiddleName(), deletedEmployee.getMiddleName());
+            Assertions.assertEquals(employee.getJobTitle(), deletedEmployee.getJobTitle());
+            Assertions.assertEquals(employee.getEmail(), deletedEmployee.getEmail());
+            Assertions.assertEquals(employee.getEmployeeStatus(), EmployeeStatus.DELETED);
         } catch (Exception ex) {
-            Assertions.assertEquals("Employee was not found!",ex.getMessage());
+            Assertions.assertEquals("Employee was not found!", ex.getMessage());
         }
     }
 
     @Test
-    public void deleteDeletedEmployee(){
-        try{
+    public void deleteDeletedEmployee() {
+        try {
             Employee employee = getSomeEmloyee();
             employee.setAccountId(Long.valueOf(1));
             employee.setEmployeeStatus(EmployeeStatus.DELETED);
             Mockito.when(employeeRepository.findById(employee.getAccountId())).thenReturn(Optional.of(employee));
             EmployeeCardDto deletedEmployee = employeeService.deleteEmployee(getDeleteDto(employee));
-            Assertions.assertEquals(employee.getSurname(),deletedEmployee.getSurname());
-            Assertions.assertEquals(employee.getName(),deletedEmployee.getName());
-            Assertions.assertEquals(employee.getMiddleName(),deletedEmployee.getMiddleName());
-            Assertions.assertEquals(employee.getJobTitle(),deletedEmployee.getJobTitle());
-            Assertions.assertEquals(employee.getEmail(),deletedEmployee.getEmail());
-            Assertions.assertEquals(employee.getEmployeeStatus(),EmployeeStatus.DELETED);
+            Assertions.assertEquals(employee.getSurname(), deletedEmployee.getSurname());
+            Assertions.assertEquals(employee.getName(), deletedEmployee.getName());
+            Assertions.assertEquals(employee.getMiddleName(), deletedEmployee.getMiddleName());
+            Assertions.assertEquals(employee.getJobTitle(), deletedEmployee.getJobTitle());
+            Assertions.assertEquals(employee.getEmail(), deletedEmployee.getEmail());
+            Assertions.assertEquals(employee.getEmployeeStatus(), EmployeeStatus.DELETED);
         } catch (Exception ex) {
-            Assertions.assertEquals("Employee was deleted!",ex.getMessage());
+            Assertions.assertEquals("Employee was deleted!", ex.getMessage());
         }
     }
 
@@ -265,36 +266,36 @@ public class EmployeeServiceTest {
 
         Mockito.when(employeeRepository.findById(employee.getAccountId())).thenReturn(Optional.of(employee));
 
-        EmployeeCardDto employeedto = employeeService.getEmployeeCardById(new GetByIdEmployeeDto(employee.getAccountId()));
-        Assertions.assertEquals(employee.getSurname(),employeedto.getSurname());
-        Assertions.assertEquals(employee.getName(),employeedto.getName());
-        Assertions.assertEquals(employee.getMiddleName(),employeedto.getMiddleName());
-        Assertions.assertEquals(employee.getJobTitle(),employeedto.getJobTitle());
-        Assertions.assertEquals(employee.getEmail(),employeedto.getEmail());
-        Assertions.assertEquals(employee.getEmployeeStatus(),employeedto.getStatus());
+        EmployeeCardDto employeedto = employeeService.getEmployeeCardById(Long.valueOf("1"));
+        Assertions.assertEquals(employee.getSurname(), employeedto.getSurname());
+        Assertions.assertEquals(employee.getName(), employeedto.getName());
+        Assertions.assertEquals(employee.getMiddleName(), employeedto.getMiddleName());
+        Assertions.assertEquals(employee.getJobTitle(), employeedto.getJobTitle());
+        Assertions.assertEquals(employee.getEmail(), employeedto.getEmail());
+        Assertions.assertEquals(employee.getEmployeeStatus(), employeedto.getStatus());
     }
 
 
     @Test
-    public void getEmployeeCardByFalseId(){
-        try{
+    public void getEmployeeCardByFalseId() {
+        try {
             Employee employee = getSomeEmloyee();
             employee.setAccountId(Long.valueOf("1"));
 
             Mockito.when(employeeRepository.findById(employee.getAccountId())).thenReturn(Optional.ofNullable(null));
 
-            EmployeeCardDto employeedto = employeeService.getEmployeeCardById(new GetByIdEmployeeDto(employee.getAccountId()));
-        }catch (Exception ex){
-            Assertions.assertEquals("Employee was not found!",ex.getMessage());
+            EmployeeCardDto employeedto = employeeService.getEmployeeCardById(Long.valueOf("1"));
+        } catch (Exception ex) {
+            Assertions.assertEquals("Employee was not found!", ex.getMessage());
         }
     }
 
     @Test
-    public void deleteByNullDto(){
-        try{
+    public void deleteByNullDto() {
+        try {
             employeeService.deleteEmployee(null);
         } catch (Exception ex) {
-            Assertions.assertEquals("Employee dto is null!",ex.getMessage());
+            Assertions.assertEquals("Employee dto is null!", ex.getMessage());
         }
     }
 
@@ -302,37 +303,37 @@ public class EmployeeServiceTest {
     public void getEmployeeCardByPassword() throws Exception {
         Employee employee = getSomeEmloyee();
         Mockito.when(employeeRepository.findByLogin(employee.getLogin())).thenReturn(Optional.of(employee));
-        Mockito.when(passwordEncoder.matches(any(),any())).thenReturn(true);
+        Mockito.when(passwordEncoder.matches(any(), any())).thenReturn(true);
         GetEmployeeByLoginAndPassword dto = new GetEmployeeByLoginAndPassword();
         dto.setPassword(employee.getPassword());
         dto.setLogin(employee.getLogin());
         EmployeeCardDto employeedto = employeeService.getEmployeeByAccount(dto);
-        Assertions.assertEquals(employee.getSurname(),employeedto.getSurname());
-        Assertions.assertEquals(employee.getName(),employeedto.getName());
-        Assertions.assertEquals(employee.getMiddleName(),employeedto.getMiddleName());
-        Assertions.assertEquals(employee.getJobTitle(),employeedto.getJobTitle());
-        Assertions.assertEquals(employee.getEmail(),employeedto.getEmail());
-        Assertions.assertEquals(employee.getEmployeeStatus(),employeedto.getStatus());
+        Assertions.assertEquals(employee.getSurname(), employeedto.getSurname());
+        Assertions.assertEquals(employee.getName(), employeedto.getName());
+        Assertions.assertEquals(employee.getMiddleName(), employeedto.getMiddleName());
+        Assertions.assertEquals(employee.getJobTitle(), employeedto.getJobTitle());
+        Assertions.assertEquals(employee.getEmail(), employeedto.getEmail());
+        Assertions.assertEquals(employee.getEmployeeStatus(), employeedto.getStatus());
     }
 
     @Test
-    public void getEmployeeCardByFalsePassword(){
+    public void getEmployeeCardByFalsePassword() {
         try {
             Employee employee = getSomeEmloyee();
             Mockito.when(employeeRepository.findByLogin(employee.getLogin())).thenReturn(Optional.of(employee));
-            Mockito.when(passwordEncoder.matches(any(),any())).thenReturn(false);
+            Mockito.when(passwordEncoder.matches(any(), any())).thenReturn(false);
             GetEmployeeByLoginAndPassword dto = new GetEmployeeByLoginAndPassword();
             dto.setPassword(employee.getPassword());
             dto.setLogin(employee.getLogin());
             EmployeeCardDto employeedto = employeeService.getEmployeeByAccount(dto);
-            Assertions.assertEquals(employee.getSurname(),employeedto.getSurname());
-            Assertions.assertEquals(employee.getName(),employeedto.getName());
-            Assertions.assertEquals(employee.getMiddleName(),employeedto.getMiddleName());
-            Assertions.assertEquals(employee.getJobTitle(),employeedto.getJobTitle());
-            Assertions.assertEquals(employee.getEmail(),employeedto.getEmail());
-            Assertions.assertEquals(employee.getEmployeeStatus(),employeedto.getStatus());
+            Assertions.assertEquals(employee.getSurname(), employeedto.getSurname());
+            Assertions.assertEquals(employee.getName(), employeedto.getName());
+            Assertions.assertEquals(employee.getMiddleName(), employeedto.getMiddleName());
+            Assertions.assertEquals(employee.getJobTitle(), employeedto.getJobTitle());
+            Assertions.assertEquals(employee.getEmail(), employeedto.getEmail());
+            Assertions.assertEquals(employee.getEmployeeStatus(), employeedto.getStatus());
         } catch (Exception ex) {
-            Assertions.assertEquals("Employee was not found!",ex.getMessage());
+            Assertions.assertEquals("Employee was not found!", ex.getMessage());
         }
     }
 
@@ -341,15 +342,15 @@ public class EmployeeServiceTest {
         Employee employee = getSomeEmloyee();
         Mockito.when(employeeRepository.findAll((Specification<Employee>) any())).thenReturn(Arrays.asList(employee));
         List<EmployeeCardDto> employeedto = employeeService.searchEmployee(new SearchEmployeeDto(employee.getName()));
-        Assertions.assertEquals(employee.getSurname(),employeedto.get(0).getSurname());
-        Assertions.assertEquals(employee.getName(),employeedto.get(0).getName());
-        Assertions.assertEquals(employee.getMiddleName(),employeedto.get(0).getMiddleName());
-        Assertions.assertEquals(employee.getJobTitle(),employeedto.get(0).getJobTitle());
-        Assertions.assertEquals(employee.getEmail(),employeedto.get(0).getEmail());
-        Assertions.assertEquals(employee.getEmployeeStatus(),employeedto.get(0).getStatus());
+        Assertions.assertEquals(employee.getSurname(), employeedto.get(0).getSurname());
+        Assertions.assertEquals(employee.getName(), employeedto.get(0).getName());
+        Assertions.assertEquals(employee.getMiddleName(), employeedto.get(0).getMiddleName());
+        Assertions.assertEquals(employee.getJobTitle(), employeedto.get(0).getJobTitle());
+        Assertions.assertEquals(employee.getEmail(), employeedto.get(0).getEmail());
+        Assertions.assertEquals(employee.getEmployeeStatus(), employeedto.get(0).getStatus());
     }
 
-    private CreateEmployeeDto getCreateDto(Employee employee){
+    private CreateEmployeeDto getCreateDto(Employee employee) {
         return new CreateEmployeeDto(
                 employee.getSurname(),
                 employee.getName(),
@@ -362,8 +363,7 @@ public class EmployeeServiceTest {
     }
 
 
-
-    private UpdateEmployeeDto getUpdateDto(Employee employee){
+    private UpdateEmployeeDto getUpdateDto(Employee employee) {
         return new UpdateEmployeeDto(
                 employee.getAccountId(),
                 employee.getSurname(),
@@ -376,11 +376,11 @@ public class EmployeeServiceTest {
         );
     }
 
-    private DeleteEmployeeDto getDeleteDto(Employee employee){
+    private DeleteEmployeeDto getDeleteDto(Employee employee) {
         return new DeleteEmployeeDto(employee.getAccountId());
     }
 
-    private Employee getSomeEmloyee(){
+    private Employee getSomeEmloyee() {
         Employee employee = new Employee(
                 null,
                 "Ivanov",

@@ -35,7 +35,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public EmployeeCardDto createNewEmployee(CreateEmployeeDto dto) throws Exception {
+    public EmployeeCardDto createNewEmployee(CreateEmployeeDto dto) {
         if (dto == null) {
             throw new NullEmployeeDtoException();
         } else if (Objects.equals(dto.getSurname(), "") || dto.getSurname() == null) {
@@ -67,7 +67,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
 
-    public EmployeeCardDto changeEmployeeInfo(UpdateEmployeeDto dto) throws Exception {
+    public EmployeeCardDto changeEmployeeInfo(UpdateEmployeeDto dto) {
         if (dto == null) {
             throw new NullEmployeeDtoException();
         }
@@ -111,7 +111,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
 
-    public EmployeeCardDto deleteEmployee(DeleteEmployeeDto dto) throws Exception {
+    public EmployeeCardDto deleteEmployee(DeleteEmployeeDto dto) {
         if (dto == null) {
             throw new NullEmployeeDtoException();
         }
@@ -132,12 +132,9 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
 
-    public EmployeeCardDto getEmployeeCardById(GetByIdEmployeeDto dtoId) throws Exception {
-        if (dtoId == null) {
-            throw new NullEmployeeDtoException();
-        }
+    public EmployeeCardDto getEmployeeCardById(Long id) {
         EmployeeCardDto dtoCard = new EmployeeCardDto();
-        Optional<Employee> optionalEmployee = repository.findById(dtoId.getAccountId());
+        Optional<Employee> optionalEmployee = repository.findById(id);
         if (optionalEmployee.isPresent()) {
             return EmployeeMapper.getEmployeeDtoCard(optionalEmployee.get());
         } else {
@@ -146,7 +143,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
 
-    public EmployeeCardDto getEmployeeByAccount(GetEmployeeByLoginAndPassword accountDto) throws Exception {
+    public EmployeeCardDto getEmployeeByAccount(GetEmployeeByLoginAndPassword accountDto) {
         if (accountDto == null) {
             throw new NullEmployeeDtoException();
         }
@@ -158,13 +155,15 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
     }
 
-    public List<EmployeeCardDto> searchEmployee(SearchEmployeeDto searchDto) throws Exception {
+    public List<EmployeeCardDto> searchEmployee(SearchEmployeeDto searchDto) {
         if (searchDto == null) {
             throw new NullEmployeeDtoException();
         }
+        System.out.println(searchDto.getSearchFilter());
         List<Employee> employees = repository.findAll(EmployeeSpecifications.
                 searchByFilterAndStatuses(searchDto.getSearchFilter(), EmployeeStatus.ACTIVE));
         List<EmployeeCardDto> list = new ArrayList<>();
+        System.out.println(employees.size());
         for (var employee : employees) {
             list.add(EmployeeMapper.getEmployeeDtoCard(employee));
         }

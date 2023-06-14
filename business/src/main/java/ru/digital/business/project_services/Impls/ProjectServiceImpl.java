@@ -2,26 +2,29 @@ package ru.digital.business.project_services.Impls;
 
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.digital.business.project_services.ProjectMapper;
 import ru.digital.business.project_services.ProjectService;
 import ru.digital.commons.enity_statuses.ProjectStatus;
+import ru.digital.commons.exceptions.project_exceptions.*;
 import ru.digital.dao.project_dao.ProjectRepository;
 import ru.digital.dao.project_dao.specifications.ProjectSpecifications;
+import ru.digital.dao.team_dao.TeamRepository;
 import ru.digital.dto.project_dto.request_project_dto.ChangeProjectStatusDto;
 import ru.digital.dto.project_dto.request_project_dto.CreateProjectDto;
 import ru.digital.dto.project_dto.request_project_dto.SearchProjectDto;
 import ru.digital.dto.project_dto.request_project_dto.UpdateProjectDto;
 import ru.digital.dto.project_dto.response_project_dto.ProjectCardDto;
 import ru.digital.models.project_model.Project;
-import ru.digital.dao.team_dao.TeamRepository;
 import ru.digital.models.team_member_model.TeamMember;
 import ru.digital.models.team_model.Team;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import ru.digital.commons.exceptions.project_exceptions.*;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -36,7 +39,7 @@ public class ProjectServiceImpl implements ProjectService {
         this.teamRepository = teamRepository;
     }
 
-    public ProjectCardDto createNewProject(CreateProjectDto dto) throws Exception {
+    public ProjectCardDto createNewProject(CreateProjectDto dto) {
         if (dto == null) {
             throw new NullProjectDtoException();
         }
@@ -65,7 +68,7 @@ public class ProjectServiceImpl implements ProjectService {
         }
     }
 
-    public ProjectCardDto changeProject(UpdateProjectDto dto) throws Exception {
+    public ProjectCardDto changeProject(UpdateProjectDto dto) {
         if (dto == null) {
             throw new NullProjectDtoException();
         }
@@ -88,7 +91,7 @@ public class ProjectServiceImpl implements ProjectService {
         }
     }
 
-    public List<ProjectCardDto> searchProject(SearchProjectDto dto) throws Exception {
+    public List<ProjectCardDto> searchProject(SearchProjectDto dto) {
         if (dto == null) {
             throw new NullProjectDtoException();
         }
@@ -101,7 +104,7 @@ public class ProjectServiceImpl implements ProjectService {
         return list;
     }
 
-    public ProjectCardDto changeProjectStatus(ChangeProjectStatusDto dto) throws Exception {
+    public ProjectCardDto changeProjectStatus(ChangeProjectStatusDto dto) {
         if (dto == null) {
             throw new NullProjectDtoException();
         }
@@ -127,7 +130,7 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
 
-    private boolean checkAvailableToChangeStatus(ProjectStatus currentStatus, ProjectStatus newStatus) throws Exception {
+    private boolean checkAvailableToChangeStatus(ProjectStatus currentStatus, ProjectStatus newStatus) {
         switch (currentStatus) {
             case DRAFT -> {
                 return newStatus == ProjectStatus.DEVELOPING;

@@ -30,6 +30,9 @@ public class UserService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Employee employee = repository.findByLogin(username).orElseThrow(() ->
                 new UsernameNotFoundException("User not found"));
+        if (employee.getEmployeeStatus() == EmployeeStatus.DELETED) {
+            throw new UsernameNotFoundException("User was deleted");
+        }
         return new User(username, employee.getPassword(), Collections.emptyList());
     }
 

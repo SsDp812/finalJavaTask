@@ -8,9 +8,9 @@ import ru.digital.dto.team_dto.RemoveMemberDto;
 import java.util.List;
 
 public interface TeamService {
-    public MemberCardDto addMemberToTeam(AddMemberDto dto) throws Exception;
+    public MemberCardDto addMemberToTeam(AddMemberDto dto);
 
-    public MemberCardDto removeMemberFromTeam(RemoveMemberDto dto) throws Exception;
+    public MemberCardDto removeMemberFromTeam(RemoveMemberDto dto);
 
-    public List<MemberCardDto> getAllMembers(GetAllMembersDto dto) throws Exception;
+    public List<MemberCardDto> getAllMembers(GetAllMembersDto dto);
 }

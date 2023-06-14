@@ -4,12 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.digital.business.project_services.ProjectService;
 import ru.digital.dto.project_dto.request_project_dto.ChangeProjectStatusDto;
 import ru.digital.dto.project_dto.request_project_dto.CreateProjectDto;
@@ -31,26 +26,31 @@ public class ProjectController {
     }
 
     @Operation(summary = "Creating new project")
-    @PostMapping(value = "/new", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ProjectCardDto> createProject(@RequestBody @Valid CreateProjectDto dto) throws Exception {
-        return ResponseEntity.ok(service.createNewProject(dto));
+    @PostMapping(value = "/new")
+    public ProjectCardDto createProject(@RequestBody @Valid CreateProjectDto dto) {
+        return service.createNewProject(dto);
     }
 
     @Operation(summary = "Updating project")
-    @PostMapping(value = "/update", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ProjectCardDto updateProject(@RequestBody @Valid UpdateProjectDto dto) throws Exception {
+    @PostMapping(value = "/update")
+    public ProjectCardDto updateProject(@RequestBody @Valid UpdateProjectDto dto) {
         return service.changeProject(dto);
     }
 
     @Operation(summary = "Searching project by filter")
-    @PostMapping(value = "/search", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<ProjectCardDto> searchProject(@RequestBody @Valid SearchProjectDto dto) throws Exception {
+    @PostMapping(value = "/search")
+    public List<ProjectCardDto> searchProject(@RequestBody @Valid SearchProjectDto dto) {
         return service.searchProject(dto);
     }
 
     @Operation(summary = "Changing project status")
-    @PostMapping(value = "/changeStatus", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ProjectCardDto changeProjectStatus(@RequestBody @Valid ChangeProjectStatusDto dto) throws Exception {
+    @PostMapping(value = "/changeStatus")
+    public ProjectCardDto changeProjectStatus(@RequestBody @Valid ChangeProjectStatusDto dto) {
         return service.changeProjectStatus(dto);
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    public String handleException(RuntimeException ex) {
+        return ex.getMessage();
     }
 }
